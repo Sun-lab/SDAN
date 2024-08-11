@@ -1,0 +1,572 @@
+---
+title: "Check pseudo-bulk data and conduct DE analysis"
+author: "Wei Sun"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    theme: journal
+    highlight: tango
+    toc: true
+    toc_depth: 3
+    toc_float:
+      collapsed: true
+      smooth_scroll: false
+    number_sections: false
+  df_print: paged
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(width = 80)
+```
+
+# Setup
+
+## Load R libraries
+```{r load_libraries, warning = FALSE, message = FALSE}
+library(data.table)
+library(readxl)
+library(stringr)
+library(ggplot2)
+library(ggpubr)
+library(dplyr)
+library(reshape2)
+library(DESeq2)
+library(viridis)
+library(ggpointdensity)
+library(tidyr)
+library(sva)
+library(flextable)
+library(ggcorrplot)
+
+theme_set(theme_classic())
+
+dat_dir = "~/research/data/SEA-AD"
+```
+
+## Parameters
+```{r}
+ct = "Micro-PVM"
+
+# keep the donors with at least min_n_cell_per_donor cells. 
+min_n_cell_per_donor = 100
+
+# keep the genes that are expressed >= min_val in at prop_donor of donors
+prop_donor = 0.25
+min_val = 20
+```
+
+# Summarize data
+
+## Read donor information
+
+```{r load_donor_data}
+donor = fread("data/sea-ad_cohort_donor_metadata_simplified.tsv")
+dim(donor)
+flextable(donor[1:2,])
+
+table(donor$`Primary Study Name`, useNA = 'ifany')
+table(donor$`Cognitive Status`, useNA = 'ifany')
+table(donor$`Rapid Frozen Tissue Type`, useNA = 'ifany')
+table(donor$`APOE4 Status`, useNA = 'ifany')
+table(donor$`Age at Death` == "90+")
+
+donor$age = as.numeric(gsub("\\+$", "", donor$`Age at Death`, perl=TRUE))
+
+summary(donor$age)
+summary(donor$`Brain pH`)
+summary(donor$`RIN`)
+```
+
+## Read gene, cell, and donor information
+
+```{r load_data, fig.width=6, fig.height=3}
+gene_info = fread(file.path(dat_dir, paste0(ct, "_genes_info.csv")))
+dim(gene_info)
+gene_info[1:2,]
+
+summary(gene_info$mean_counts)
+min(gene_info$mean_counts)
+min(gene_info$mean_counts[gene_info$mean_counts > 0])
+
+g1 = ggplot(gene_info, aes(x=log10(mean_counts + 1e-6), 
+                      y=pct_dropout_by_counts)) +
+  geom_pointdensity() + scale_color_viridis() + 
+  ggtitle(paste(ct, "genes")) + theme(legend.position = "none")
+
+g2 = ggplot(gene_info, aes(x=log10(mean_counts + 1e-6)))+
+  geom_histogram(bins=30, color="darkblue", fill="lightblue") 
+
+ggarrange(g1, g2, nrow=1)
+
+cell_info = fread(file.path(dat_dir, paste0(ct, "_cell_info.csv")))
+dim(cell_info)
+flextable(cell_info[1:2,])
+
+donor_info = distinct(cell_info[,c("Cognitive status", "ADNC", "donor_id", 
+                          "PMI", "disease", "sex")])
+dim(donor_info)
+donor_info[1:2,]
+table(donor_info$`Cognitive status`, donor_info$disease)
+table(donor_info$`Cognitive status`, donor_info$ADNC)
+
+mat1 = match(donor$`Donor ID`, donor_info$donor_id)
+stopifnot(sum(is.na(mat1))==0)
+stopifnot(all(donor$`Cognitive Status` == donor_info$`Cognitive status`[mat1]))
+
+table(cell_info$Subclass)
+table(cell_info$Supertype)
+table(cell_info$`Cognitive status`)
+
+supertype = cell_info[,.(supertype=names(table(Supertype)), 
+                        supertype_freq=as.numeric(table(Supertype))), by=donor_id]
+dim(supertype)
+supertype[1:2,]
+
+supertype = pivot_wider(supertype, names_from=supertype, 
+                        values_from=supertype_freq)
+supertype = as.data.frame(supertype)
+supertype[is.na(supertype)] = 0
+dim(supertype)
+supertype[1:2,]
+
+cell_total = rowSums(supertype[,-1])
+supertype[,-1] = supertype[,-1]/cell_total
+supertype$total = cell_total
+dim(supertype)
+supertype[1:2,]
+
+names(supertype) = gsub("-", "_", names(supertype))
+donor = merge(donor, supertype, by.x="Donor ID", by.y="donor_id", all.x=TRUE)
+dim(donor)
+flextable(donor[1:2,])
+
+ggplot(supertype %>% pivot_longer(!c(donor_id,total), 
+                                  names_to="cell_type", values_to="freq"), 
+       aes(x=cell_type, y=freq, fill=cell_type)) + 
+  theme(axis.text.x=element_blank()) + 
+  geom_boxplot()
+
+g1 = ggplot(cell_info, aes(x=log10(n_genes_by_counts), 
+                      y=log10(total_counts))) +
+  geom_pointdensity() + scale_color_viridis() + 
+  ggtitle(paste(ct, "cells")) + theme(legend.position = "none")
+
+g2 = ggplot(donor, aes(x=total)) + xlab("number of cells per donor") + 
+  geom_histogram(color="darkblue", fill="lightblue", bins=10) 
+
+sort(donor$total)[1:5]
+ggarrange(g1, g2, nrow=1)
+```
+
+## Filter pseudo-bulk data
+```{r}
+dat = fread(file.path(dat_dir, paste0(ct, "_pseudo_bulk.csv")))
+dim(dat)
+dat[1:2,1:3]
+
+sort(donor$total)[1:10]
+dim(donor)
+donor  = donor[total > min_n_cell_per_donor,]
+dim(donor)
+
+stopifnot(all(donor$`Donor ID` %in% dat$donor_id))
+
+dat = dat[match(donor$`Donor ID`, dat$donor_id),]
+dim(dat)
+dat[1:2,1:3]
+
+colDat = donor
+dim(colDat)
+colDat[1:2,1:3]
+stopifnot(all(dat$donor_id == colDat$`Donor ID`))
+
+dat[,donor_id := NULL]
+dim(dat)
+dat[1:2,1:3]
+
+n_min_per_gene = colSums(dat > min_val)
+length(n_min_per_gene)
+summary(n_min_per_gene)
+table(n_min_per_gene > prop_donor * nrow(dat))
+
+genes2kp = which(n_min_per_gene > prop_donor*nrow(dat)
+                 & names(dat) %in% gene_info$gene_ids) 
+
+dat = dat[,..genes2kp]
+dim(dat)
+dat[1:2,1:3]
+
+stopifnot(all(names(dat) %in% gene_info$gene_ids))
+
+gene_info = gene_info[match(names(dat), gene_info$gene_ids),]
+dim(gene_info)
+gene_info[1:2,1:3]
+```
+
+## Prepare for DE testing
+
+```{r fig.width=4, fig.height=3}
+dat = t(dat)
+dim(dat)
+
+table(colDat$`Cognitive Status`)
+
+colDat$condition = rep("dementia", nrow(colDat))
+colDat$condition[colDat$`Cognitive Status` == "No dementia"] = "control"
+colDat$condition = as.factor(colDat$condition)
+
+colDat$Sex = as.factor(colDat$Sex)
+colDat$log10Depth = log10(colSums(dat))
+colDat[1:2,]
+
+table(colDat$`Fresh Brain Weight` == "Unavailable")
+colDat[`Fresh Brain Weight` == "Unavailable", `Fresh Brain Weight`:=NA]
+colDat$`Fresh Brain Weight` = as.numeric(colDat$`Fresh Brain Weight`)
+
+dds <- DESeqDataSetFromMatrix(dat, 
+                              colData=colDat, 
+                              ~log10Depth + Sex + age + PMI + RIN + condition)
+
+vsd <- vst(dds, blind=FALSE)
+pcs = plotPCA(vsd, intgroup = "condition", ntop = 10000, returnData=TRUE)
+dim(pcs)
+pcs[1:2,]
+
+plotPCA(vsd, intgroup = "condition", ntop = 10000)
+
+colDat$PC1 = pcs[,1]
+colDat$PC2 = pcs[,2]
+
+summary(lm(PC1 ~ log10Depth + Sex + age + PMI + RIN + condition, data=colDat))
+summary(lm(PC2 ~ log10Depth + Sex + age + PMI + RIN + condition, data=colDat))
+
+summary(lm(PC1 ~ `Years of education` + `Fresh Brain Weight` + 
+             `APOE4 Status` + `Brain pH` + condition, data=colDat))
+
+summary(lm(PC2 ~ `Years of education` + `Fresh Brain Weight` + 
+             `APOE4 Status` + `Brain pH` + condition, data=colDat))
+
+cell_sub_types = unique(cell_info$Supertype)
+cell_sub_types = gsub("-", "_", cell_sub_types)
+fm1 = as.formula(sprintf("PC1 ~ -1 + %s", paste(cell_sub_types, collapse=" + ")))
+fm2 = as.formula(sprintf("PC2 ~ -1 + %s", paste(cell_sub_types, collapse=" + ")))
+
+summary(lm(fm1, data=colDat))
+summary(lm(fm2, data=colDat))
+
+tt1 = t.test(colDat$Micro_PVM_2 ~ colDat$condition)
+
+ggplot(colDat, aes(x=condition, y=Micro_PVM_2, fill=condition)) +
+  geom_boxplot() + ggtitle(sprintf("pval = %.2f", tt1$p.value))
+
+
+ggplot(colDat, aes(x=PC1, y=Micro_PVM_2, color=condition)) +
+  geom_point()
+
+ggplot(colDat, aes(x=PC2, y=Micro_PVM_2, color=condition)) +
+  geom_point()
+
+ggplot(colDat, aes(x=PC2, y=Micro_PVM_2_3_SEAAD, color=condition)) +
+  geom_point()
+
+```
+
+## Further exploration
+
+### confirm PCA calculation
+```{r}
+depth = colSums(dat)
+log_dat = t(log10(t(dat + 1)/depth)) 
+
+log_dat = log_dat - rowMeans(log_dat,na.rm = TRUE)
+cov_dat = t(log_dat) %*% log_dat / nrow(log_dat)
+dim(cov_dat)
+pca_dat = eigen(cov_dat)
+names(pca_dat)
+pca_dat$values[1:10]
+pca_dat$values[1:10]/sum(pca_dat$values)
+
+cor(pca_dat$vectors[,1:5], colDat$PC1)
+cor(pca_dat$vectors[,1:5], colDat$PC2)
+```
+
+## DE testing
+
+```{r fig.width=9, fig.height=6}
+system.time({
+  dds <- DESeq(dds)
+})
+
+res <- results(dds)
+dim(res)
+res[1:2,]
+
+table(res$pvalue < .05)
+table(res$padj < .1)
+
+resultsNames(dds)
+nm1 = resultsNames(dds)[-1]
+
+pvals1 = matrix(NA, nrow=nrow(dat), ncol=length(nm1))
+colnames(pvals1) = nm1
+
+plist = list()
+for(k in 1:length(nm1)){
+  rk = results(dds, name=nm1[k])
+  pvals1[,k] = rk$pvalue
+}
+
+pvals1 = data.frame(pvals1)
+dim(pvals1)
+pvals1[1:2,]
+
+for(k in 1:length(nm1)){
+  plist[[k]] = ggplot(pvals1, aes_string(x=nm1[k])) + 
+    geom_histogram(color="darkblue", fill="lightblue", 
+                 breaks=seq(0, 1, by=0.02)) + ggtitle(nm1[k])
+
+}
+
+ggarrange(plotlist=plist, nrow=2, ncol=3)
+
+```
+
+## SVA
+
+### first run PCA on residuals to help determin the number of PCs to use
+
+```{r}
+mod0.str = "log10Depth + Sex + age + PMI + RIN"
+
+rr = matrix(NA, nrow(dat), ncol(dat)) # residual matrix
+
+for(gg in 1:nrow(dat)){
+  # gg = 1
+  if(gg %% 1e2 == 0) cat(".")
+  if(gg %% 2e3 == 0 || gg == nrow(dat)) 
+    cat(sprintf("%s out of %s\n",gg, nrow(dat)))
+  
+  trec.gg = dat[gg,]
+  
+  lm_out = lm(formula(sprintf("trec.gg ~ %s", mod0.str)), data = colDat)
+  rr[gg,] = as.numeric(lm_out$residuals)
+}
+
+rr2 = rr - rowMeans(rr,na.rm = TRUE)
+cov_rr2 = t(rr2) %*% rr2 / nrow(rr2); pca_rr2 = eigen(cov_rr2)
+pca_rr2$values[1:10]/sum(pca_rr2$values)
+```
+
+### Run SVA
+
+```{r fig.width=5, fig.height=4}
+mod0 = model.matrix(as.formula("~log10Depth + Sex + age + PMI + RIN"), 
+                    data=colDat)
+
+mod  = model.matrix(as.formula("~log10Depth + Sex + age + PMI + RIN + condition"), 
+                    data=colDat)
+
+dim(mod0)
+mod0[1:2,]
+
+dim(mod)
+mod[1:2,]
+
+n.sv = num.sv(dat, mod, method="be")
+n.sv
+
+svs  = sva(dat, mod, mod0, n.sv=5)
+dim(svs$sv)
+
+cor(svs$sv, as.numeric(as.factor(colDat$condition)))
+
+for(i in 1:ncol(svs$sv)){
+  colDat[[paste0("SV", i)]] = svs$sv[,i]
+}
+
+dim(colDat)
+flextable(colDat[1:2,])
+
+
+mnames = c("Micro_PVM_1", "Micro_PVM_1_1_SEAAD", 
+           "Micro_PVM_2", "Micro_PVM_2_1_SEAAD", "Micro_PVM_2_2_SEAAD", 
+           "Micro_PVM_2_3_SEAAD", "Micro_PVM_3_SEAAD", "Micro_PVM_4_SEAAD")
+
+ggcorrplot(cor(colDat[,..mnames], svs$sv, method="spearman"), lab = TRUE)
+
+ggplot(colDat, aes(x=SV3, y=Micro_PVM_2_3_SEAAD, color=condition)) +
+  geom_point()
+
+ggplot(colDat, aes(x=SV3, y=Micro_PVM_2, color=condition)) +
+  geom_point()
+
+```
+
+## re-run DE
+```{r fig.width=9, fig.height=12}
+frm1 = sprintf("~log10Depth + Sex + age + PMI + RIN + %s + condition", 
+               paste(paste0("SV", 1:n.sv), collapse=" + "))
+
+dds2 <- DESeqDataSetFromMatrix(dat, colData=colDat, as.formula(frm1))
+
+system.time({
+  dds2 <- DESeq(dds2)
+})
+
+res2 <- results(dds2)
+dim(res2)
+res2[1:2,]
+
+table(res2$pvalue < .05)
+table(res2$padj < .1)
+
+resultsNames(dds2)
+nm2 = resultsNames(dds2)[-1]
+
+pvals2 = matrix(NA, nrow=nrow(dat), ncol=length(nm2))
+colnames(pvals2) = nm2
+
+plist = list()
+for(k in 1:length(nm2)){
+  rk = results(dds2, name=nm2[k])
+  pvals2[,k] = rk$pvalue
+}
+
+pvals2 = data.frame(pvals2)
+dim(pvals2)
+pvals2[1:2,]
+
+for(k in 1:length(nm2)){
+  plist[[k]] = ggplot(pvals2, aes_string(x=nm2[k])) + 
+    geom_histogram(color="darkblue", fill="lightblue", 
+                 breaks=seq(0, 1, by=0.02)) + ggtitle(nm2[k])
+
+}
+
+ggarrange(plotlist=plist, nrow=4, ncol=3)
+```
+
+## compare p-value
+
+```{r}
+gene_info$pval_without_sv = pvals1[,"condition_dementia_vs_control"]
+gene_info$pval_with_sv = pvals2[,"condition_dementia_vs_control"]
+
+ggplot(gene_info, aes(x=-log10(pval_without_sv), y=-log10(pval_with_sv))) + 
+  geom_point(alpha=0.5)
+```
+
+## re-run DE with permuted condition
+
+```{r fig.width=9, fig.height=6}
+
+set.seed(2345)
+colDat$condition_permute = sample(colDat$condition, size=nrow(colDat))
+
+dds <- DESeqDataSetFromMatrix(dat, 
+                              colData=colDat, 
+                              ~log10Depth + Sex + age + PMI + RIN + condition_permute)
+
+system.time({
+  dds <- DESeq(dds)
+})
+
+res <- results(dds)
+dim(res)
+res[1:2,]
+
+table(res$pvalue < .05)
+table(res$padj < .1)
+
+resultsNames(dds)
+nm1 = resultsNames(dds)[-1]
+
+pvals1 = matrix(NA, nrow=nrow(dat), ncol=length(nm1))
+colnames(pvals1) = nm1
+
+plist = list()
+for(k in 1:length(nm1)){
+  rk = results(dds, name=nm1[k])
+  pvals1[,k] = rk$pvalue
+}
+
+pvals1 = data.frame(pvals1)
+dim(pvals1)
+pvals1[1:2,]
+
+for(k in 1:length(nm1)){
+  plist[[k]] = ggplot(pvals1, aes_string(x=nm1[k])) + 
+    geom_histogram(color="darkblue", fill="lightblue", 
+                 breaks=seq(0, 1, by=0.02)) + ggtitle(nm1[k])
+
+}
+
+ggarrange(plotlist=plist, nrow=2, ncol=3)
+```
+
+## re-run DE with only read-depth and the condition variable
+
+```{r fig.width=8, fig.height=4}
+
+dds <- DESeqDataSetFromMatrix(dat, 
+                              colData=colDat, 
+                              ~log10Depth + condition)
+
+system.time({
+  dds <- DESeq(dds)
+})
+
+res <- results(dds)
+dim(res)
+res[1:2,]
+
+table(res$pvalue < .05)
+table(res$padj < .1)
+
+resultsNames(dds)
+nm1 = resultsNames(dds)[-1]
+
+pvals1 = matrix(NA, nrow=nrow(dat), ncol=length(nm1))
+colnames(pvals1) = nm1
+
+plist = list()
+for(k in 1:length(nm1)){
+  rk = results(dds, name=nm1[k])
+  pvals1[,k] = rk$pvalue
+}
+
+pvals1 = data.frame(pvals1)
+dim(pvals1)
+pvals1[1:2,]
+
+for(k in 1:length(nm1)){
+  plist[[k]] = ggplot(pvals1, aes_string(x=nm1[k])) + 
+    geom_histogram(color="darkblue", fill="lightblue", 
+                 breaks=seq(0, 1, by=0.02)) + ggtitle(nm1[k])
+
+}
+
+ggarrange(plotlist=plist, nrow=1, ncol=2)
+
+gene_info$pval_rd_only = pvals1[,"condition_dementia_vs_control"]
+
+g1 = ggplot(gene_info, aes(x=-log10(pval_rd_only), y=-log10(pval_without_sv))) + 
+  geom_point(alpha=0.5) + geom_abline(slope=1, intercept = 0, col="red")
+
+g2 = ggplot(gene_info, aes(x=-log10(pval_rd_only), y=-log10(pval_with_sv))) + 
+  geom_point(alpha=0.5) + geom_abline(slope=1, intercept = 0, col="red")
+
+ggarrange(g1, g2, nrow=1, ncol=2)
+```
+
+## save results
+```{r}
+fwrite(gene_info, file=sprintf("result/DESeq2_%s.tsv", ct))
+```
+
+# Session information
+```{r}
+gc()
+
+sessionInfo()
+```

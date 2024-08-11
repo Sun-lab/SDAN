@@ -1,0 +1,425 @@
+
+R version 4.1.2 (2021-11-01) -- "Bird Hippie"
+Copyright (C) 2021 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin17.0 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+> library(data.table)
+> library(stringr)
+> 
+> # ------------------------------------------------------------------------
+> # read in file information
+> # ------------------------------------------------------------------------
+> 
+> sdrf = fread("E-MTAB-9357.sdrf.txt")
+> dim(sdrf)
+[1] 270  56
+> names(sdrf)
+ [1] "Source Name"                            
+ [2] "Characteristics[organism]"              
+ [3] "Characteristics[developmental stage]"   
+ [4] "Characteristics[organism part]"         
+ [5] "Characteristics[individual]"            
+ [6] "Characteristics[disease]"               
+ [7] "Characteristics[sampling time point]"   
+ [8] "Material Type"                          
+ [9] "Protocol REF"                           
+[10] "Protocol REF"                           
+[11] "Performer"                              
+[12] "Protocol REF"                           
+[13] "Performer"                              
+[14] "Extract Name"                           
+[15] "Comment[LIBRARY_LAYOUT]"                
+[16] "Comment[LIBRARY_SELECTION]"             
+[17] "Comment[LIBRARY_SOURCE]"                
+[18] "Comment[LIBRARY_STRATEGY]"              
+[19] "Comment[NOMINAL_LENGTH]"                
+[20] "Comment[NOMINAL_SDEV]"                  
+[21] "Protocol REF"                           
+[22] "Performer"                              
+[23] "Assay Name"                             
+[24] "Technology Type"                        
+[25] "Protocol REF"                           
+[26] "Performer"                              
+[27] "Protocol REF"                           
+[28] "Performer"                              
+[29] "Derived Array Data File"                
+[30] "Comment [Derived ArrayExpress FTP file]"
+[31] "Protocol REF"                           
+[32] "Performer"                              
+[33] "Protocol REF"                           
+[34] "Performer"                              
+[35] "Derived Array Data File"                
+[36] "Comment [Derived ArrayExpress FTP file]"
+[37] "Protocol REF"                           
+[38] "Performer"                              
+[39] "Protocol REF"                           
+[40] "Performer"                              
+[41] "Derived Array Data File"                
+[42] "Comment [Derived ArrayExpress FTP file]"
+[43] "Protocol REF"                           
+[44] "Performer"                              
+[45] "Protocol REF"                           
+[46] "Performer"                              
+[47] "Derived Array Data File"                
+[48] "Comment [Derived ArrayExpress FTP file]"
+[49] "Protocol REF"                           
+[50] "Performer"                              
+[51] "Protocol REF"                           
+[52] "Performer"                              
+[53] "Derived Array Data File"                
+[54] "Comment [Derived ArrayExpress FTP file]"
+[55] "Factor Value[disease]"                  
+[56] "Factor Value[sampling time point]"      
+> sdrf[1:2,1:30]
+      Source Name Characteristics[organism]
+1: Healthy_1053BW              Homo sapiens
+2: Healthy_1193BW              Homo sapiens
+   Characteristics[developmental stage] Characteristics[organism part]
+1:                                adult                          blood
+2:                                adult                          blood
+   Characteristics[individual] Characteristics[disease]
+1:              Healthy_1053BW                   normal
+2:              Healthy_1193BW                   normal
+   Characteristics[sampling time point] Material Type Protocol REF Protocol REF
+1:                       not applicable          cell P-MTAB-99038 P-MTAB-99039
+2:                       not applicable          cell P-MTAB-99038 P-MTAB-99039
+   Performer Protocol REF Performer   Extract Name Comment[LIBRARY_LAYOUT]
+1: Yapeng Su P-MTAB-99040 Yapeng Su Healthy_1053BW                  PAIRED
+2: Yapeng Su P-MTAB-99040 Yapeng Su Healthy_1193BW                  PAIRED
+   Comment[LIBRARY_SELECTION]    Comment[LIBRARY_SOURCE]
+1:                     RT-PCR TRANSCRIPTOMIC SINGLE CELL
+2:                     RT-PCR TRANSCRIPTOMIC SINGLE CELL
+   Comment[LIBRARY_STRATEGY] Comment[NOMINAL_LENGTH] Comment[NOMINAL_SDEV]
+1:                     OTHER                      91                     0
+2:                     OTHER                      91                     0
+   Protocol REF                            Performer     Assay Name
+1: P-MTAB-99041 Sequencing Northwest Genomics Center Healthy_1053BW
+2: P-MTAB-99041 Sequencing Northwest Genomics Center Healthy_1193BW
+    Technology Type Protocol REF   Performer Protocol REF   Performer
+1: sequencing assay P-MTAB-99043 Daniel Chen P-MTAB-99042 Daniel Chen
+2: sequencing assay P-MTAB-99043 Daniel Chen P-MTAB-99042 Daniel Chen
+                           Derived Array Data File
+1: heathlab_dc_9_17_pbmc_gex_library_1053BW.txt.gz
+2: heathlab_dc_9_17_pbmc_gex_library_1193BW.txt.gz
+                                                                     Comment [Derived ArrayExpress FTP file]
+1: ftp://ftp.ebi.ac.uk/pub/databases/microarray/data/experiment/MTAB/E-MTAB-9357/E-MTAB-9357.processed.5.zip
+2: ftp://ftp.ebi.ac.uk/pub/databases/microarray/data/experiment/MTAB/E-MTAB-9357/E-MTAB-9357.processed.5.zip
+> 
+> w_data_file = which(names(sdrf) == "Derived Array Data File")
+> w_data_file
+[1] 29 35 41 47 53
+> sdrf[1:3,..w_data_file]
+                           Derived Array Data File
+1: heathlab_dc_9_17_pbmc_gex_library_1053BW.txt.gz
+2: heathlab_dc_9_17_pbmc_gex_library_1193BW.txt.gz
+3: heathlab_dc_9_17_pbmc_gex_library_2773BW.txt.gz
+                           Derived Array Data File
+1: heathlab_dc_9_17_pbmc_pro_library_1053BW.txt.gz
+2: heathlab_dc_9_17_pbmc_pro_library_1193BW.txt.gz
+3: heathlab_dc_9_17_pbmc_pro_library_2773BW.txt.gz
+                               Derived Array Data File
+1: heathlab_dc_9_17_pbmc_cd4_tcr_library_1053BW.txt.gz
+2: heathlab_dc_9_17_pbmc_cd4_tcr_library_1193BW.txt.gz
+3: heathlab_dc_9_17_pbmc_cd4_tcr_library_2773BW.txt.gz
+                               Derived Array Data File
+1: heathlab_dc_9_17_pbmc_cd8_tcr_library_1053BW.txt.gz
+2: heathlab_dc_9_17_pbmc_cd8_tcr_library_1193BW.txt.gz
+3: heathlab_dc_9_17_pbmc_cd8_tcr_library_2773BW.txt.gz
+                           Derived Array Data File
+1: heathlab_dc_9_17_pbmc_bcr_library_1053BW.txt.gz
+2: heathlab_dc_9_17_pbmc_bcr_library_1193BW.txt.gz
+3: heathlab_dc_9_17_pbmc_bcr_library_2773BW.txt.gz
+> 
+> w_ftp = which(names(sdrf) == "Comment [Derived ArrayExpress FTP file]")
+> w_ftp
+[1] 30 36 42 48 54
+> 
+> s0 = "ftp://ftp.ebi.ac.uk/pub/databases/microarray/"
+> s0 = paste0(s0, "data/experiment/MTAB/E-MTAB-9357/")
+> 
+> for(w1 in w_ftp){
++   sdrf[[w1]] = gsub(s0, "", sdrf[[w1]])
++ }  
+> sdrf[1:3,..w_ftp]
+   Comment [Derived ArrayExpress FTP file]
+1:             E-MTAB-9357.processed.5.zip
+2:             E-MTAB-9357.processed.5.zip
+3:             E-MTAB-9357.processed.5.zip
+   Comment [Derived ArrayExpress FTP file]
+1:             E-MTAB-9357.processed.2.zip
+2:             E-MTAB-9357.processed.2.zip
+3:             E-MTAB-9357.processed.2.zip
+   Comment [Derived ArrayExpress FTP file]
+1:             E-MTAB-9357.processed.3.zip
+2:             E-MTAB-9357.processed.3.zip
+3:             E-MTAB-9357.processed.3.zip
+   Comment [Derived ArrayExpress FTP file]
+1:             E-MTAB-9357.processed.4.zip
+2:             E-MTAB-9357.processed.4.zip
+3:             E-MTAB-9357.processed.4.zip
+   Comment [Derived ArrayExpress FTP file]
+1:             E-MTAB-9357.processed.1.zip
+2:             E-MTAB-9357.processed.1.zip
+3:             E-MTAB-9357.processed.1.zip
+> 
+> # ------------------------------------------------------------------------
+> # keep file location information
+> # ------------------------------------------------------------------------
+> 
+> file_info = sdrf[,c(1:8,..w_data_file, ..w_ftp)]
+> dim(file_info)
+[1] 270  18
+> file_info[1:2,]
+      Source Name Characteristics[organism]
+1: Healthy_1053BW              Homo sapiens
+2: Healthy_1193BW              Homo sapiens
+   Characteristics[developmental stage] Characteristics[organism part]
+1:                                adult                          blood
+2:                                adult                          blood
+   Characteristics[individual] Characteristics[disease]
+1:              Healthy_1053BW                   normal
+2:              Healthy_1193BW                   normal
+   Characteristics[sampling time point] Material Type
+1:                       not applicable          cell
+2:                       not applicable          cell
+                           Derived Array Data File
+1: heathlab_dc_9_17_pbmc_gex_library_1053BW.txt.gz
+2: heathlab_dc_9_17_pbmc_gex_library_1193BW.txt.gz
+                           Derived Array Data File
+1: heathlab_dc_9_17_pbmc_pro_library_1053BW.txt.gz
+2: heathlab_dc_9_17_pbmc_pro_library_1193BW.txt.gz
+                               Derived Array Data File
+1: heathlab_dc_9_17_pbmc_cd4_tcr_library_1053BW.txt.gz
+2: heathlab_dc_9_17_pbmc_cd4_tcr_library_1193BW.txt.gz
+                               Derived Array Data File
+1: heathlab_dc_9_17_pbmc_cd8_tcr_library_1053BW.txt.gz
+2: heathlab_dc_9_17_pbmc_cd8_tcr_library_1193BW.txt.gz
+                           Derived Array Data File
+1: heathlab_dc_9_17_pbmc_bcr_library_1053BW.txt.gz
+2: heathlab_dc_9_17_pbmc_bcr_library_1193BW.txt.gz
+   Comment [Derived ArrayExpress FTP file]
+1:             E-MTAB-9357.processed.5.zip
+2:             E-MTAB-9357.processed.5.zip
+   Comment [Derived ArrayExpress FTP file]
+1:             E-MTAB-9357.processed.2.zip
+2:             E-MTAB-9357.processed.2.zip
+   Comment [Derived ArrayExpress FTP file]
+1:             E-MTAB-9357.processed.3.zip
+2:             E-MTAB-9357.processed.3.zip
+   Comment [Derived ArrayExpress FTP file]
+1:             E-MTAB-9357.processed.4.zip
+2:             E-MTAB-9357.processed.4.zip
+   Comment [Derived ArrayExpress FTP file]
+1:             E-MTAB-9357.processed.1.zip
+2:             E-MTAB-9357.processed.1.zip
+> 
+> names(file_info) = gsub("Characteristics[", "", names(file_info), fixed=TRUE)
+> names(file_info) = gsub("Factor Value[", "", names(file_info), fixed=TRUE)
+> names(file_info) = gsub("]", "", names(file_info))
+> names(file_info) = gsub(" ", "_", names(file_info))
+> 
+> sample_type = c("gex", "pro", "cd4_tcr", "cd8_tcr", "bcr")
+> 
+> names(file_info)[9:13]  = paste0(sample_type, "_file")
+> names(file_info)[14:18] = paste0(sample_type, "_dir")
+> 
+> dim(file_info)
+[1] 270  18
+> file_info[1:2,]
+      Source_Name     organism developmental_stage organism_part     individual
+1: Healthy_1053BW Homo sapiens               adult         blood Healthy_1053BW
+2: Healthy_1193BW Homo sapiens               adult         blood Healthy_1193BW
+   disease sampling_time_point Material_Type
+1:  normal      not applicable          cell
+2:  normal      not applicable          cell
+                                          gex_file
+1: heathlab_dc_9_17_pbmc_gex_library_1053BW.txt.gz
+2: heathlab_dc_9_17_pbmc_gex_library_1193BW.txt.gz
+                                          pro_file
+1: heathlab_dc_9_17_pbmc_pro_library_1053BW.txt.gz
+2: heathlab_dc_9_17_pbmc_pro_library_1193BW.txt.gz
+                                          cd4_tcr_file
+1: heathlab_dc_9_17_pbmc_cd4_tcr_library_1053BW.txt.gz
+2: heathlab_dc_9_17_pbmc_cd4_tcr_library_1193BW.txt.gz
+                                          cd8_tcr_file
+1: heathlab_dc_9_17_pbmc_cd8_tcr_library_1053BW.txt.gz
+2: heathlab_dc_9_17_pbmc_cd8_tcr_library_1193BW.txt.gz
+                                          bcr_file                     gex_dir
+1: heathlab_dc_9_17_pbmc_bcr_library_1053BW.txt.gz E-MTAB-9357.processed.5.zip
+2: heathlab_dc_9_17_pbmc_bcr_library_1193BW.txt.gz E-MTAB-9357.processed.5.zip
+                       pro_dir                 cd4_tcr_dir
+1: E-MTAB-9357.processed.2.zip E-MTAB-9357.processed.3.zip
+2: E-MTAB-9357.processed.2.zip E-MTAB-9357.processed.3.zip
+                   cd8_tcr_dir                     bcr_dir
+1: E-MTAB-9357.processed.4.zip E-MTAB-9357.processed.1.zip
+2: E-MTAB-9357.processed.4.zip E-MTAB-9357.processed.1.zip
+> 
+> table(file_info$gex_dir, file_info$disease)
+                             
+                              COVID-19 normal
+  E-MTAB-9357.processed.5.zip       57     16
+  E-MTAB-9357.processed.6.zip      153      0
+  E-MTAB-9357.processed.7.zip       44      0
+> 
+> table(file_info$developmental_stage)
+
+adult 
+  270 
+> table(file_info$sampling_time_point)
+
+            AC             BL    INCOV100-AC    INCOV100-BL    INCOV101-AC 
+            83             87              1              1              1 
+   INCOV101-BL    INCOV102-AC    INCOV102-BL    INCOV103-AC    INCOV103-BL 
+             1              1              1              1              1 
+   INCOV104-AC    INCOV104-BL    INCOV105-AC    INCOV105-BL    INCOV106-AC 
+             1              1              1              1              1 
+   INCOV106-BL    INCOV107-AC    INCOV107-BL    INCOV108-AC    INCOV108-BL 
+             1              1              1              1              1 
+   INCOV109-AC    INCOV109-BL    INCOV110-AC    INCOV110-BL    INCOV111-AC 
+             1              1              1              1              1 
+   INCOV111-BL    INCOV112-AC    INCOV112-BL    INCOV113-AC    INCOV113-BL 
+             1              1              1              1              1 
+   INCOV114-AC    INCOV114-BL    INCOV115-AC    INCOV115-BL    INCOV116-AC 
+             1              1              1              1              1 
+   INCOV116-BL    INCOV117-AC    INCOV117-BL    INCOV119-AC    INCOV119-BL 
+             1              1              1              1              1 
+   INCOV120-AC    INCOV120-BL    INCOV121-AC    INCOV121-BL    INCOV122-AC 
+             1              1              1              1              1 
+   INCOV122-BL    INCOV123-AC    INCOV123-BL    INCOV124-AC    INCOV124-BL 
+             1              1              1              1              1 
+   INCOV125-AC    INCOV125-BL    INCOV126-AC    INCOV126-BL    INCOV127-AC 
+             1              1              1              1              1 
+   INCOV127-BL    INCOV128-AC    INCOV128-BL    INCOV129-AC    INCOV129-BL 
+             1              1              1              1              1 
+   INCOV130-AC    INCOV130-BL    INCOV131-AC    INCOV131-BL    INCOV132-AC 
+             1              1              1              1              1 
+   INCOV132-BL    INCOV133-AC    INCOV133-BL    INCOV134-AC    INCOV134-BL 
+             1              1              1              1              1 
+   INCOV135-AC    INCOV135-BL    INCOV136-AC    INCOV136-BL    INCOV137-AC 
+             1              1              1              1              1 
+   INCOV137-BL    INCOV141-AC    INCOV141-BL    INCOV142-AC    INCOV142-BL 
+             1              1              1              1              1 
+   INCOV144-AC    INCOV144-BL    INCOV145-AC    INCOV145-BL    INCOV147-AC 
+             1              1              1              1              1 
+   INCOV147-BL not applicable 
+             1             16 
+> table(file_info$Material_Type)
+
+cell 
+ 270 
+> 
+> gINC = grepl("INCOV", file_info$sampling_time_point)
+> table(gINC, file_info$disease)
+       
+gINC    COVID-19 normal
+  FALSE      170     16
+  TRUE        84      0
+> fsub = file_info[which(gINC),]
+> fsub[1:2,]
+   Source_Name     organism developmental_stage organism_part individual
+1: INCOV100-AC Homo sapiens               adult         blood   INCOV100
+2: INCOV100-BL Homo sapiens               adult         blood   INCOV100
+    disease sampling_time_point Material_Type
+1: COVID-19         INCOV100-AC          cell
+2: COVID-19         INCOV100-BL          cell
+                                         gex_file
+1: heathlab_dc_9_17_pbmc_gex_library_100_2.txt.gz
+2: heathlab_dc_9_17_pbmc_gex_library_100_1.txt.gz
+                                         pro_file
+1: heathlab_dc_9_17_pbmc_pro_library_100_2.txt.gz
+2: heathlab_dc_9_17_pbmc_pro_library_100_1.txt.gz
+                                         cd4_tcr_file
+1: heathlab_dc_9_17_pbmc_cd4_tcr_library_100_2.txt.gz
+2: heathlab_dc_9_17_pbmc_cd4_tcr_library_100_1.txt.gz
+                                         cd8_tcr_file
+1: heathlab_dc_9_17_pbmc_cd8_tcr_library_100_2.txt.gz
+2: heathlab_dc_9_17_pbmc_cd8_tcr_library_100_1.txt.gz
+                                         bcr_file                     gex_dir
+1: heathlab_dc_9_17_pbmc_bcr_library_100_2.txt.gz E-MTAB-9357.processed.6.zip
+2: heathlab_dc_9_17_pbmc_bcr_library_100_1.txt.gz E-MTAB-9357.processed.6.zip
+                       pro_dir                 cd4_tcr_dir
+1: E-MTAB-9357.processed.2.zip E-MTAB-9357.processed.3.zip
+2: E-MTAB-9357.processed.2.zip E-MTAB-9357.processed.3.zip
+                   cd8_tcr_dir                     bcr_dir
+1: E-MTAB-9357.processed.4.zip E-MTAB-9357.processed.1.zip
+2: E-MTAB-9357.processed.4.zip E-MTAB-9357.processed.1.zip
+> table(fsub$disease)
+
+COVID-19 
+      84 
+> table(fsub$gex_dir)
+
+E-MTAB-9357.processed.6.zip E-MTAB-9357.processed.7.zip 
+                         40                          44 
+> table(fsub$pro_dir)
+
+E-MTAB-9357.processed.2.zip 
+                         84 
+> 
+> ind_id = str_extract(file_info$sampling_time_point[gINC], 
++                      "(\\S+)(?=-)")
+> 
+> ind_id[1:2]
+[1] "INCOV100" "INCOV100"
+> table(ind_id == file_info$individual[gINC])
+
+TRUE 
+  84 
+> 
+> file_info$sampling_time_point[gINC] = 
++   str_extract(file_info$sampling_time_point[gINC], "(?<=-)[:upper:]+")
+> table(file_info$sampling_time_point[gINC])
+
+AC BL 
+42 42 
+> table(file_info$sampling_time_point)
+
+            AC             BL not applicable 
+           125            129             16 
+> 
+> fwrite(file_info, file="file_info.csv")
+> 
+> gc()
+         used (Mb) gc trigger (Mb) limit (Mb) max used (Mb)
+Ncells 441367 23.6     927534 49.6         NA   667028 35.7
+Vcells 864805  6.6    8388608 64.0      32768  1824238 14.0
+> 
+> sessionInfo()
+R version 4.1.2 (2021-11-01)
+Platform: x86_64-apple-darwin17.0 (64-bit)
+Running under: macOS Big Sur 10.16
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] stringr_1.4.0     data.table_1.14.2
+
+loaded via a namespace (and not attached):
+[1] compiler_4.1.2 magrittr_2.0.1 tools_4.1.2    stringi_1.7.6 
+> q(save="no")
+> proc.time()
+   user  system elapsed 
+  0.292   0.085   0.429 

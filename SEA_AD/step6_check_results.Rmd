@@ -1,0 +1,233 @@
+---
+title: "Check genes associated with case-control status"
+author: "Wei Sun"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    theme: journal
+    highlight: tango
+    toc: true
+    toc_depth: 3
+    toc_float:
+      collapsed: true
+      smooth_scroll: false
+    number_sections: false
+  df_print: paged
+params:
+  cell_type_name: "Micro-PVM"
+  graph_weight: "2.0" 
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(width = 80)
+```
+
+
+# Setup
+
+## Load R libraries
+```{r load_libraries, message=FALSE, warning=FALSE}
+library(data.table)
+library(ggplot2)
+library(ggpubr)
+library(tidyr)
+library(limma)
+library(stringr)
+library(Matrix)
+library(gplots)
+library(zellkonverter)
+library(pROC)
+library(doParallel)
+library(foreach)
+library(SummarizedExperiment)
+library(reticulate)
+
+theme_set(theme_classic())
+
+cell_type_name = params$cell_type_name
+graph_weight = params$graph_weight
+
+cell_type_name
+graph_weight
+
+nCore = 10
+
+registerDoParallel(cores=nCore)
+options(mc.cores=nCore)
+getOption("mc.cores")
+
+np = import("numpy")
+```
+
+# Examine results
+
+## Check assignment matrix S
+
+```{r fig.width=3, fig.height=3}
+file_tag = sprintf("%s_%s", cell_type_name, graph_weight)
+
+s_mat = np$load(sprintf("output/train_s_%s.npy", file_tag))
+dim(s_mat)
+s_mat = data.matrix(s_mat)
+dim(s_mat)
+s_mat[1:2,1:3]
+
+colSums(s_mat > 0.8)
+
+v_s = c(s_mat)
+summary(v_s)
+table(v_s <= 0.1)
+mean(v_s <= 0.1)
+
+df1 = data.frame(score = v_s[v_s > 0.1])
+ggplot(data = df1, aes(x = score)) +
+  geom_histogram(breaks = seq(0.1, 1, by=0.05), fill = "skyblue", 
+                 color = "darkblue", alpha = 0.7)
+```
+
+## Read in reduced representation
+
+```{r fig.width=3, fig.height=3}
+test_reduced = readH5AD(sprintf("output/test_reduced_%s.h5ad", file_tag))
+test_reduced
+
+rdat = assay(test_reduced, "X")
+dim(rdat)
+
+rdat[1:2,1:3]
+
+cell_info = data.frame(colData(test_reduced))
+dim(cell_info)
+cell_info[1:2,]
+```
+
+# Check association using gene expression data
+
+## Read in genes used
+```{r fig.width=3, fig.height=3}
+genes2use = scan(sprintf("output/gene_list_%s.txt", file_tag), 
+             what=character())
+length(genes2use)
+genes2use[1:5]
+```
+
+## Read in the complete gene expression data 
+
+Subset data by genes (2000 genes used) and cells (cells in testing data).
+
+```{r fig.width=4.5, fig.height=3}
+edat = readH5AD(sprintf("~/research/data/SEA-AD/%s.h5ad", cell_type_name))
+flextable::flextable(data.frame(rowData(edat)[1:3,]))
+flextable::flextable(data.frame(colData(edat)[1:3,]))
+
+edat = edat[rowData(edat)$feature_name %in% genes2use,]
+dim(edat)
+
+edat = edat[, colnames(edat) %in% cell_info$barcode]
+dim(edat)
+
+rd = colData(edat)$Number.of.UMIs
+
+table(cell_info$cell_type, colData(edat)$Cognitive.status)
+
+df1 = data.frame(read_depth = rd, group = cell_info$cell_type)
+tapply(df1$read_depth, df1$group, summary)
+
+ggplot(data = df1, aes(x = read_depth)) +
+  geom_histogram(bins=20, fill = "skyblue", color = "darkblue", alpha = 0.7)
+
+ggplot(data = df1, aes(x = read_depth)) + 
+  geom_density(aes(color=group, fill=group), alpha = 0.5)
+
+ggplot(data = df1, aes(x = log10(read_depth))) + 
+  geom_density(aes(color=group, fill=group), alpha = 0.5)
+
+```
+
+
+## Evaluate AUC for each of the selected genes.
+
+```{r fig.width=8, fig.height=3}
+y_true = cell_info$cell_type
+table(y_true)
+
+edat = assay(edat, "X")
+edat = data.matrix(edat)
+edat[11:12,11:14]
+
+summary(edat[,1])
+summary(edat[,11])
+summary(edat[,111])
+
+auc_vals = foreach(i = 1:nrow(edat), .combine = "c") %dopar% {
+  y1 = edat[i,]
+  auc1 = auc(roc(y_true, y1, levels=c("No dementia", "Dementia"), direction = "<"))
+  as.numeric(auc1)
+}
+
+length(auc_vals)
+summary(auc_vals)
+
+df1 = data.frame(gene=genes2use, auc=auc_vals, gene_set = NA)
+
+for(k in 1:ncol(s_mat)){
+  genes_k = which(s_mat[,k] > 0.8)
+  if(length(genes_k) > 0) df1$gene_set[genes_k] = k
+}
+
+tapply(df1$auc, df1$gene_set==0, summary)
+
+df1$auc_abs = pmax(1 - df1$auc, df1$auc)
+tapply(df1$auc_abs, df1$gene_set==0, summary)
+
+df1$gene_set[df1$gene_set == 0] = "B"
+df1$gene_set = factor(df1$gene_set, levels = as.character(0:40))
+
+ggplot(df1, aes(x = gene_set, y = auc_abs, color = gene_set)) +
+  geom_boxplot(show.legend = FALSE) +
+  labs(x = "Gene sets", y = "AUC")
+```
+
+
+## Check the AUC of each reduced component and its distribution. 
+
+```{r fig.width=5, fig.height=3}
+y_true = cell_info$cell_type
+table(y_true)
+
+auc_r = foreach(i = 1:nrow(rdat), .combine = "c") %dopar% {
+  y1 = rdat[i,]
+  auc1 = auc(roc(y_true, y1, levels=c("No dementia", "Dementia"), 
+                 direction = "<"))
+  as.numeric(auc1)
+}
+summary(auc_r)
+
+stopifnot(nrow(rdat) == 40)
+
+df_r = data.frame(component = 1:40, auc=auc_r, n_genes = colSums(s_mat > 0.8))
+
+ggplot(data = df_r, aes(x=component, y=auc)) + 
+  geom_point() + geom_text(data = subset(df_r, n_genes > 0),
+                  aes(label = n_genes), hjust = -0.5) + 
+  geom_hline(yintercept = 0.5, linetype = "dashed", color = "red") + 
+  geom_vline(xintercept = seq(5,40,by=5), color = "grey")
+
+## density is AUC of genes
+ggplot(df_r, aes(x = auc)) +
+  geom_histogram(aes(y = after_stat(density)), binwidth = 0.05, 
+                 fill = "lightblue", color = "black", alpha = 0.7) + 
+  geom_density(data=df1, aes(x = auc), color = "red", linewidth = 1) 
+
+```
+
+
+# Session information
+
+```{r}
+gc()
+
+sessionInfo()
+```
+

@@ -1,0 +1,33 @@
+Patient ID	Gender (F/M)	Age	Therapy	Clinical response (RECIST; R=CR, PR; NR=SD, PD)	Baseline Biopsy (days from baseline; site; lesion response)	Post I biopsy (days from baseline; site; lesion response)	Post II biopsy (days from baseline; site; lesion response)	WES	Overall survival (days)	Status (Alive=0; Dead=1)	Mutations/indels in known melanoma drivers	Mutations/indels in antigen presentation and/or interferon-gamma pathways
+P1	M	49	CTLA4 (baseline); PD1 (post I and II)	Resistance	0; right chest; regression	48; anterior neck; regression	437; anterior neck; progression	Y	822	0	BRAF, CDKN2A	IFI16, IFIH1, STAT4
+P2	M	75	PD1	NR	0; small bowel; progression	35; left axilla; progression	NA	Y	347	1	BRAF, PTEN	ND
+P3	F	83	PD1	NR	0; right anterior lower leg; progression	63; right distal anterior thigh; progression	161; right anterior knee; progression	Y	521	1	HRAS, NRAS, RPTN, TP53, TPTE	IFNA2, IL21R, IL2RB, STAT4, TYK2, B2M
+P4	M	29	CTLA4+PD1	R	(-2); left shoulder; progression prior to therapy	35; left shoulder; regression	NA	Y	539	0	BRAF, CDKN2A, TPTE	ND
+P5	M	33	PD1	NR (patient had mix response)	NA	199; Post_P#5- right iliac soft tissue mass; progression. Post_P#5_2- right buttock; regression	NA	Y	369	1	BRAF, TP53	ND
+P6	F	66	CTLA4 (baseline) ; PD1 (post I)	NR	(-70); left upper back; progression	270; right colectomy mass in cecum; progression	NA	Y	777	0	BRAF, NRAS	CANX, PTK2
+P7	M	74	CTLA4+PD1	R	0; left forehead; regression	22; left forehead; regression	NA	Y	339	0	BRAF, TPTE	IFNGR1, IFRD2, IL2RB, IL7R, TPP2
+P8	M	49	CTLA4+PD1	R	(-12); left axillary lymph node; regression	62; left axillary lymph node; regression	NA	N	388	0	NA	NA
+P10	F	60	PD1	NR	NA	760; small bowel mass; progression	NA	Y	1197	0	BRAF, CDKN2A, NF1, RPTN, TP53	IFNGR1, IL7R, IRF2BP2, LEPR, PIAS4, PRKCD, TBX21, PSMB9, SCIN
+P11	F	68	PD1	NR	NA	118; right inguinal lymph node; progression	NA	Y	300	1	ARID2, KIT, NRAS, TP53	ND
+P12	M	68	PD1	NR	(-16); small bowel resection; progression	77; left anterior shoulder; progression	NA	Y	101	1	NRAS	IL22RA2, TPP2
+P13	M	48	CTLA4+PD1	NR (patient had mix response)	NA	297; porta hepatis; progression	NA	Y	507	0	MAP2K1, TP53, TPTE	ND
+P14	M	70	PD1	NR	NA	462; left axilla lesion; progression	NA	Y	588	1	CTNNB1, FBXW7, NF1, NRAS, SNX31, STK19, TPTE	IFNB1, IL7R, IRF2BP1, LEPR, TYK2, CALR, PSMB9
+P15	M	72	PD1	NR	0; right back subcutaneous; progression	73; left lower back; progression	NA	Y	163	1	BRAF, PTEN	IL6R, JAK1, SP110, STAT1, STAT3, CIITA, HLA-B, PTK2, CD45- cells lack HLA-I expression
+P16	M	62	PD1	NR	NA	67; right abdomen soft tissue; progression	NA	N	476	1	NA	NA
+P17	F	68	PD1	R	NA	61; right axillary lymph node; regression	NA	N	361	0	NA	NA
+P18	M	79	PD1	NR (patient had mix response)	NA	237; right inguinal lymph node; progression	NA	Y	746	0	ND	ND
+P19	M	53	PD1	R	NA	21; left axillary lymph node; regression	NA	N	570	0	NA	NA
+P20	F	64	PD1	NR (patient had mix response)	0; right inguinoiliac lymphadenectomy; progression	199; right pelvic mass; progression	NA	Y	413	0	BRAF	ND
+P21	F	75	PD1	R	NA	867; jejunum; regression	NA	Y	1340	0	KIT	ND
+P22	M	56	PD1	NR	NA	31; right supraclavicular mass; progression	NA	N	64	1	NA	NA
+P23	M	62	PD1	NR	NA	403;  left frontal craniotomy; progression	622; left neck mass; progression	Y	674	0	TP53	IRF6, PIAS4
+P24	M	73	PD1	R	0; left lower back; regression	NA	NA	N	54	0	NA	NA
+P25	M	74	PD1	NR	0; adrenal gland; progression	NA	NA	Y	676	0	FBXW7, KIT, RPTN, TPTE, WT1	CSF3R, IFIT1B, IFNA14, IL10RA, IL31RA, IL7R, TBX21, TYK2, HLA-B, NLRC5, TAP1, CD45- cells lack HLA-I expression
+P26	M	72	CTLA4+PD1	R	(-56); axillary lymph node, regression	NA	NA	N	517	0	NA	NA
+P27	F	62	PD1	NR	(-35); upper abdomen; progression	NA	NA	N	73	0	NA	NA
+P28	F	67	CTLA4+PD1	Resistance	0; right groin; regression	41; right groin; progression	89; right groin; progression	Y	61	0	BRAF	IL7R
+P29	M	79	PD1	R	(-67); left axillary lymph node; regression	NA	NA	N	417	0	NA	NA
+P30	M	64	PD1	NR	NA	573; left laparoscopic adrenalectomy; progression	NA	N	580	0	NA	NA
+P31	M	52	PD1	NR	(-7); right axilla; progression	NA	NA	N	126	0	NA	NA
+P33	F	65	PD1	R	(-66); left axillary lymph node; regression	NA	NA	N	130	0	NA	NA
+P35	M	70	PD1	R	(-31); right iliac lymph node; regression	NA	NA	Y	511	0	BRAF	ND

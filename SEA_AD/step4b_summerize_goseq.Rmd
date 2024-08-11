@@ -1,0 +1,120 @@
+---
+title: "Summerize the results from GOseq"
+author: "Wei Sun"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    theme: journal
+    highlight: tango
+    toc: true
+    toc_depth: 3
+    toc_float:
+      collapsed: true
+      smooth_scroll: false
+    number_sections: false
+  df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(width = 80)
+```
+
+Summarize GOseq enrichment analysis results. 
+
+# Setup
+
+## Load R libraries
+```{r load_libraries, message=FALSE, warning=FALSE}
+library(data.table)
+library(ggplot2)
+library(ggpubr)
+library(ggrepel)
+
+library(tidyr)
+theme_set(theme_classic())
+
+```
+
+# Check enrichment of gene sets
+
+## Read in results
+
+```{r}
+cell_types = c("Astro", "Micro-PVM")
+weights = c("0.0", "0.25", "0.5", "1.0", "2.0", "5.0", "10.0")
+
+df_list = list()
+
+for(cell_type_name in cell_types){
+  for(graph_weight in weights){
+    file_tag = sprintf("%s_%s", cell_type_name, graph_weight)
+    res1 = readRDS(sprintf("output/gene_set_enrichments_%s.RDS", file_tag))
+    
+    if(is.null(res1)){ next }
+    gene_sets = names(res1)
+    
+    df_go = NULL
+    
+    for(gset1 in gene_sets){
+      res_g1 = res1[[gset1]]
+
+      df1 = data.frame(gene_set = rep(gset1, length(res_g1)))
+      df1$type = names(res_g1)
+      df1$category = sapply(res_g1, function(x){
+        x=x[x$over_represented_pvalue < 0.05,]; x$category[1]})
+      df1$FDR = sapply(res_g1, function(x){
+        x=x[x$over_represented_pvalue < 0.05,]; x$FDR[1]})
+      
+      df_go = rbind(df_go, df1)
+    }
+    
+    df_list[[file_tag]] = df_go
+    
+    
+  }
+}
+
+```
+
+## Generate plots
+
+```{r fig.width = 5, fig.height = 2.5}
+for(k in 1:length(df_list)){
+  d1 = df_list[[k]]
+  print(d1)
+  d1 = d1[order(d1$FDR, decreasing = TRUE),]
+  
+  d1_label = sapply(d1$category, function(x) {
+    space_positions = gregexpr(" ", x)[[1]]
+    if (nchar(x) > 60) {
+      break_pos = max(space_positions[space_positions < 60])
+      return(paste0(substr(x, 1, break_pos), "\n", 
+                    substr(x, break_pos+1, nchar(x))))
+    } else {
+      return(x)
+    }
+  })
+
+  d1$y = 1:nrow(d1)
+
+  g1 = ggplot(d1, aes(x = -log10(FDR), y = y, color=type, label=gene_set)) +
+    geom_point(size = 2.5) +
+    labs(x = "-log10(FDR)", y="", title = names(df_list)[k]) + 
+    scale_y_continuous(breaks = 1:nrow(d1), labels = d1_label) + 
+    theme(legend.position = "top") + 
+    geom_text_repel() + 
+    guides(color = guide_legend(title = NULL)) 
+  
+  print(g1)
+}
+```
+
+
+# Session information
+```{r}
+gc()
+
+sessionInfo()
+```
+

@@ -1,0 +1,529 @@
+
+R version 4.2.3 (2023-03-15) -- "Shortstop Beagle"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+> Sys.setenv(RSTUDIO_PANDOC="/Applications/RStudio.app/Contents/MacOS/pandoc")
+> 
+> render_report = function(cell_type_name, graph_weight) {
++   file_tag = paste0(cell_type_name, "_", graph_weight)
++ 
++   rmarkdown::render(
++     "step4_evaluate_gene_sets.Rmd", 
++     params = list(cell_type_name = cell_type_name, graph_weight=graph_weight),
++     output_file = paste0("step4_evaluate_gene_sets_", file_tag, ".html")
++   )
++ }
+> 
+> cell_types = c("Astro", "Micro-PVM")
+> weights = list()
+> weights = c("0.0", "0.25", "0.5", "1.0", "2.0", "5.0", "10.0")
+> 
+> for(cell_type_name in cell_types){
++   for(graph_weight in weights){
++     render_report(cell_type_name, graph_weight)
++   }
++ }
+
+
+processing file: step4_evaluate_gene_sets.Rmd
+1/19                  
+2/19 [setup]          
+3/19                  
+4/19 [load_libraries] 
+5/19                  
+6/19 [unnamed-chunk-1]
+Read 2000 items
+Read 4 items
+7/19                  
+8/19 [unnamed-chunk-2]
+9/19                  
+10/19 [unnamed-chunk-3]
+11/19                  
+12/19 [unnamed-chunk-4]
+13/19                  
+14/19 [unnamed-chunk-5]
+15/19                  
+16/19 [unnamed-chunk-6]
+17/19                  
+18/19 [unnamed-chunk-7]
+19/19                  
+output file: step4_evaluate_gene_sets.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS step4_evaluate_gene_sets.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output step4_evaluate_gene_sets_Astro_0.0.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//Rtmpw56T6g/rmarkdown-str12ad02133396.html 
+
+Output created: step4_evaluate_gene_sets_Astro_0.0.html
+
+
+processing file: step4_evaluate_gene_sets.Rmd
+1/19                  
+2/19 [setup]          
+3/19                  
+4/19 [load_libraries] 
+5/19                  
+6/19 [unnamed-chunk-1]
+Read 2000 items
+Read 10 items
+7/19                  
+8/19 [unnamed-chunk-2]
+9/19                  
+10/19 [unnamed-chunk-3]
+11/19                  
+12/19 [unnamed-chunk-4]
+13/19                  
+14/19 [unnamed-chunk-5]
+15/19                  
+16/19 [unnamed-chunk-6]
+17/19                  
+18/19 [unnamed-chunk-7]
+19/19                  
+output file: step4_evaluate_gene_sets.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS step4_evaluate_gene_sets.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output step4_evaluate_gene_sets_Astro_0.25.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//Rtmpw56T6g/rmarkdown-str12ad0349d5ebf.html 
+
+Output created: step4_evaluate_gene_sets_Astro_0.25.html
+
+
+processing file: step4_evaluate_gene_sets.Rmd
+1/19                  
+2/19 [setup]          
+3/19                  
+4/19 [load_libraries] 
+5/19                  
+6/19 [unnamed-chunk-1]
+Read 2000 items
+Read 40 items
+7/19                  
+8/19 [unnamed-chunk-2]
+9/19                  
+10/19 [unnamed-chunk-3]
+11/19                  
+12/19 [unnamed-chunk-4]
+13/19                  
+14/19 [unnamed-chunk-5]
+15/19                  
+16/19 [unnamed-chunk-6]
+17/19                  
+18/19 [unnamed-chunk-7]
+19/19                  
+output file: step4_evaluate_gene_sets.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS step4_evaluate_gene_sets.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output step4_evaluate_gene_sets_Astro_0.5.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//Rtmpw56T6g/rmarkdown-str12ad0755a34ee.html 
+
+Output created: step4_evaluate_gene_sets_Astro_0.5.html
+
+
+processing file: step4_evaluate_gene_sets.Rmd
+1/19                  
+2/19 [setup]          
+3/19                  
+4/19 [load_libraries] 
+5/19                  
+6/19 [unnamed-chunk-1]
+Read 2000 items
+Read 40 items
+7/19                  
+8/19 [unnamed-chunk-2]
+9/19                  
+10/19 [unnamed-chunk-3]
+11/19                  
+12/19 [unnamed-chunk-4]
+13/19                  
+14/19 [unnamed-chunk-5]
+15/19                  
+16/19 [unnamed-chunk-6]
+17/19                  
+18/19 [unnamed-chunk-7]
+19/19                  
+output file: step4_evaluate_gene_sets.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS step4_evaluate_gene_sets.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output step4_evaluate_gene_sets_Astro_1.0.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//Rtmpw56T6g/rmarkdown-str12ad02d1de051.html 
+
+Output created: step4_evaluate_gene_sets_Astro_1.0.html
+
+
+processing file: step4_evaluate_gene_sets.Rmd
+1/19                  
+2/19 [setup]          
+3/19                  
+4/19 [load_libraries] 
+5/19                  
+6/19 [unnamed-chunk-1]
+Read 2000 items
+Read 40 items
+7/19                  
+8/19 [unnamed-chunk-2]
+9/19                  
+10/19 [unnamed-chunk-3]
+11/19                  
+12/19 [unnamed-chunk-4]
+13/19                  
+14/19 [unnamed-chunk-5]
+15/19                  
+16/19 [unnamed-chunk-6]
+17/19                  
+18/19 [unnamed-chunk-7]
+19/19                  
+output file: step4_evaluate_gene_sets.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS step4_evaluate_gene_sets.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output step4_evaluate_gene_sets_Astro_2.0.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//Rtmpw56T6g/rmarkdown-str12ad0e8d52b4.html 
+
+Output created: step4_evaluate_gene_sets_Astro_2.0.html
+
+
+processing file: step4_evaluate_gene_sets.Rmd
+1/19                  
+2/19 [setup]          
+3/19                  
+4/19 [load_libraries] 
+5/19                  
+6/19 [unnamed-chunk-1]
+Read 2000 items
+Read 40 items
+7/19                  
+8/19 [unnamed-chunk-2]
+9/19                  
+10/19 [unnamed-chunk-3]
+11/19                  
+12/19 [unnamed-chunk-4]
+13/19                  
+14/19 [unnamed-chunk-5]
+15/19                  
+16/19 [unnamed-chunk-6]
+17/19                  
+18/19 [unnamed-chunk-7]
+19/19                  
+output file: step4_evaluate_gene_sets.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS step4_evaluate_gene_sets.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output step4_evaluate_gene_sets_Astro_5.0.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//Rtmpw56T6g/rmarkdown-str12ad04ab6b896.html 
+
+Output created: step4_evaluate_gene_sets_Astro_5.0.html
+
+
+processing file: step4_evaluate_gene_sets.Rmd
+1/19                  
+2/19 [setup]          
+3/19                  
+4/19 [load_libraries] 
+5/19                  
+6/19 [unnamed-chunk-1]
+Read 2000 items
+Read 40 items
+7/19                  
+8/19 [unnamed-chunk-2]
+9/19                  
+10/19 [unnamed-chunk-3]
+11/19                  
+12/19 [unnamed-chunk-4]
+13/19                  
+14/19 [unnamed-chunk-5]
+15/19                  
+16/19 [unnamed-chunk-6]
+17/19                  
+18/19 [unnamed-chunk-7]
+19/19                  
+output file: step4_evaluate_gene_sets.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS step4_evaluate_gene_sets.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output step4_evaluate_gene_sets_Astro_10.0.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//Rtmpw56T6g/rmarkdown-str12ad013c57959.html 
+
+Output created: step4_evaluate_gene_sets_Astro_10.0.html
+
+
+processing file: step4_evaluate_gene_sets.Rmd
+1/19                  
+2/19 [setup]          
+3/19                  
+4/19 [load_libraries] 
+5/19                  
+6/19 [unnamed-chunk-1]
+Read 2000 items
+Read 2 items
+7/19                  
+8/19 [unnamed-chunk-2]
+9/19                  
+10/19 [unnamed-chunk-3]
+11/19                  
+12/19 [unnamed-chunk-4]
+13/19                  
+14/19 [unnamed-chunk-5]
+15/19                  
+16/19 [unnamed-chunk-6]
+17/19                  
+18/19 [unnamed-chunk-7]
+19/19                  
+output file: step4_evaluate_gene_sets.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS step4_evaluate_gene_sets.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output step4_evaluate_gene_sets_Micro-PVM_0.0.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//Rtmpw56T6g/rmarkdown-str12ad036c9d043.html 
+
+Output created: step4_evaluate_gene_sets_Micro-PVM_0.0.html
+
+
+processing file: step4_evaluate_gene_sets.Rmd
+1/19                  
+2/19 [setup]          
+3/19                  
+4/19 [load_libraries] 
+5/19                  
+6/19 [unnamed-chunk-1]
+Read 2000 items
+Read 12 items
+7/19                  
+8/19 [unnamed-chunk-2]
+9/19                  
+10/19 [unnamed-chunk-3]
+11/19                  
+12/19 [unnamed-chunk-4]
+13/19                  
+14/19 [unnamed-chunk-5]
+15/19                  
+16/19 [unnamed-chunk-6]
+17/19                  
+18/19 [unnamed-chunk-7]
+19/19                  
+output file: step4_evaluate_gene_sets.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS step4_evaluate_gene_sets.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output step4_evaluate_gene_sets_Micro-PVM_0.25.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//Rtmpw56T6g/rmarkdown-str12ad06516842f.html 
+
+Output created: step4_evaluate_gene_sets_Micro-PVM_0.25.html
+
+
+processing file: step4_evaluate_gene_sets.Rmd
+1/19                  
+2/19 [setup]          
+3/19                  
+4/19 [load_libraries] 
+5/19                  
+6/19 [unnamed-chunk-1]
+Read 2000 items
+Read 40 items
+7/19                  
+8/19 [unnamed-chunk-2]
+9/19                  
+10/19 [unnamed-chunk-3]
+11/19                  
+12/19 [unnamed-chunk-4]
+13/19                  
+14/19 [unnamed-chunk-5]
+15/19                  
+16/19 [unnamed-chunk-6]
+17/19                  
+18/19 [unnamed-chunk-7]
+19/19                  
+output file: step4_evaluate_gene_sets.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS step4_evaluate_gene_sets.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output step4_evaluate_gene_sets_Micro-PVM_0.5.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//Rtmpw56T6g/rmarkdown-str12ad0276ef546.html 
+
+Output created: step4_evaluate_gene_sets_Micro-PVM_0.5.html
+
+
+processing file: step4_evaluate_gene_sets.Rmd
+1/19                  
+2/19 [setup]          
+3/19                  
+4/19 [load_libraries] 
+5/19                  
+6/19 [unnamed-chunk-1]
+Read 2000 items
+Read 40 items
+7/19                  
+8/19 [unnamed-chunk-2]
+9/19                  
+10/19 [unnamed-chunk-3]
+11/19                  
+12/19 [unnamed-chunk-4]
+13/19                  
+14/19 [unnamed-chunk-5]
+15/19                  
+16/19 [unnamed-chunk-6]
+17/19                  
+18/19 [unnamed-chunk-7]
+19/19                  
+output file: step4_evaluate_gene_sets.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS step4_evaluate_gene_sets.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output step4_evaluate_gene_sets_Micro-PVM_1.0.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//Rtmpw56T6g/rmarkdown-str12ad067e88d92.html 
+
+Output created: step4_evaluate_gene_sets_Micro-PVM_1.0.html
+
+
+processing file: step4_evaluate_gene_sets.Rmd
+1/19                  
+2/19 [setup]          
+3/19                  
+4/19 [load_libraries] 
+5/19                  
+6/19 [unnamed-chunk-1]
+Read 2000 items
+Read 40 items
+7/19                  
+8/19 [unnamed-chunk-2]
+9/19                  
+10/19 [unnamed-chunk-3]
+11/19                  
+12/19 [unnamed-chunk-4]
+13/19                  
+14/19 [unnamed-chunk-5]
+15/19                  
+16/19 [unnamed-chunk-6]
+17/19                  
+18/19 [unnamed-chunk-7]
+19/19                  
+output file: step4_evaluate_gene_sets.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS step4_evaluate_gene_sets.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output step4_evaluate_gene_sets_Micro-PVM_2.0.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//Rtmpw56T6g/rmarkdown-str12ad053d035fb.html 
+
+Output created: step4_evaluate_gene_sets_Micro-PVM_2.0.html
+
+
+processing file: step4_evaluate_gene_sets.Rmd
+1/19                  
+2/19 [setup]          
+3/19                  
+4/19 [load_libraries] 
+5/19                  
+6/19 [unnamed-chunk-1]
+Read 2000 items
+Read 40 items
+7/19                  
+8/19 [unnamed-chunk-2]
+9/19                  
+10/19 [unnamed-chunk-3]
+11/19                  
+12/19 [unnamed-chunk-4]
+13/19                  
+14/19 [unnamed-chunk-5]
+15/19                  
+16/19 [unnamed-chunk-6]
+17/19                  
+18/19 [unnamed-chunk-7]
+19/19                  
+output file: step4_evaluate_gene_sets.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS step4_evaluate_gene_sets.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output step4_evaluate_gene_sets_Micro-PVM_5.0.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//Rtmpw56T6g/rmarkdown-str12ad069b2045.html 
+
+Output created: step4_evaluate_gene_sets_Micro-PVM_5.0.html
+
+
+processing file: step4_evaluate_gene_sets.Rmd
+1/19                  
+2/19 [setup]          
+3/19                  
+4/19 [load_libraries] 
+5/19                  
+6/19 [unnamed-chunk-1]
+Read 2000 items
+Read 40 items
+7/19                  
+8/19 [unnamed-chunk-2]
+9/19                  
+10/19 [unnamed-chunk-3]
+11/19                  
+12/19 [unnamed-chunk-4]
+13/19                  
+14/19 [unnamed-chunk-5]
+15/19                  
+16/19 [unnamed-chunk-6]
+17/19                  
+18/19 [unnamed-chunk-7]
+19/19                  
+output file: step4_evaluate_gene_sets.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS step4_evaluate_gene_sets.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output step4_evaluate_gene_sets_Micro-PVM_10.0.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//Rtmpw56T6g/rmarkdown-str12ad02e8a77bb.html 
+
+Output created: step4_evaluate_gene_sets_Micro-PVM_10.0.html
+> 
+> 
+> sessionInfo()
+R version 4.2.3 (2023-03-15)
+Platform: aarch64-apple-darwin20 (64-bit)
+Running under: macOS Ventura 13.4.1
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] goseq_1.50.0           geneLenDataBase_1.34.0 BiasedUrn_2.0.10      
+ [4] fgsea_1.24.0           biomaRt_2.54.1         limma_3.54.2          
+ [7] tidyr_1.3.0            ggpubr_0.6.0           ggplot2_3.4.2         
+[10] data.table_1.14.8     
+
+loaded via a namespace (and not attached):
+  [1] nlme_3.1-162                matrixStats_1.0.0          
+  [3] bitops_1.0-7                bit64_4.0.5                
+  [5] filelock_1.0.2              progress_1.2.2             
+  [7] httr_1.4.6                  GenomeInfoDb_1.34.9        
+  [9] tools_4.2.3                 backports_1.4.1            
+ [11] bslib_0.4.2                 utf8_1.2.3                 
+ [13] R6_2.5.1                    mgcv_1.8-42                
+ [15] DBI_1.1.3                   BiocGenerics_0.44.0        
+ [17] colorspace_2.1-0            withr_2.5.0                
+ [19] tidyselect_1.2.0            prettyunits_1.1.1          
+ [21] bit_4.0.5                   curl_5.0.1                 
+ [23] compiler_4.2.3              cli_3.6.1                  
+ [25] Biobase_2.58.0              xml2_1.3.4                 
+ [27] DelayedArray_0.24.0         rtracklayer_1.58.0         
+ [29] sass_0.4.5                  scales_1.2.1               
+ [31] rappdirs_0.3.3              Rsamtools_2.14.0           
+ [33] stringr_1.5.0               digest_0.6.31              
+ [35] rmarkdown_2.21              XVector_0.38.0             
+ [37] pkgconfig_2.0.3             htmltools_0.5.5            
+ [39] MatrixGenerics_1.10.0       dbplyr_2.3.2               
+ [41] fastmap_1.1.1               rlang_1.1.0                
+ [43] rstudioapi_0.14             RSQLite_2.3.1              
+ [45] BiocIO_1.8.0                jquerylib_0.1.4            
+ [47] generics_0.1.3              jsonlite_1.8.4             
+ [49] BiocParallel_1.32.6         dplyr_1.1.2                
+ [51] car_3.1-2                   RCurl_1.98-1.12            
+ [53] magrittr_2.0.3              GO.db_3.16.0               
+ [55] GenomeInfoDbData_1.2.9      Matrix_1.6-4               
+ [57] Rcpp_1.0.10                 munsell_0.5.0              
+ [59] S4Vectors_0.36.2            fansi_1.0.4                
+ [61] abind_1.4-5                 lifecycle_1.0.3            
+ [63] stringi_1.7.12              yaml_2.3.7                 
+ [65] carData_3.0-5               SummarizedExperiment_1.28.0
+ [67] zlibbioc_1.44.0             org.Hs.eg.db_3.16.0        
+ [69] BiocFileCache_2.6.1         grid_4.2.3                 
+ [71] blob_1.2.4                  parallel_4.2.3             
+ [73] crayon_1.5.2                lattice_0.20-45            
+ [75] splines_4.2.3               Biostrings_2.66.0          
+ [77] cowplot_1.1.1               GenomicFeatures_1.50.4     
+ [79] hms_1.1.3                   KEGGREST_1.38.0            
+ [81] knitr_1.44                  pillar_1.9.0               
+ [83] GenomicRanges_1.50.2        rjson_0.2.21               
+ [85] ggsignif_0.6.4              codetools_0.2-19           
+ [87] stats4_4.2.3                fastmatch_1.1-3            
+ [89] XML_3.99-0.14               glue_1.6.2                 
+ [91] evaluate_0.20               png_0.1-8                  
+ [93] vctrs_0.6.2                 gtable_0.3.3               
+ [95] purrr_1.0.1                 cachem_1.0.7               
+ [97] xfun_0.39                   broom_1.0.4                
+ [99] restfulr_0.0.15             rstatix_0.7.2              
+[101] tibble_3.2.1                GenomicAlignments_1.34.1   
+[103] AnnotationDbi_1.60.2        memoise_2.0.1              
+[105] IRanges_2.32.0             
+> 
+> q(save = "no")
+> proc.time()
+   user  system elapsed 
+215.377   8.390 234.019 

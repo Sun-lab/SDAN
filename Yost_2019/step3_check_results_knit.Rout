@@ -1,0 +1,305 @@
+
+R version 4.2.3 (2023-03-15) -- "Shortstop Beagle"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+> Sys.setenv(RSTUDIO_PANDOC="/Applications/RStudio.app/Contents/MacOS/pandoc")
+> 
+> render_report = function(graph_weight) {
++ 
++   rmarkdown::render(
++     "step3_check_results.Rmd", 
++     params = list(graph_weight=graph_weight),
++     output_file = paste0("step3_check_results_", graph_weight, ".html")
++   )
++ }
+> 
+> weights = c("0.0", "0.25", "0.5", "1.0", "2.0", "5.0", "10.0")
+> 
+> for(graph_weight in weights){
++   render_report(graph_weight)
++ }
+
+
+processing file: step3_check_results.Rmd
+1/19                  
+2/19 [setup]          
+3/19                  
+4/19 [load_libraries] 
+5/19                  
+6/19 [unnamed-chunk-1]
+7/19                  
+8/19 [unnamed-chunk-2]
+Read 1259 items
+9/19                  
+10/19 [unnamed-chunk-3]
+11/19                  
+12/19 [unnamed-chunk-4]
+13/19                  
+14/19 [unnamed-chunk-5]
+15/19                  
+16/19 [unnamed-chunk-6]
+17/19                  
+18/19 [unnamed-chunk-7]
+19/19                  
+output file: step3_check_results.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS step3_check_results.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output step3_check_results_0.0.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//RtmpKvYrI2/rmarkdown-str12f5a460c3152.html 
+
+Output created: step3_check_results_0.0.html
+
+
+processing file: step3_check_results.Rmd
+1/19                  
+2/19 [setup]          
+3/19                  
+4/19 [load_libraries] 
+5/19                  
+6/19 [unnamed-chunk-1]
+7/19                  
+8/19 [unnamed-chunk-2]
+Read 1259 items
+9/19                  
+10/19 [unnamed-chunk-3]
+11/19                  
+12/19 [unnamed-chunk-4]
+13/19                  
+14/19 [unnamed-chunk-5]
+15/19                  
+16/19 [unnamed-chunk-6]
+17/19                  
+18/19 [unnamed-chunk-7]
+19/19                  
+output file: step3_check_results.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS step3_check_results.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output step3_check_results_0.25.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//RtmpKvYrI2/rmarkdown-str12f5a5df8a48c.html 
+
+Output created: step3_check_results_0.25.html
+
+
+processing file: step3_check_results.Rmd
+1/19                  
+2/19 [setup]          
+3/19                  
+4/19 [load_libraries] 
+5/19                  
+6/19 [unnamed-chunk-1]
+7/19                  
+8/19 [unnamed-chunk-2]
+Read 1259 items
+9/19                  
+10/19 [unnamed-chunk-3]
+11/19                  
+12/19 [unnamed-chunk-4]
+13/19                  
+14/19 [unnamed-chunk-5]
+15/19                  
+16/19 [unnamed-chunk-6]
+17/19                  
+18/19 [unnamed-chunk-7]
+19/19                  
+output file: step3_check_results.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS step3_check_results.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output step3_check_results_0.5.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//RtmpKvYrI2/rmarkdown-str12f5a4894b7f4.html 
+
+Output created: step3_check_results_0.5.html
+
+
+processing file: step3_check_results.Rmd
+1/19                  
+2/19 [setup]          
+3/19                  
+4/19 [load_libraries] 
+5/19                  
+6/19 [unnamed-chunk-1]
+7/19                  
+8/19 [unnamed-chunk-2]
+Read 1259 items
+9/19                  
+10/19 [unnamed-chunk-3]
+11/19                  
+12/19 [unnamed-chunk-4]
+13/19                  
+14/19 [unnamed-chunk-5]
+15/19                  
+16/19 [unnamed-chunk-6]
+17/19                  
+18/19 [unnamed-chunk-7]
+19/19                  
+output file: step3_check_results.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS step3_check_results.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output step3_check_results_1.0.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//RtmpKvYrI2/rmarkdown-str12f5a3a1a8151.html 
+
+Output created: step3_check_results_1.0.html
+
+
+processing file: step3_check_results.Rmd
+1/19                  
+2/19 [setup]          
+3/19                  
+4/19 [load_libraries] 
+5/19                  
+6/19 [unnamed-chunk-1]
+7/19                  
+8/19 [unnamed-chunk-2]
+Read 1259 items
+9/19                  
+10/19 [unnamed-chunk-3]
+11/19                  
+12/19 [unnamed-chunk-4]
+13/19                  
+14/19 [unnamed-chunk-5]
+15/19                  
+16/19 [unnamed-chunk-6]
+17/19                  
+18/19 [unnamed-chunk-7]
+19/19                  
+output file: step3_check_results.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS step3_check_results.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output step3_check_results_2.0.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//RtmpKvYrI2/rmarkdown-str12f5a4c34b2b9.html 
+
+Output created: step3_check_results_2.0.html
+
+
+processing file: step3_check_results.Rmd
+1/19                  
+2/19 [setup]          
+3/19                  
+4/19 [load_libraries] 
+5/19                  
+6/19 [unnamed-chunk-1]
+7/19                  
+8/19 [unnamed-chunk-2]
+Read 1259 items
+9/19                  
+10/19 [unnamed-chunk-3]
+11/19                  
+12/19 [unnamed-chunk-4]
+13/19                  
+14/19 [unnamed-chunk-5]
+15/19                  
+16/19 [unnamed-chunk-6]
+17/19                  
+18/19 [unnamed-chunk-7]
+19/19                  
+output file: step3_check_results.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS step3_check_results.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output step3_check_results_5.0.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//RtmpKvYrI2/rmarkdown-str12f5a28187f47.html 
+
+Output created: step3_check_results_5.0.html
+
+
+processing file: step3_check_results.Rmd
+1/19                  
+2/19 [setup]          
+3/19                  
+4/19 [load_libraries] 
+5/19                  
+6/19 [unnamed-chunk-1]
+7/19                  
+8/19 [unnamed-chunk-2]
+Read 1259 items
+9/19                  
+10/19 [unnamed-chunk-3]
+11/19                  
+12/19 [unnamed-chunk-4]
+13/19                  
+14/19 [unnamed-chunk-5]
+15/19                  
+16/19 [unnamed-chunk-6]
+17/19                  
+18/19 [unnamed-chunk-7]
+19/19                  
+output file: step3_check_results.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS step3_check_results.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output step3_check_results_10.0.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//RtmpKvYrI2/rmarkdown-str12f5a29d8f734.html 
+
+Output created: step3_check_results_10.0.html
+> 
+> sessionInfo()
+R version 4.2.3 (2023-03-15)
+Platform: aarch64-apple-darwin20 (64-bit)
+Running under: macOS Ventura 13.4.1
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats4    parallel  stats     graphics  grDevices utils     datasets 
+[8] methods   base     
+
+other attached packages:
+ [1] reticulate_1.34.0           SummarizedExperiment_1.28.0
+ [3] Biobase_2.58.0              GenomicRanges_1.50.2       
+ [5] GenomeInfoDb_1.34.9         IRanges_2.32.0             
+ [7] S4Vectors_0.36.2            BiocGenerics_0.44.0        
+ [9] MatrixGenerics_1.10.0       matrixStats_1.0.0          
+[11] doParallel_1.0.17           iterators_1.0.14           
+[13] foreach_1.5.2               pROC_1.18.0                
+[15] zellkonverter_1.11.4        gplots_3.1.3               
+[17] Matrix_1.6-4                stringr_1.5.0              
+[19] limma_3.54.2                tidyr_1.3.0                
+[21] ggpubr_0.6.0                ggplot2_3.4.2              
+[23] data.table_1.14.8          
+
+loaded via a namespace (and not attached):
+ [1] bitops_1.0-7                filelock_1.0.2             
+ [3] rprojroot_2.0.3             tools_4.2.3                
+ [5] backports_1.4.1             bslib_0.4.2                
+ [7] utf8_1.2.3                  R6_2.5.1                   
+ [9] KernSmooth_2.23-20          colorspace_2.1-0           
+[11] withr_2.5.0                 tidyselect_1.2.0           
+[13] compiler_4.2.3              cli_3.6.1                  
+[15] basilisk.utils_1.10.0       DelayedArray_0.24.0        
+[17] labeling_0.4.2              sass_0.4.5                 
+[19] caTools_1.18.2              scales_1.2.1               
+[21] digest_0.6.31               R.utils_2.12.2             
+[23] rmarkdown_2.21              basilisk_1.10.2            
+[25] XVector_0.38.0              pkgconfig_2.0.3            
+[27] htmltools_0.5.5             fastmap_1.1.1              
+[29] rlang_1.1.0                 rstudioapi_0.14            
+[31] farver_2.1.1                jquerylib_0.1.4            
+[33] generics_0.1.3              jsonlite_1.8.4             
+[35] gtools_3.9.4                R.oo_1.25.0                
+[37] dplyr_1.1.2                 car_3.1-2                  
+[39] RCurl_1.98-1.12             magrittr_2.0.3             
+[41] GenomeInfoDbData_1.2.9      Rcpp_1.0.10                
+[43] munsell_0.5.0               fansi_1.0.4                
+[45] abind_1.4-5                 R.methodsS3_1.8.2          
+[47] lifecycle_1.0.3             stringi_1.7.12             
+[49] yaml_2.3.7                  carData_3.0-5              
+[51] zlibbioc_1.44.0             plyr_1.8.8                 
+[53] grid_4.2.3                  dir.expiry_1.6.0           
+[55] lattice_0.20-45             knitr_1.44                 
+[57] pillar_1.9.0                ggsignif_0.6.4             
+[59] codetools_0.2-19            glue_1.6.2                 
+[61] evaluate_0.20               vctrs_0.6.2                
+[63] png_0.1-8                   gtable_0.3.3               
+[65] purrr_1.0.1                 cachem_1.0.7               
+[67] xfun_0.39                   broom_1.0.4                
+[69] rstatix_0.7.2               SingleCellExperiment_1.20.1
+[71] tibble_3.2.1                here_1.0.1                 
+> 
+> q(save = "no")
+> proc.time()
+   user  system elapsed 
+100.452  33.497 117.859 

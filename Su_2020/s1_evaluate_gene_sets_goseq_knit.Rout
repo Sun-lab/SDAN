@@ -1,0 +1,542 @@
+
+R version 4.2.3 (2023-03-15) -- "Shortstop Beagle"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+> Sys.setenv(RSTUDIO_PANDOC="/Applications/RStudio.app/Contents/MacOS/pandoc")
+> 
+> render_report = function(cell_type_name, graph_weight) {
++   file_tag = paste0(cell_type_name, "_BL_", graph_weight)
++ 
++   rmarkdown::render(
++     "s1_evaluate_gene_sets_goseq.Rmd", 
++     params = list(cell_type_name = cell_type_name, graph_weight=graph_weight),
++     output_file = paste0("s1_evaluate_gene_sets_goseq_", file_tag, ".html")
++   )
++ }
+> 
+> cell_types = c("cd4", "cd8")
+> weights = list()
+> weights[["cd4"]] = c("0.0", "0.25", "0.5", "1.0", "2.0", "5.0", "10.0")
+> weights[["cd8"]] = c("0.0", "0.25", "0.5", "1.0", "2.0", "5.0", "10.0")
+> 
+> for(cell_type_name in cell_types){
++   for(graph_weight in weights[[cell_type_name]]){
++     render_report(cell_type_name, graph_weight)
++   }
++ }
+
+
+processing file: s1_evaluate_gene_sets_goseq.Rmd
+1/19                  
+2/19 [setup]          
+3/19                  
+4/19 [load_libraries] 
+5/19                  
+6/19 [unnamed-chunk-1]
+Read 2000 items
+Read 2 items
+7/19                  
+8/19 [unnamed-chunk-2]
+9/19                  
+10/19 [unnamed-chunk-3]
+11/19                  
+12/19 [unnamed-chunk-4]
+13/19                  
+14/19 [unnamed-chunk-5]
+15/19                  
+16/19 [unnamed-chunk-6]
+17/19                  
+18/19 [unnamed-chunk-7]
+19/19                  
+output file: s1_evaluate_gene_sets_goseq.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS s1_evaluate_gene_sets_goseq.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output s1_evaluate_gene_sets_goseq_cd4_BL_0.0.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//RtmpRLeSJz/rmarkdown-str68a0689f56c7.html 
+
+Output created: s1_evaluate_gene_sets_goseq_cd4_BL_0.0.html
+
+
+processing file: s1_evaluate_gene_sets_goseq.Rmd
+1/19                  
+2/19 [setup]          
+3/19                  
+4/19 [load_libraries] 
+5/19                  
+6/19 [unnamed-chunk-1]
+Read 2000 items
+Read 3 items
+7/19                  
+8/19 [unnamed-chunk-2]
+9/19                  
+10/19 [unnamed-chunk-3]
+11/19                  
+12/19 [unnamed-chunk-4]
+13/19                  
+14/19 [unnamed-chunk-5]
+15/19                  
+16/19 [unnamed-chunk-6]
+17/19                  
+18/19 [unnamed-chunk-7]
+19/19                  
+output file: s1_evaluate_gene_sets_goseq.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS s1_evaluate_gene_sets_goseq.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output s1_evaluate_gene_sets_goseq_cd4_BL_0.25.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//RtmpRLeSJz/rmarkdown-str68a06f8e6833.html 
+
+Output created: s1_evaluate_gene_sets_goseq_cd4_BL_0.25.html
+
+
+processing file: s1_evaluate_gene_sets_goseq.Rmd
+1/19                  
+2/19 [setup]          
+3/19                  
+4/19 [load_libraries] 
+5/19                  
+6/19 [unnamed-chunk-1]
+Read 2000 items
+Read 8 items
+7/19                  
+8/19 [unnamed-chunk-2]
+9/19                  
+10/19 [unnamed-chunk-3]
+11/19                  
+12/19 [unnamed-chunk-4]
+13/19                  
+14/19 [unnamed-chunk-5]
+15/19                  
+16/19 [unnamed-chunk-6]
+17/19                  
+18/19 [unnamed-chunk-7]
+19/19                  
+output file: s1_evaluate_gene_sets_goseq.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS s1_evaluate_gene_sets_goseq.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output s1_evaluate_gene_sets_goseq_cd4_BL_0.5.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//RtmpRLeSJz/rmarkdown-str68a025677a6c.html 
+
+Output created: s1_evaluate_gene_sets_goseq_cd4_BL_0.5.html
+
+
+processing file: s1_evaluate_gene_sets_goseq.Rmd
+1/19                  
+2/19 [setup]          
+3/19                  
+4/19 [load_libraries] 
+5/19                  
+6/19 [unnamed-chunk-1]
+Read 2000 items
+Read 40 items
+7/19                  
+8/19 [unnamed-chunk-2]
+9/19                  
+10/19 [unnamed-chunk-3]
+11/19                  
+12/19 [unnamed-chunk-4]
+13/19                  
+14/19 [unnamed-chunk-5]
+15/19                  
+16/19 [unnamed-chunk-6]
+17/19                  
+18/19 [unnamed-chunk-7]
+19/19                  
+output file: s1_evaluate_gene_sets_goseq.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS s1_evaluate_gene_sets_goseq.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output s1_evaluate_gene_sets_goseq_cd4_BL_1.0.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//RtmpRLeSJz/rmarkdown-str68a0222fa423.html 
+
+Output created: s1_evaluate_gene_sets_goseq_cd4_BL_1.0.html
+
+
+processing file: s1_evaluate_gene_sets_goseq.Rmd
+1/19                  
+2/19 [setup]          
+3/19                  
+4/19 [load_libraries] 
+5/19                  
+6/19 [unnamed-chunk-1]
+Read 2000 items
+Read 40 items
+7/19                  
+8/19 [unnamed-chunk-2]
+9/19                  
+10/19 [unnamed-chunk-3]
+11/19                  
+12/19 [unnamed-chunk-4]
+13/19                  
+14/19 [unnamed-chunk-5]
+15/19                  
+16/19 [unnamed-chunk-6]
+17/19                  
+18/19 [unnamed-chunk-7]
+19/19                  
+output file: s1_evaluate_gene_sets_goseq.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS s1_evaluate_gene_sets_goseq.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output s1_evaluate_gene_sets_goseq_cd4_BL_2.0.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//RtmpRLeSJz/rmarkdown-str68a012450350.html 
+
+Output created: s1_evaluate_gene_sets_goseq_cd4_BL_2.0.html
+
+
+processing file: s1_evaluate_gene_sets_goseq.Rmd
+1/19                  
+2/19 [setup]          
+3/19                  
+4/19 [load_libraries] 
+5/19                  
+6/19 [unnamed-chunk-1]
+Read 2000 items
+Read 40 items
+7/19                  
+8/19 [unnamed-chunk-2]
+9/19                  
+10/19 [unnamed-chunk-3]
+11/19                  
+12/19 [unnamed-chunk-4]
+13/19                  
+14/19 [unnamed-chunk-5]
+15/19                  
+16/19 [unnamed-chunk-6]
+17/19                  
+18/19 [unnamed-chunk-7]
+19/19                  
+output file: s1_evaluate_gene_sets_goseq.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS s1_evaluate_gene_sets_goseq.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output s1_evaluate_gene_sets_goseq_cd4_BL_5.0.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//RtmpRLeSJz/rmarkdown-str68a07322d12d.html 
+
+Output created: s1_evaluate_gene_sets_goseq_cd4_BL_5.0.html
+
+
+processing file: s1_evaluate_gene_sets_goseq.Rmd
+1/19                  
+2/19 [setup]          
+3/19                  
+4/19 [load_libraries] 
+5/19                  
+6/19 [unnamed-chunk-1]
+Read 2000 items
+Read 40 items
+7/19                  
+8/19 [unnamed-chunk-2]
+9/19                  
+10/19 [unnamed-chunk-3]
+11/19                  
+12/19 [unnamed-chunk-4]
+13/19                  
+14/19 [unnamed-chunk-5]
+15/19                  
+16/19 [unnamed-chunk-6]
+17/19                  
+18/19 [unnamed-chunk-7]
+19/19                  
+output file: s1_evaluate_gene_sets_goseq.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS s1_evaluate_gene_sets_goseq.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output s1_evaluate_gene_sets_goseq_cd4_BL_10.0.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//RtmpRLeSJz/rmarkdown-str68a042f857c.html 
+
+Output created: s1_evaluate_gene_sets_goseq_cd4_BL_10.0.html
+
+
+processing file: s1_evaluate_gene_sets_goseq.Rmd
+1/19                  
+2/19 [setup]          
+3/19                  
+4/19 [load_libraries] 
+5/19                  
+6/19 [unnamed-chunk-1]
+Read 1649 items
+Read 2 items
+7/19                  
+8/19 [unnamed-chunk-2]
+9/19                  
+10/19 [unnamed-chunk-3]
+11/19                  
+12/19 [unnamed-chunk-4]
+13/19                  
+14/19 [unnamed-chunk-5]
+15/19                  
+16/19 [unnamed-chunk-6]
+17/19                  
+18/19 [unnamed-chunk-7]
+19/19                  
+output file: s1_evaluate_gene_sets_goseq.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS s1_evaluate_gene_sets_goseq.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output s1_evaluate_gene_sets_goseq_cd8_BL_0.0.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//RtmpRLeSJz/rmarkdown-str68a02bbaa16c.html 
+
+Output created: s1_evaluate_gene_sets_goseq_cd8_BL_0.0.html
+
+
+processing file: s1_evaluate_gene_sets_goseq.Rmd
+1/19                  
+2/19 [setup]          
+3/19                  
+4/19 [load_libraries] 
+5/19                  
+6/19 [unnamed-chunk-1]
+Read 1649 items
+Read 6 items
+7/19                  
+8/19 [unnamed-chunk-2]
+9/19                  
+10/19 [unnamed-chunk-3]
+11/19                  
+12/19 [unnamed-chunk-4]
+13/19                  
+14/19 [unnamed-chunk-5]
+15/19                  
+16/19 [unnamed-chunk-6]
+17/19                  
+18/19 [unnamed-chunk-7]
+19/19                  
+output file: s1_evaluate_gene_sets_goseq.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS s1_evaluate_gene_sets_goseq.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output s1_evaluate_gene_sets_goseq_cd8_BL_0.25.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//RtmpRLeSJz/rmarkdown-str68a057b7c825.html 
+
+Output created: s1_evaluate_gene_sets_goseq_cd8_BL_0.25.html
+
+
+processing file: s1_evaluate_gene_sets_goseq.Rmd
+1/19                  
+2/19 [setup]          
+3/19                  
+4/19 [load_libraries] 
+5/19                  
+6/19 [unnamed-chunk-1]
+Read 1649 items
+Read 15 items
+7/19                  
+8/19 [unnamed-chunk-2]
+9/19                  
+10/19 [unnamed-chunk-3]
+11/19                  
+12/19 [unnamed-chunk-4]
+13/19                  
+14/19 [unnamed-chunk-5]
+15/19                  
+16/19 [unnamed-chunk-6]
+17/19                  
+18/19 [unnamed-chunk-7]
+19/19                  
+output file: s1_evaluate_gene_sets_goseq.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS s1_evaluate_gene_sets_goseq.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output s1_evaluate_gene_sets_goseq_cd8_BL_0.5.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//RtmpRLeSJz/rmarkdown-str68a07e19099e.html 
+
+Output created: s1_evaluate_gene_sets_goseq_cd8_BL_0.5.html
+
+
+processing file: s1_evaluate_gene_sets_goseq.Rmd
+1/19                  
+2/19 [setup]          
+3/19                  
+4/19 [load_libraries] 
+5/19                  
+6/19 [unnamed-chunk-1]
+Read 1649 items
+Read 40 items
+7/19                  
+8/19 [unnamed-chunk-2]
+9/19                  
+10/19 [unnamed-chunk-3]
+11/19                  
+12/19 [unnamed-chunk-4]
+13/19                  
+14/19 [unnamed-chunk-5]
+15/19                  
+16/19 [unnamed-chunk-6]
+17/19                  
+18/19 [unnamed-chunk-7]
+19/19                  
+output file: s1_evaluate_gene_sets_goseq.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS s1_evaluate_gene_sets_goseq.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output s1_evaluate_gene_sets_goseq_cd8_BL_1.0.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//RtmpRLeSJz/rmarkdown-str68a062c337c8.html 
+
+Output created: s1_evaluate_gene_sets_goseq_cd8_BL_1.0.html
+
+
+processing file: s1_evaluate_gene_sets_goseq.Rmd
+1/19                  
+2/19 [setup]          
+3/19                  
+4/19 [load_libraries] 
+5/19                  
+6/19 [unnamed-chunk-1]
+Read 1649 items
+Read 40 items
+7/19                  
+8/19 [unnamed-chunk-2]
+9/19                  
+10/19 [unnamed-chunk-3]
+11/19                  
+12/19 [unnamed-chunk-4]
+13/19                  
+14/19 [unnamed-chunk-5]
+15/19                  
+16/19 [unnamed-chunk-6]
+17/19                  
+18/19 [unnamed-chunk-7]
+19/19                  
+output file: s1_evaluate_gene_sets_goseq.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS s1_evaluate_gene_sets_goseq.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output s1_evaluate_gene_sets_goseq_cd8_BL_2.0.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//RtmpRLeSJz/rmarkdown-str68a05206f275.html 
+
+Output created: s1_evaluate_gene_sets_goseq_cd8_BL_2.0.html
+
+
+processing file: s1_evaluate_gene_sets_goseq.Rmd
+1/19                  
+2/19 [setup]          
+3/19                  
+4/19 [load_libraries] 
+5/19                  
+6/19 [unnamed-chunk-1]
+Read 1649 items
+Read 40 items
+7/19                  
+8/19 [unnamed-chunk-2]
+9/19                  
+10/19 [unnamed-chunk-3]
+11/19                  
+12/19 [unnamed-chunk-4]
+13/19                  
+14/19 [unnamed-chunk-5]
+15/19                  
+16/19 [unnamed-chunk-6]
+17/19                  
+18/19 [unnamed-chunk-7]
+19/19                  
+output file: s1_evaluate_gene_sets_goseq.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS s1_evaluate_gene_sets_goseq.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output s1_evaluate_gene_sets_goseq_cd8_BL_5.0.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//RtmpRLeSJz/rmarkdown-str68a04a805242.html 
+
+Output created: s1_evaluate_gene_sets_goseq_cd8_BL_5.0.html
+
+
+processing file: s1_evaluate_gene_sets_goseq.Rmd
+1/19                  
+2/19 [setup]          
+3/19                  
+4/19 [load_libraries] 
+5/19                  
+6/19 [unnamed-chunk-1]
+Read 1649 items
+Read 40 items
+7/19                  
+8/19 [unnamed-chunk-2]
+9/19                  
+10/19 [unnamed-chunk-3]
+11/19                  
+12/19 [unnamed-chunk-4]
+13/19                  
+14/19 [unnamed-chunk-5]
+15/19                  
+16/19 [unnamed-chunk-6]
+17/19                  
+18/19 [unnamed-chunk-7]
+19/19                  
+output file: s1_evaluate_gene_sets_goseq.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS s1_evaluate_gene_sets_goseq.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output s1_evaluate_gene_sets_goseq_cd8_BL_10.0.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//RtmpRLeSJz/rmarkdown-str68a0fcc893e.html 
+
+Output created: s1_evaluate_gene_sets_goseq_cd8_BL_10.0.html
+> 
+> 
+> sessionInfo()
+R version 4.2.3 (2023-03-15)
+Platform: aarch64-apple-darwin20 (64-bit)
+Running under: macOS Ventura 13.4.1
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats4    stats     graphics  grDevices utils     datasets  methods  
+[8] base     
+
+other attached packages:
+ [1] TxDb.Hsapiens.UCSC.hg38.knownGene_3.16.0
+ [2] GenomicFeatures_1.50.4                  
+ [3] GenomicRanges_1.50.2                    
+ [4] GenomeInfoDb_1.34.9                     
+ [5] org.Hs.eg.db_3.16.0                     
+ [6] AnnotationDbi_1.60.2                    
+ [7] IRanges_2.32.0                          
+ [8] S4Vectors_0.36.2                        
+ [9] Biobase_2.58.0                          
+[10] BiocGenerics_0.44.0                     
+[11] goseq_1.50.0                            
+[12] geneLenDataBase_1.34.0                  
+[13] BiasedUrn_2.0.10                        
+[14] fgsea_1.24.0                            
+[15] biomaRt_2.54.1                          
+[16] limma_3.54.2                            
+[17] tidyr_1.3.0                             
+[18] ggpubr_0.6.0                            
+[19] ggplot2_3.4.2                           
+[20] data.table_1.14.8                       
+
+loaded via a namespace (and not attached):
+ [1] nlme_3.1-162                matrixStats_1.0.0          
+ [3] bitops_1.0-7                bit64_4.0.5                
+ [5] filelock_1.0.2              progress_1.2.2             
+ [7] httr_1.4.6                  tools_4.2.3                
+ [9] backports_1.4.1             bslib_0.4.2                
+[11] utf8_1.2.3                  R6_2.5.1                   
+[13] mgcv_1.8-42                 DBI_1.1.3                  
+[15] colorspace_2.1-0            withr_2.5.0                
+[17] tidyselect_1.2.0            prettyunits_1.1.1          
+[19] bit_4.0.5                   curl_5.0.1                 
+[21] compiler_4.2.3              cli_3.6.1                  
+[23] xml2_1.3.4                  DelayedArray_0.24.0        
+[25] rtracklayer_1.58.0          sass_0.4.5                 
+[27] scales_1.2.1                rappdirs_0.3.3             
+[29] Rsamtools_2.14.0            stringr_1.5.0              
+[31] digest_0.6.31               rmarkdown_2.21             
+[33] XVector_0.38.0              pkgconfig_2.0.3            
+[35] htmltools_0.5.5             MatrixGenerics_1.10.0      
+[37] dbplyr_2.3.2                fastmap_1.1.1              
+[39] rlang_1.1.0                 rstudioapi_0.14            
+[41] RSQLite_2.3.1               BiocIO_1.8.0               
+[43] jquerylib_0.1.4             generics_0.1.3             
+[45] jsonlite_1.8.4              BiocParallel_1.32.6        
+[47] dplyr_1.1.2                 car_3.1-2                  
+[49] RCurl_1.98-1.12             magrittr_2.0.3             
+[51] GO.db_3.16.0                GenomeInfoDbData_1.2.9     
+[53] Matrix_1.6-4                Rcpp_1.0.10                
+[55] munsell_0.5.0               fansi_1.0.4                
+[57] abind_1.4-5                 lifecycle_1.0.3            
+[59] stringi_1.7.12              yaml_2.3.7                 
+[61] carData_3.0-5               SummarizedExperiment_1.28.0
+[63] zlibbioc_1.44.0             BiocFileCache_2.6.1        
+[65] grid_4.2.3                  blob_1.2.4                 
+[67] parallel_4.2.3              crayon_1.5.2               
+[69] lattice_0.20-45             splines_4.2.3              
+[71] Biostrings_2.66.0           cowplot_1.1.1              
+[73] hms_1.1.3                   KEGGREST_1.38.0            
+[75] knitr_1.44                  pillar_1.9.0               
+[77] rjson_0.2.21                ggsignif_0.6.4             
+[79] codetools_0.2-19            fastmatch_1.1-3            
+[81] XML_3.99-0.14               glue_1.6.2                 
+[83] evaluate_0.20               png_0.1-8                  
+[85] vctrs_0.6.2                 gtable_0.3.3               
+[87] purrr_1.0.1                 cachem_1.0.7               
+[89] xfun_0.39                   broom_1.0.4                
+[91] restfulr_0.0.15             rstatix_0.7.2              
+[93] tibble_3.2.1                GenomicAlignments_1.34.1   
+[95] memoise_2.0.1              
+> 
+> q(save = "no")
+> proc.time()
+    user   system  elapsed 
+1587.871   49.696 1646.204 

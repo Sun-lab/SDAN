@@ -1,0 +1,219 @@
+---
+title: "Check genes associated with case-control status"
+author: "Wei Sun"
+date: "`r Sys.Date()`"
+params:
+  cell_type_name: "CD8T"
+output: 
+  html_document:
+    theme: journal
+    highlight: tango
+    toc: true
+    toc_depth: 3
+    toc_float:
+      collapsed: true
+      smooth_scroll: false
+    number_sections: false
+  df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(width = 80)
+```
+
+
+# Setup
+
+## Load R libraries
+```{r load_libraries, message=FALSE, warning=FALSE}
+library(data.table)
+library(ggplot2)
+library(ggpubr)
+library(tidyr)
+library(limma)
+library(stringr)
+library(Matrix)
+library(gplots)
+library(zellkonverter)
+library(pROC)
+library(doParallel)
+library(foreach)
+library(SummarizedExperiment)
+library(reticulate)
+
+theme_set(theme_classic())
+
+cell_type_name = params$cell_type_name
+cell_type_name
+
+nCore = 10
+
+registerDoParallel(cores=nCore)
+options(mc.cores=nCore)
+getOption("mc.cores")
+```
+
+# Examine results
+
+## Check assignment matrix S
+
+```{r fig.width=3, fig.height=3}
+np = import("numpy")
+
+s_mat = np$load(sprintf("output/train_s_%s.npy", cell_type_name))
+dim(s_mat)
+s_mat = data.matrix(s_mat)
+dim(s_mat)
+s_mat[1:2,1:3]
+
+colSums(s_mat > 0.8)
+
+v_s = c(s_mat)
+summary(v_s)
+table(v_s <= 0.1)
+mean(v_s <= 0.1)
+
+df1 = data.frame(score = v_s[v_s > 0.1])
+ggplot(data = df1, aes(x = score)) +
+  geom_histogram(breaks = seq(0.1, 1, by=0.05), fill = "skyblue", 
+                 color = "darkblue", alpha = 0.7)
+```
+
+
+# Check association using gene expression data
+
+## Read in gene and cell info
+```{r fig.width=3, fig.height=3}
+genes2use = scan(sprintf("output/gene_list_%s.txt", cell_type_name), 
+             what=character())
+length(genes2use)
+genes2use[1:5]
+
+gene_info = fread("data/CD8T_gene_info.tsv")
+dim(gene_info)
+gene_info[1:2,]
+
+cell_info = fread("data/CD8T_cell_info.tsv")
+dim(cell_info)
+cell_info[1:2,]
+```
+
+## Read in the complete gene expression data 
+
+Subset data by genes and cells.
+
+```{r fig.width=4.5, fig.height=3}
+edat = fread(sprintf("data/%s_tpm.tsv.gz", cell_type_name))
+dim(edat)
+edat[1:2,1:3]
+
+stopifnot(all(cell_info$`Cell Name` == names(edat)))
+cell_info$rd = colSums(edat)
+
+edat = edat[gene_info$gene %in% genes2use,]
+dim(edat)
+
+table(cell_info$CD8_cluster, cell_info$response)
+
+tapply(cell_info$rd, cell_info$response, summary)
+
+ggplot(data = cell_info, aes(x = rd)) +
+  geom_histogram(bins=20, fill = "skyblue", color = "darkblue", alpha = 0.7)
+
+ggplot(data = cell_info, aes(x = rd)) + 
+  geom_density(aes(color=response, fill=response), alpha = 0.5)
+
+ggplot(data = cell_info, aes(x = log10(rd))) + 
+  geom_density(aes(color=response, fill=response), alpha = 0.5)
+
+```
+
+
+## Evaluate AUC for each of the selected genes.
+
+```{r fig.width=8, fig.height=3}
+y_true = cell_info$response
+table(y_true)
+
+edat = data.matrix(edat)
+dim(edat)
+edat[11:12,11:14]
+
+summary(edat[,1])
+summary(edat[,11])
+summary(edat[,111])
+
+auc_vals = foreach(i = 1:nrow(edat), .combine = "c") %dopar% {
+  y1 = edat[i,]
+  auc1 = auc(roc(y_true, y1, levels=c("NR", "R"), direction = "<"))
+  as.numeric(auc1)
+}
+
+length(auc_vals)
+summary(auc_vals)
+
+df1 = data.frame(gene=genes2use, auc=auc_vals, gene_set = 0)
+
+colSums(s_mat > 0.8)
+
+for(k in 1:ncol(s_mat)){
+  genes_k = which(s_mat[,k] > 0.8)
+  if(length(genes_k) > 0) df1$gene_set[genes_k] = k
+}
+
+table(df1$gene_set)
+
+tapply(df1$auc, df1$gene_set==0, summary)
+
+df1$gene_set[df1$gene_set == 0] = "B"
+df1$gene_set = factor(df1$gene_set, levels = as.character(0:40))
+
+ggplot(df1, aes(x = gene_set, y = auc, color = gene_set)) +
+  geom_boxplot(show.legend = FALSE) +
+  labs(x = "Gene sets", y = "AUC") + 
+  geom_hline(yintercept=0.5, linetype="dashed", color = "red")
+
+```
+
+
+## Check the AUC of each reduced component and its distribution. 
+
+```{r fig.width=5, fig.height=3}
+rdat = t(s_mat) %*% edat
+dim(rdat)
+
+auc_r = foreach(i = 1:nrow(rdat), .combine = "c") %dopar% {
+  y1 = rdat[i,]
+  auc1 = auc(roc(y_true, y1, levels=c("NR", "R"), 
+                 direction = "<"))
+  as.numeric(auc1)
+}
+summary(auc_r)
+
+stopifnot(nrow(rdat) == 40)
+
+df_r = data.frame(component = 1:40, auc=auc_r, n_genes = colSums(s_mat > 0.8))
+
+ggplot(data = df_r, aes(x=component, y=auc)) + 
+  geom_point() + geom_text(data = subset(df_r, n_genes > 0),
+                  aes(label = n_genes), hjust = -0.5) + 
+  geom_hline(yintercept = 0.5, linetype = "dashed", color = "red") + 
+  geom_vline(xintercept = seq(5,40,by=5), color = "grey")
+
+ggplot(df_r, aes(x = auc)) +
+  geom_histogram(aes(y = after_stat(density)), binwidth = 0.05, 
+                 fill = "lightblue", color = "black", alpha = 0.7) + 
+  geom_density(data=df1, aes(x = auc), color = "red", linewidth = 1)
+
+```
+
+
+# Session information
+
+```{r}
+gc()
+
+sessionInfo()
+```
+

@@ -1,0 +1,174 @@
+---
+title: "Evaluate gene sets by cell type-specific gene expression"
+author: "Wei Sun"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    theme: journal
+    highlight: tango
+    toc: true
+    toc_depth: 3
+    toc_float:
+      collapsed: true
+      smooth_scroll: false
+    number_sections: false
+  df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(width = 80)
+```
+
+
+# Setup
+
+## Load R libraries
+```{r load_libraries, message=FALSE, warning=FALSE}
+library(data.table)
+library(ggplot2)
+library(ggpubr)
+library(tidyr)
+library(limma)
+library(stringr)
+
+theme_set(theme_classic())
+```
+
+# Check enrichment of gene sets
+
+## Read in gene info and gene set assignments
+
+```{r}
+assayed_genes = scan("output/gene_list_CD8T.txt", 
+                     what = character(), sep="\n")
+
+gene_sets = scan("output/name_s_CD8T.txt", 
+                 what = character(), sep="\n")
+
+gene_sets = sapply(gene_sets, strsplit, split=",")
+n_genes   = sapply(gene_sets, length)
+names(n_genes) = NULL
+summary(n_genes)
+length(n_genes)
+sort(n_genes)
+```
+
+
+### Find gene symbols using the `alias2Symbol` function from `limma`.
+
+```{r}
+a2s = rep(NA, length(assayed_genes))
+for(i in 1:length(assayed_genes)){
+  gi = assayed_genes[i]
+  ai = alias2Symbol(gi)
+  if(length(ai) > 1){
+    print(gi)
+    print(ai)
+  }
+  a2s[i] = ai[1]
+}
+
+table(is.na(a2s))
+
+table(a2s == assayed_genes, useNA = 'ifany')
+
+gene_info = data.table(sym_in_data = assayed_genes, sym_limma = a2s)
+
+gene_info[sym_in_data != sym_limma,]
+gene_info[, gene_symbol := sym_in_data]
+gene_info[which(sym_in_data != sym_limma), 
+                gene_symbol := sym_limma]
+
+dim(gene_info)
+gene_info[1:5,]
+t1 = table(gene_info$gene_symbol)
+table(t1)
+gene_info[gene_symbol %in% names(t1)[t1 > 1],]
+
+gene_info[sym_in_data == "HIST1H2BC", gene_symbol:="H2BC4"]
+gene_info[sym_in_data == "HIST1H2BE", gene_symbol:="H2BC6"]
+gene_info[sym_in_data == "RPL9P9", gene_symbol:="RPL9P9"]
+```
+
+## Read in cell type-specific expression data
+
+Gene set annotations (by gene symbols) were downloaded from MSigDB website. 
+
+```{r}
+ct = fread("../Annotation/rna_single_cell_type.tsv.gz")
+dim(ct)
+ct[1:5,]
+length(unique(ct$`Cell type`))
+table(ct$`Cell type`)
+
+ct_immune = fread("../Annotation/rna_immune_cell_monaco.tsv.gz")
+dim(ct_immune)
+ct_immune[1:5,]
+summary(ct_immune$TPM)
+summary(ct_immune$pTPM)
+summary(ct_immune$pTPM[ct_immune$pTPM > 0])
+
+length(unique(ct_immune$`Immune cell`))
+table(ct_immune$`Immune cell`)
+
+lineage = fread("../Annotation/rna_immune_cell_monaco_cell_types.tsv")
+dim(lineage)
+lineage[1:2,]
+```
+
+## Check gene expression for each gene set
+
+```{r warning = FALSE, message = FALSE}
+dim(gene_info)
+
+for(k in 1:length(gene_sets)){
+  if(length(gene_sets[[k]]) < 5) { next }
+  
+  print(k)
+  set_k = paste0("set_", k)
+  print(gene_sets[[k]])
+  
+  genes = gene_info[sym_in_data %in% gene_sets[[k]], gene_symbol]
+
+  n_genes = sum(genes %in% ct_immune$`Gene name`)
+  print(sprintf("found %d genes.", n_genes))
+
+  if(n_genes == 0) { next }
+
+  df = ct_immune[`Gene name` %in% genes,]
+  dim(df)
+  df[1:2,]
+  
+  stopifnot(all(str_to_lower(df$`Immune cell`) %in% 
+                  str_to_lower(lineage$Cell_type)))
+  
+  mat1 = match(str_to_lower(df$`Immune cell`), 
+               str_to_lower(lineage$Cell_type))
+  
+  df = cbind(df, lineage[mat1,])
+  df[1:2,]
+  
+  df$Cell_type = factor(df$Cell_type, levels = lineage$Cell_type)
+  df = df[df$Lineage != "Total PBMC",]
+  df$Lineage   = factor(df$Lineage, 
+                        levels = setdiff(lineage$Lineage, "Total PBMC"))
+  
+  p1 = ggplot(df, aes(x=Cell_type, y=log10(pTPM + 0.1), fill=Lineage)) + 
+    geom_boxplot() + xlab("Cell type") + ggtitle(set_k) + 
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+    scale_fill_brewer(palette="RdBu")
+
+  print(p1)
+}
+
+```
+
+
+# Session information
+```{r}
+gc()
+
+sessionInfo()
+```
+

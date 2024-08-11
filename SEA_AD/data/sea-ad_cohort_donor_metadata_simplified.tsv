@@ -1,0 +1,85 @@
+Donor ID	Primary Study Name	Secondary Study Name	Age at Death	Sex	Highest level of education	Years of education	APOE Genotype	Cognitive Status	Age of onset cognitive symptoms	Age of Dementia diagnosis	Known head injury	PMI	Rapid Frozen Tissue Type	Fresh Brain Weight	Brain pH	Overall AD neuropathological Change	Thal	Braak	CERAD score	RIN	race	Alzheimers
+H19.33.004	ACT		80	Female	Bachelors	17	3/3	No dementia				8.1333333333333	Precision Slices	1035	7	Not AD	Thal 0	Braak IV	Absent	8.33	white	0
+H20.33.001	ACT		82	Male	Bachelors	16	3/3	No dementia				7.7	Precision Slices	1338	6.8	Low	Thal 2	Braak IV	Sparse	8.6	white	0
+H20.33.002	ACT		97	Female	High School	12	2/3	No dementia				4.33333333333333	Precision Slices	1078	7.3	Not AD	Thal 0	Braak IV	Absent	7.87	white	0
+H20.33.004	ACT		86	Male	Trade School/ Tech School	15	3/4	Dementia	80	81	No	8.83333333333333	Precision Slices	1261	6.7	High	Thal 5	Braak V	Frequent	7.83	white	2
+H20.33.005	ACT		99	Female	High School	12	2/3	No dementia				7.6	Precision Slices	1003	6.8	Intermediate	Thal 3	Braak IV	Moderate	8.4	white	0
+H20.33.008	ACT		92	Female	Graduate (PhD/Masters)	18	3/4	No dementia				7	Precision Slices	1105	6.4	High	Thal 4	Braak V	Moderate	8.68	white	0
+H20.33.011	ACT		93	Female	Bachelors	16	3/4	Dementia	87	92		6	Precision Slices	1156	7	High	Thal 5	Braak V	Moderate	9.07	white	2
+H20.33.012	ACT		91	Female	Graduate (PhD/Masters)	18	3/3	No dementia				7.71666666666667	Precision Slices	1110	6.6	Low	Thal 1	Braak III	Absent	8.75	white	0
+H20.33.013	ACT		94	Male	Trade School/ Tech School	14	3/3	No dementia			No	4.5	Precision Slices	1212	7.6	Intermediate	Thal 3	Braak IV	Moderate	9.08	white	0
+H20.33.014	ADRC Clinical Core		82	Female	Graduate (PhD/Masters)	16	3/3	No dementia				7.4	Precision Slices	1275	6.8	Intermediate	Thal 3	Braak IV	Sparse	8.67	white	0
+H20.33.015	ACT		88	Male	Graduate (PhD/Masters)	18	3/3	Dementia	83	84	Yes	11.416666666667	Precision Slices	1288	6.8	Intermediate	Thal 3	Braak V	Moderate	8.57	white	2
+H20.33.016	ADRC Clinical Core		93	Female	Trade School/ Tech School	14	2/3	Dementia	84	84		7.7333333333333	Precision Slices	1242	6.8	Intermediate	Thal 4	Braak IV	Moderate	8.82	white	1
+H20.33.017	ADRC Clinical Core		69	Male	Trade School/ Tech School	14	3/3	Dementia	64	67	No	5.5	Precision Slices	1344	7.2	High	Thal 4	Braak VI	Frequent	8.82	white	2
+H20.33.018	ACT		81	Female	Graduate (PhD/Masters)	21	3/4	Dementia	71	74		4.5	Precision Slices	1171	6.8	High	Thal 5	Braak VI	Frequent	9.55	white	2
+H20.33.019	ACT		87	Female	Trade School/ Tech School	15	3/4	No dementia				11.1	Precision Slices	1265	7	Intermediate	Thal 4	Braak III	Sparse	8.65	white	0
+H20.33.020	ADRC Clinical Core		81	Male	High School	12	4/4	Dementia	64			6.63333333333333	Precision Slices	1031	6.8	High	Thal 5	Braak VI	Frequent	8.98	white	2
+H20.33.024	ACT		90	Male	Graduate (PhD/Masters)	19	3/3	No dementia				3.5	Precision Slices	1282	7.2	Intermediate	Thal 4	Braak V	Sparse	9.5	white	0
+H20.33.025	ACT		94	Male	High School	12	3/3	No dementia			Yes	4.5	Precision Slices	1308	7.4	High	Thal 4	Braak V	Moderate	9.43	white	0
+H20.33.026	ADRC Clinical Core		75	Female	High School	12	4/4	Dementia	64			7	Precision Slices	956	7.2	High	Thal 4	Braak VI	Frequent	9.53	white	2
+H20.33.027	ACT		99	Female	High School	17	3/3	No dementia				9.23333333333333	Precision Slices	1106	6.7	Intermediate	Thal 3	Braak IV	Moderate	8.87	white	0
+H20.33.028	ACT	ADRC Clinical Core	94	Female	Trade School/ Tech School	12	3/3	Dementia	92	94		7.4	Precision Slices	1127	6.6	High	Thal 4	Braak V	Moderate	7.9	white	2
+H20.33.029	ACT		91	Female	High School	13	3/3	Dementia	88	89		6.1	Precision Slices	1016	6.5	High	Thal 4	Braak V	Moderate	9.43	asian	2
+H20.33.030	ACT		86	Female	Bachelors	16	3/4	No dementia				6	Precision Slices	1162	6.7	High	Thal 4	Braak V	Frequent	8.65	white	
+H20.33.031	ACT		87	Female	High School	12	3/3	Dementia	84	86	Yes	7.91666666666667	Precision Slices	1181	6.4	High	Thal 4	Braak VI	Frequent	8.85	white	2
+H20.33.032	ACT		98	Male	Bachelors	17	3/3	No dementia				6.9166666666667	Precision Slices	1225	6.8	High	Thal 5	Braak V	Moderate	9.45	white	0
+H20.33.033	ADRC Clinical Core		68	Male	Graduate (PhD/Masters)	18	3/3	Dementia	54	60	Yes	6.5	Precision Slices	1232	6.8	High	Thal 5	Braak VI	Frequent	7.93	white	1
+H20.33.034	ACT		85	Female	Bachelors	16	2/2	No dementia				10.016666666667	Precision Slices	1125	6.8	Intermediate	Thal 3	Braak IV	Absent	8.98	white	
+H20.33.035	ACT		99	Female	Bachelors	16	3/3	No dementia			Yes	4.6	Precision Slices	1019	6.6	Not AD	Thal 0	Braak IV	Absent	9.04	white	0
+H20.33.036	ADRC Clinical Core		100	Female	Trade School/ Tech School	15	2/3	No dementia	94		No	10.6	Precision Slices	991	6.4	High	Thal 5	Braak V	Moderate	8.63	white	
+H20.33.037	ACT		96	Female	Graduate (PhD/Masters)	20	3/3	Dementia	92	94		10	Precision Slices	1161	6.4	High	Thal 5	Braak V	Frequent	8.63	white	2
+H20.33.038	ACT		90	Female	Graduate (PhD/Masters)	18	3/3	Dementia	85	86		6.2	Precision Slices	Unavailable	6	High	Thal 4	Braak V	Frequent	6.3	white	
+H20.33.039	ACT		96	Female	Trade School/ Tech School	14	3/3	No dementia			No	10.3	Precision Slices	1082	6.8	High	Thal 4	Braak V	Frequent	9.48	white	
+H20.33.040	ACT	SLS	98	Male	Trade School/ Tech School	13	3/3	Dementia				5.03	Precision Slices	1242	6.4	Intermediate	Thal 4	Braak IV	Frequent	9.17	white	1
+H20.33.041	ACT		91	Female	Bachelors	18	3/3	Dementia				5.91666666666667	Precision Slices	1028	6.8	High	Thal 4	Braak V	Moderate	8.43	white	
+H20.33.043	ACT		85	Male	Graduate (PhD/Masters)	20	4/4	No dementia			No	4.5	Precision Slices	1290	7	Intermediate	Thal 4	Braak IV	Sparse	9.37	white	
+H20.33.044	ACT		81	Male	Graduate (PhD/Masters)	19	2/3	No dementia				4.7	Precision Slices	1172	7.6	Not AD	Thal 0	Braak V	Absent	9.2	white	0
+H20.33.045	ADRC Clinical Core		77	Female	Graduate (PhD/Masters)	18	4/4	Dementia	63	65		3.3	Precision Slices	1030	7.3	High	Thal 5	Braak VI	Frequent	8.15	white	2
+H20.33.046	ACT	ADRC Clinical Core	94	Male	Professional	21	3/3	Dementia	88	91		8	Precision Slices	1321	6.2	High	Thal 5	Braak VI	Frequent	5.67	white	2
+H21.33.001	ACT		80	Male	Graduate (PhD/Masters)	21	2/3	Dementia		78		9.6	Precision Slices	1266	7.2	Low	Thal 2	Braak III	Absent	8.1	white	
+H21.33.002	ADRC Clinical Core		70	Female	Graduate (PhD/Masters)	18	3/4	Dementia	61	65		3.2	Precision Slices	972	6.8	High	Thal 5	Braak VI	Frequent	9.18	white	1
+H21.33.003	ACT		78	Male	Bachelors	16	3/3	No dementia			No	10	Precision Slices	1333	6.4	Not AD	Thal 0	Braak 0	Absent	9.6	asian	0
+H21.33.004	ACT		93	Male	Graduate (PhD/Masters)	18	2/3	No dementia				5	Precision Slices	1208	6.4	Not AD	Thal 0	Braak II	Absent	9.17	white	0
+H21.33.005	ACT		95	Male	Bachelors	16	3/3	Dementia	89	91		10.2	Precision Slices	1237	6.8	Intermediate	Thal 3	Braak V	Moderate	7.43	white	2
+H21.33.006	ACT		97	Male	Bachelors	16	3/4	No dementia				9.8	Precision Slices	1186	6.8	Intermediate	Thal 4	Braak IV	Sparse	8.63	white	
+H21.33.007	ACT		86	Female	Professional	21	3/3	Dementia	80	84	No	5.6	Precision Slices	1148	7	High	Thal 4	Braak V	Frequent	8.33	white	2
+H21.33.008	ACT		91	Female	Bachelors	16	3/3	Dementia	82	83		5	Precision Slices	1043	6.7	High	Thal 4	Braak V	Frequent	5.93	white	2
+H21.33.009	ADRC Clinical Core		65	Female	Bachelors	16	4/4	Dementia	53	53	No	6.2	Precision Slices	908	6.4	High	Thal 5	Braak VI	Frequent	6.9	white	2
+H21.33.010	ACT		93	Female	High School	13	3/3	Dementia	88	89	No	9.6	Precision Slices	1141	6.7	High	Thal 5	Braak VI	Frequent	7.52	white	1
+H21.33.011	ACT		83	Female	Bachelors	17	3/3	No dementia			No	3.6	Precision Slices	1076	6.8	Not AD	Thal 0	Braak IV	Absent	9.3	white	
+H21.33.012	ACT		93	Female	Graduate (PhD/Masters)	21	2/4	Dementia	88	90		5	Precision Slices	1134	6.4	Intermediate	Thal 3	Braak IV	Sparse	8.58	white	
+H21.33.013	ACT		94	Female	Graduate (PhD/Masters)	21	3/4	Dementia	82	84	No	7.3	Precision Slices	1031	6.8	High	Thal 4	Braak V	Moderate	9.07	white	
+H21.33.014	ADRC Clinical Core		92	Male	Trade School/ Tech School	15	2/3	No dementia				9.5	Precision Slices	1320	6.8	Intermediate	Thal 4	Braak IV	Sparse	9.57	white	0
+H21.33.015	ACT	SLS	98	Male	High School	12	3/3	No dementia				4.1	Precision Slices	1211	6.8	Low	Thal 2	Braak IV	Sparse	8.83	white	0
+H21.33.016	ACT		94	Female	Graduate (PhD/Masters)	21	3/3	Dementia	92	93	Yes	5.5	Precision Slices	1031	6.4	Low	Thal 1	Braak IV	Absent	7.2	white	
+H21.33.017	ACT		92	Female	Bachelors	16	3/3	Dementia	90	92	No	3.5	Precision Slices	1071	6.4	High	Thal 5	Braak V	Frequent	6.97	white	1
+H21.33.018	ACT		89	Female	Graduate (PhD/Masters)	20	3/3	Dementia	86	89		10.2333333333333	Precision Slices	1250	6.4	Low	Thal 3	Braak II	Frequent	9.27	white	
+H21.33.019	ACT		75	Male	High School	15	2/3	No dementia			Yes	10.0166666666667	Precision Slices	1280	6.4	Low	Thal 1	Braak 0	Sparse	9.43	white	
+H21.33.020	ACT		82	Male	Graduate (PhD/Masters)	21	3/3	Dementia	79	81	Yes	10.8	Precision Slices	1136	6.2	High	Thal 4	Braak V	Frequent	3.43	white	
+H21.33.021	ACT		99	Male	Trade School/ Tech School	14	3/3	Dementia	93	97		6.9	Precision Slices	1098	6.9	Intermediate	Thal 4	Braak III	Moderate	9.37	white	
+H21.33.022	ACT	ADRC Clinical Core	82	Female	High School	12	3/3	No dementia				4.83333333333333	Precision Slices	1142	6.8	Intermediate	Thal 2	Braak VI	Moderate	8	white	
+H21.33.023	ACT		102	Male	High School	12	3/3	No dementia			Yes	7.83333333333333	Precision Slices	1277	6.6	Not AD	Thal 0	Braak IV	Absent	9.28	white	0
+H21.33.025	ACT		88	Female	Graduate (PhD/Masters)	21	3/3	No dementia				8.6	Precision Slices	1240	6.4	Intermediate	Thal 3	Braak IV	Moderate	8.92	white	
+H21.33.026	ADRC Clinical Core		90	Female	Bachelors	16	3/4	No dementia			No	4.1	Precision Slices	1165	6.6	High	Thal 4	Braak V	Frequent	8.67	white	0
+H21.33.027	ACT		92	Male	Graduate (PhD/Masters)	18	3/4	Dementia				6.3	Precision Slices	1214	6.4	High	Thal 5	Braak V	Moderate	7.93	white	2
+H21.33.028	ACT		72	Male	Bachelors	16	3/3	No dementia				8.3	Precision Slices	1350	6.4	Low	Thal 1	Braak II	Absent	6.73	white	0
+H21.33.029	ACT		89	Male	Graduate (PhD/Masters)	18	2/4	Dementia	82	83		11.0333333333333	Precision Slices	1009	6.4	High	Thal 5	Braak V	Frequent	7.2	white	2
+H21.33.030	ACT		89	Male	Bachelors	17	3/4	No dementia				5.5	Precision Slices	1290	6.7	Intermediate	Thal 3	Braak III	Moderate	8.67	white	0
+H21.33.031	ADRC Clinical Core		84	Male	Graduate (PhD/Masters)	18	3/4	Dementia	72		No	8.9	Precision Slices	1165	6.4	High	Thal 5	Braak V	Moderate	8.43	white	1
+H21.33.032	ADRC Clinical Core		98	Female	Bachelors	16	3/3	No dementia			No	5	Precision Slices	1005	6.4	Low	Thal 2	Braak IV	Sparse	8.03	white	0
+H21.33.033	ACT		83	Female	Trade School/ Tech School	14	3/4	No dementia				8.2	Precision Slices	1110	6	High	Thal 5	Braak V	Moderate	5.6	white	0
+H21.33.034	ACT		90	Female	Bachelors	16	3/4	Dementia		86		10.8	Precision Slices	931	4.5	High	Thal 5	Braak VI	Frequent	2.9	white	
+H21.33.035	ACT		97	Female	High School	14	3/3	No dementia				4.8	Precision Slices	1008	6.4	High	Thal 5	Braak V	Moderate	8.27	white	0
+H21.33.036	ACT		93	Female	Trade School/ Tech School	14	3/3	No dementia			No	4	Precision Slices	985	6.8	High	Thal 4	Braak V	Frequent	7.03	white	0
+H21.33.037	ACT		88	Female	Graduate (PhD/Masters)	18	2/3	No dementia				6.5	Precision Slices	1239	7	Low	Thal 2	Braak IV	Absent	6.67	white	0
+H21.33.038	ACT		84	Female	High School	15	3/3	No dementia				11	Precision Slices	1355	6.2	Low	Thal 1	Braak III	Absent	7.27	white	0
+H21.33.039	ACT		88	Female	High School	13	3/3	Dementia	84	86		6.5	Precision Slices	1035	6.5	High	Thal 4	Braak V	Moderate	7.2	white	2
+H21.33.040	ACT	ADRC Clinical Core	83	Male	Bachelors	17	3/4	No dementia				5.6	Precision Slices	1254	6.7	High	Thal 4	Braak V	Frequent	7.37	white	0
+H21.33.041	ACT		98	Female	High School	12	2/3	No dementia				7.5	Precision Slices	1397	6.4	Not AD	Thal 0	Braak IV	Absent	7.57	white	0
+H21.33.042	ACT		91	Female	Trade School/ Tech School	15	4/4	Dementia	88	89		8.1	Precision Slices	1280	6.4	High	Thal 5	Braak V	Moderate	6.23	white	2
+H21.33.043	ACT		95	Female	Bachelors	16	3/3	Dementia	93	94		4.4	Precision Slices	1082	6.6	Low	Thal 4	Braak II	Sparse	7.27	white	
+H21.33.044	ACT		88	Female	Trade School/ Tech School	15	3/3	Dementia	87	88	Yes	7	Precision Slices	1168	6.6	Intermediate	Thal 3	Braak VI	Frequent	8.63	white	2
+H21.33.045	ADRC Clinical Core		94	Female	High School	12	3/4	Dementia	78	78		4	Precision Slices	925	7.2	High	Thal 4	Braak VI	Frequent	6.55	asian	1
+H21.33.046	ACT		97	Male	Professional	17	3/3	Dementia	94	94		7	Precision Slices	1159	6.4	High	Thal 4	Braak V	Moderate	7.28	white	2
+H21.33.047	ACT		90	Male	Professional	21	3/3	No dementia				4.4	Precision Slices	1168	7.2	Intermediate	Thal 2	Braak V	Frequent	8.7	white	0

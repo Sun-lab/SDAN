@@ -1,0 +1,122 @@
+---
+title: "Check donor information"
+author: "Wei Sun"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    theme: journal
+    highlight: tango
+    toc: true
+    toc_depth: 3
+    toc_float:
+      collapsed: true
+      smooth_scroll: false
+    number_sections: false
+  df_print: paged
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(width = 80)
+```
+
+## Load R libraries
+```{r load_libraries, warning = FALSE, message = FALSE}
+library(data.table)
+library(readxl)
+library(stringr)
+library(ggplot2)
+library(ggpubr)
+library(dplyr)
+library(reshape2)
+library(DESeq2)
+library(viridis)
+library(ggpointdensity)
+library(flextable)
+
+theme_set(theme_classic())
+```
+
+## Read donor information
+
+```{r load_donor_data, fig.width=6, fig.height=3}
+donor = read_excel("data/sea-ad_cohort_donor_metadata_020624.xlsx")
+donor = as.data.table(donor)
+dim(donor)
+flextable(donor[1:2,])
+
+table(donor$`Primary Study Name`, useNA = 'ifany')
+table(donor$`Secondary Study Name`, useNA = 'ifany')
+table(donor$`Cognitive Status`, useNA = 'ifany')
+table(donor$`Hispanic/Latino`, useNA = 'ifany')
+
+summary(donor$`Age at Death`)
+
+table(donor$Thal, donor$`Cognitive Status`)
+table(donor$Braak, donor$`Cognitive Status`)
+
+table(donor$`Race (choice=White)`, donor$`Race (choice=Asian)`, useNA='ifany')
+
+donor$race = "white"
+donor[`Race (choice=Asian)` == "Checked", race := "asian"] 
+
+table(donor$`Consensus Clinical Dx (choice=Alzheimers disease)`, 
+      donor$`Consensus Clinical Dx (choice=Alzheimers Possible/ Probable)`)
+                        
+donor$Alzheimers = 0.0
+
+donor[`Consensus Clinical Dx (choice=Alzheimers Possible/ Probable)` 
+       == "Checked", Alzheimers := 1]
+
+donor[`Consensus Clinical Dx (choice=Alzheimers disease)` == "Checked", 
+       Alzheimers := 2]
+
+donor[Alzheimers == 0, Alzheimers := NA]
+
+donor[`Consensus Clinical Dx (choice=Control)` == "Checked", 
+       Alzheimers := 0]
+
+table(donor$Alzheimers, useNA="ifany")
+table(donor$Alzheimers, donor$`Cognitive Status`, useNA="ifany")
+
+col2check = names(donor)[grep("Consensus Clinical Dx", names(donor))]
+for(c1 in col2check){
+    
+    t1 = table(donor[is.na(Alzheimers),..c1])
+    if(length(t1) == 1 && names(t1)[1] == "Unchecked"){ next }
+    
+    cat(c1, ":")
+    print(table(unlist(donor[is.na(Alzheimers),..c1]), 
+                donor[is.na(Alzheimers),`Cognitive Status`], useNA="ifany"))
+}
+
+table(donor$`Consensus Clinical Dx (choice=Unknown)`, 
+      donor$`Consensus Clinical Dx (choice=Other)`)
+
+names(donor)
+
+table(donor$Atherosclerosis)
+table(donor$Arteriolosclerosis)
+
+table(donor$Atherosclerosis, donor$`Cognitive Status`)
+table(donor$Arteriolosclerosis, donor$`Cognitive Status`)
+table(donor$`Overall AD neuropathological Change`, 
+      donor$`Cognitive Status`)
+
+donor$`Age of onset cognitive symptoms`
+donor$`Age of Dementia diagnosis`
+
+donor_simplified = donor[,c(1:5,15:21,49,50,52:57,65:67)]
+dim(donor_simplified)
+donor_simplified[1:2,]
+
+fwrite(donor_simplified, "data/sea-ad_cohort_donor_metadata_simplified.tsv", 
+       sep="\t")
+```
+
+
+# Session information
+```{r}
+gc()
+
+sessionInfo()
+```

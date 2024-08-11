@@ -1,0 +1,444 @@
+
+R version 4.2.3 (2023-03-15) -- "Shortstop Beagle"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+> Sys.setenv(RSTUDIO_PANDOC="/Applications/RStudio.app/Contents/MacOS/pandoc")
+> 
+> render_report = function(cell_type_name, graph_weight) {
++   file_tag = paste0(cell_type_name, "_", graph_weight)
++ 
++   rmarkdown::render(
++     "step5_evaluate_gene_sets_cell_types.Rmd", 
++     params = list(cell_type_name = cell_type_name, graph_weight=graph_weight),
++     output_file = paste0("step5_evaluate_gene_sets_cell_types_", file_tag, ".html")
++   )
++ }
+> 
+> cell_types = c("Astro", "Micro-PVM")
+> weights = list()
+> weights = c("0.0", "0.25", "0.5", "1.0", "2.0", "5.0", "10.0")
+> 
+> for(cell_type_name in cell_types){
++   for(graph_weight in weights){
++     render_report(cell_type_name, graph_weight)
++   }
++ }
+
+
+processing file: step5_evaluate_gene_sets_cell_types.Rmd
+1/15                  
+2/15 [setup]          
+3/15                  
+4/15 [load_libraries] 
+5/15                  
+6/15 [unnamed-chunk-1]
+Read 2000 items
+Read 4 items
+7/15                  
+8/15 [unnamed-chunk-2]
+9/15                  
+10/15 [unnamed-chunk-3]
+11/15                  
+12/15 [unnamed-chunk-4]
+13/15                  
+14/15 [unnamed-chunk-5]
+15/15                  
+output file: step5_evaluate_gene_sets_cell_types.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS step5_evaluate_gene_sets_cell_types.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output step5_evaluate_gene_sets_cell_types_Astro_0.0.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//RtmpPTYtOM/rmarkdown-str1307a11743a65.html 
+
+Output created: step5_evaluate_gene_sets_cell_types_Astro_0.0.html
+
+
+processing file: step5_evaluate_gene_sets_cell_types.Rmd
+1/15                  
+2/15 [setup]          
+3/15                  
+4/15 [load_libraries] 
+5/15                  
+6/15 [unnamed-chunk-1]
+Read 2000 items
+Read 10 items
+7/15                  
+8/15 [unnamed-chunk-2]
+9/15                  
+10/15 [unnamed-chunk-3]
+11/15                  
+12/15 [unnamed-chunk-4]
+13/15                  
+14/15 [unnamed-chunk-5]
+15/15                  
+output file: step5_evaluate_gene_sets_cell_types.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS step5_evaluate_gene_sets_cell_types.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output step5_evaluate_gene_sets_cell_types_Astro_0.25.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//RtmpPTYtOM/rmarkdown-str1307a6543ee77.html 
+
+Output created: step5_evaluate_gene_sets_cell_types_Astro_0.25.html
+
+
+processing file: step5_evaluate_gene_sets_cell_types.Rmd
+1/15                  
+2/15 [setup]          
+3/15                  
+4/15 [load_libraries] 
+5/15                  
+6/15 [unnamed-chunk-1]
+Read 2000 items
+Read 40 items
+7/15                  
+8/15 [unnamed-chunk-2]
+9/15                  
+10/15 [unnamed-chunk-3]
+11/15                  
+12/15 [unnamed-chunk-4]
+13/15                  
+14/15 [unnamed-chunk-5]
+15/15                  
+output file: step5_evaluate_gene_sets_cell_types.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS step5_evaluate_gene_sets_cell_types.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output step5_evaluate_gene_sets_cell_types_Astro_0.5.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//RtmpPTYtOM/rmarkdown-str1307a6faf6202.html 
+
+Output created: step5_evaluate_gene_sets_cell_types_Astro_0.5.html
+
+
+processing file: step5_evaluate_gene_sets_cell_types.Rmd
+1/15                  
+2/15 [setup]          
+3/15                  
+4/15 [load_libraries] 
+5/15                  
+6/15 [unnamed-chunk-1]
+Read 2000 items
+Read 40 items
+7/15                  
+8/15 [unnamed-chunk-2]
+9/15                  
+10/15 [unnamed-chunk-3]
+11/15                  
+12/15 [unnamed-chunk-4]
+13/15                  
+14/15 [unnamed-chunk-5]
+15/15                  
+output file: step5_evaluate_gene_sets_cell_types.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS step5_evaluate_gene_sets_cell_types.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output step5_evaluate_gene_sets_cell_types_Astro_1.0.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//RtmpPTYtOM/rmarkdown-str1307a672ed7be.html 
+
+Output created: step5_evaluate_gene_sets_cell_types_Astro_1.0.html
+
+
+processing file: step5_evaluate_gene_sets_cell_types.Rmd
+1/15                  
+2/15 [setup]          
+3/15                  
+4/15 [load_libraries] 
+5/15                  
+6/15 [unnamed-chunk-1]
+Read 2000 items
+Read 40 items
+7/15                  
+8/15 [unnamed-chunk-2]
+9/15                  
+10/15 [unnamed-chunk-3]
+11/15                  
+12/15 [unnamed-chunk-4]
+13/15                  
+14/15 [unnamed-chunk-5]
+15/15                  
+output file: step5_evaluate_gene_sets_cell_types.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS step5_evaluate_gene_sets_cell_types.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output step5_evaluate_gene_sets_cell_types_Astro_2.0.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//RtmpPTYtOM/rmarkdown-str1307a6ebe7757.html 
+
+Output created: step5_evaluate_gene_sets_cell_types_Astro_2.0.html
+
+
+processing file: step5_evaluate_gene_sets_cell_types.Rmd
+1/15                  
+2/15 [setup]          
+3/15                  
+4/15 [load_libraries] 
+5/15                  
+6/15 [unnamed-chunk-1]
+Read 2000 items
+Read 40 items
+7/15                  
+8/15 [unnamed-chunk-2]
+9/15                  
+10/15 [unnamed-chunk-3]
+11/15                  
+12/15 [unnamed-chunk-4]
+13/15                  
+14/15 [unnamed-chunk-5]
+15/15                  
+output file: step5_evaluate_gene_sets_cell_types.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS step5_evaluate_gene_sets_cell_types.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output step5_evaluate_gene_sets_cell_types_Astro_5.0.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//RtmpPTYtOM/rmarkdown-str1307a5edfb622.html 
+
+Output created: step5_evaluate_gene_sets_cell_types_Astro_5.0.html
+
+
+processing file: step5_evaluate_gene_sets_cell_types.Rmd
+1/15                  
+2/15 [setup]          
+3/15                  
+4/15 [load_libraries] 
+5/15                  
+6/15 [unnamed-chunk-1]
+Read 2000 items
+Read 40 items
+7/15                  
+8/15 [unnamed-chunk-2]
+9/15                  
+10/15 [unnamed-chunk-3]
+11/15                  
+12/15 [unnamed-chunk-4]
+13/15                  
+14/15 [unnamed-chunk-5]
+15/15                  
+output file: step5_evaluate_gene_sets_cell_types.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS step5_evaluate_gene_sets_cell_types.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output step5_evaluate_gene_sets_cell_types_Astro_10.0.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//RtmpPTYtOM/rmarkdown-str1307a1cb6e0a4.html 
+
+Output created: step5_evaluate_gene_sets_cell_types_Astro_10.0.html
+
+
+processing file: step5_evaluate_gene_sets_cell_types.Rmd
+1/15                  
+2/15 [setup]          
+3/15                  
+4/15 [load_libraries] 
+5/15                  
+6/15 [unnamed-chunk-1]
+Read 2000 items
+Read 2 items
+7/15                  
+8/15 [unnamed-chunk-2]
+9/15                  
+10/15 [unnamed-chunk-3]
+11/15                  
+12/15 [unnamed-chunk-4]
+13/15                  
+14/15 [unnamed-chunk-5]
+15/15                  
+output file: step5_evaluate_gene_sets_cell_types.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS step5_evaluate_gene_sets_cell_types.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output step5_evaluate_gene_sets_cell_types_Micro-PVM_0.0.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//RtmpPTYtOM/rmarkdown-str1307abb930fb.html 
+
+Output created: step5_evaluate_gene_sets_cell_types_Micro-PVM_0.0.html
+
+
+processing file: step5_evaluate_gene_sets_cell_types.Rmd
+1/15                  
+2/15 [setup]          
+3/15                  
+4/15 [load_libraries] 
+5/15                  
+6/15 [unnamed-chunk-1]
+Read 2000 items
+Read 12 items
+7/15                  
+8/15 [unnamed-chunk-2]
+9/15                  
+10/15 [unnamed-chunk-3]
+11/15                  
+12/15 [unnamed-chunk-4]
+13/15                  
+14/15 [unnamed-chunk-5]
+15/15                  
+output file: step5_evaluate_gene_sets_cell_types.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS step5_evaluate_gene_sets_cell_types.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output step5_evaluate_gene_sets_cell_types_Micro-PVM_0.25.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//RtmpPTYtOM/rmarkdown-str1307a41a2f586.html 
+
+Output created: step5_evaluate_gene_sets_cell_types_Micro-PVM_0.25.html
+
+
+processing file: step5_evaluate_gene_sets_cell_types.Rmd
+1/15                  
+2/15 [setup]          
+3/15                  
+4/15 [load_libraries] 
+5/15                  
+6/15 [unnamed-chunk-1]
+Read 2000 items
+Read 40 items
+7/15                  
+8/15 [unnamed-chunk-2]
+9/15                  
+10/15 [unnamed-chunk-3]
+11/15                  
+12/15 [unnamed-chunk-4]
+13/15                  
+14/15 [unnamed-chunk-5]
+15/15                  
+output file: step5_evaluate_gene_sets_cell_types.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS step5_evaluate_gene_sets_cell_types.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output step5_evaluate_gene_sets_cell_types_Micro-PVM_0.5.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//RtmpPTYtOM/rmarkdown-str1307a17a6a8e5.html 
+
+Output created: step5_evaluate_gene_sets_cell_types_Micro-PVM_0.5.html
+
+
+processing file: step5_evaluate_gene_sets_cell_types.Rmd
+1/15                  
+2/15 [setup]          
+3/15                  
+4/15 [load_libraries] 
+5/15                  
+6/15 [unnamed-chunk-1]
+Read 2000 items
+Read 40 items
+7/15                  
+8/15 [unnamed-chunk-2]
+9/15                  
+10/15 [unnamed-chunk-3]
+11/15                  
+12/15 [unnamed-chunk-4]
+13/15                  
+14/15 [unnamed-chunk-5]
+15/15                  
+output file: step5_evaluate_gene_sets_cell_types.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS step5_evaluate_gene_sets_cell_types.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output step5_evaluate_gene_sets_cell_types_Micro-PVM_1.0.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//RtmpPTYtOM/rmarkdown-str1307a4f20a3b8.html 
+
+Output created: step5_evaluate_gene_sets_cell_types_Micro-PVM_1.0.html
+
+
+processing file: step5_evaluate_gene_sets_cell_types.Rmd
+1/15                  
+2/15 [setup]          
+3/15                  
+4/15 [load_libraries] 
+5/15                  
+6/15 [unnamed-chunk-1]
+Read 2000 items
+Read 40 items
+7/15                  
+8/15 [unnamed-chunk-2]
+9/15                  
+10/15 [unnamed-chunk-3]
+11/15                  
+12/15 [unnamed-chunk-4]
+13/15                  
+14/15 [unnamed-chunk-5]
+15/15                  
+output file: step5_evaluate_gene_sets_cell_types.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS step5_evaluate_gene_sets_cell_types.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output step5_evaluate_gene_sets_cell_types_Micro-PVM_2.0.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//RtmpPTYtOM/rmarkdown-str1307a526f1d6d.html 
+
+Output created: step5_evaluate_gene_sets_cell_types_Micro-PVM_2.0.html
+
+
+processing file: step5_evaluate_gene_sets_cell_types.Rmd
+1/15                  
+2/15 [setup]          
+3/15                  
+4/15 [load_libraries] 
+5/15                  
+6/15 [unnamed-chunk-1]
+Read 2000 items
+Read 40 items
+7/15                  
+8/15 [unnamed-chunk-2]
+9/15                  
+10/15 [unnamed-chunk-3]
+11/15                  
+12/15 [unnamed-chunk-4]
+13/15                  
+14/15 [unnamed-chunk-5]
+15/15                  
+output file: step5_evaluate_gene_sets_cell_types.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS step5_evaluate_gene_sets_cell_types.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output step5_evaluate_gene_sets_cell_types_Micro-PVM_5.0.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//RtmpPTYtOM/rmarkdown-str1307a6f679edc.html 
+
+Output created: step5_evaluate_gene_sets_cell_types_Micro-PVM_5.0.html
+
+
+processing file: step5_evaluate_gene_sets_cell_types.Rmd
+1/15                  
+2/15 [setup]          
+3/15                  
+4/15 [load_libraries] 
+5/15                  
+6/15 [unnamed-chunk-1]
+Read 2000 items
+Read 40 items
+7/15                  
+8/15 [unnamed-chunk-2]
+9/15                  
+10/15 [unnamed-chunk-3]
+11/15                  
+12/15 [unnamed-chunk-4]
+13/15                  
+14/15 [unnamed-chunk-5]
+15/15                  
+output file: step5_evaluate_gene_sets_cell_types.knit.md
+
+/opt/homebrew/bin/pandoc +RTS -K512m -RTS step5_evaluate_gene_sets_cell_types.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output step5_evaluate_gene_sets_cell_types_Micro-PVM_10.0.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rmarkdown/rmd/h/default.html --highlight-style tango --variable theme=journal --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/fk/gk1pvdpx7fz79tx26t0rjc7c0000gp/T//RtmpPTYtOM/rmarkdown-str1307a2b10ddda.html 
+
+Output created: step5_evaluate_gene_sets_cell_types_Micro-PVM_10.0.html
+> 
+> 
+> sessionInfo()
+R version 4.2.3 (2023-03-15)
+Platform: aarch64-apple-darwin20 (64-bit)
+Running under: macOS Ventura 13.4.1
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] stringr_1.5.0     limma_3.54.2      tidyr_1.3.0       ggpubr_0.6.0     
+[5] ggplot2_3.4.2     data.table_1.14.8
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.10            png_0.1-8              Biostrings_2.66.0     
+ [4] digest_0.6.31          utf8_1.2.3             R6_2.5.1              
+ [7] GenomeInfoDb_1.34.9    backports_1.4.1        stats4_4.2.3          
+[10] RSQLite_2.3.1          evaluate_0.20          httr_1.4.6            
+[13] pillar_1.9.0           zlibbioc_1.44.0        rlang_1.1.0           
+[16] rstudioapi_0.14        car_3.1-2              jquerylib_0.1.4       
+[19] blob_1.2.4             R.oo_1.25.0            R.utils_2.12.2        
+[22] S4Vectors_0.36.2       rmarkdown_2.21         labeling_0.4.2        
+[25] RCurl_1.98-1.12        bit_4.0.5              munsell_0.5.0         
+[28] broom_1.0.4            compiler_4.2.3         xfun_0.39             
+[31] pkgconfig_2.0.3        BiocGenerics_0.44.0    htmltools_0.5.5       
+[34] tidyselect_1.2.0       KEGGREST_1.38.0        GenomeInfoDbData_1.2.9
+[37] tibble_3.2.1           IRanges_2.32.0         fansi_1.0.4           
+[40] crayon_1.5.2           dplyr_1.1.2            withr_2.5.0           
+[43] R.methodsS3_1.8.2      bitops_1.0-7           grid_4.2.3            
+[46] jsonlite_1.8.4         gtable_0.3.3           lifecycle_1.0.3       
+[49] DBI_1.1.3              magrittr_2.0.3         scales_1.2.1          
+[52] cli_3.6.1              stringi_1.7.12         cachem_1.0.7          
+[55] carData_3.0-5          farver_2.1.1           XVector_0.38.0        
+[58] ggsignif_0.6.4         bslib_0.4.2            generics_0.1.3        
+[61] vctrs_0.6.2            RColorBrewer_1.1-3     org.Hs.eg.db_3.16.0   
+[64] tools_4.2.3            bit64_4.0.5            Biobase_2.58.0        
+[67] glue_1.6.2             purrr_1.0.1            abind_1.4-5           
+[70] fastmap_1.1.1          yaml_2.3.7             AnnotationDbi_1.60.2  
+[73] colorspace_2.1-0       rstatix_0.7.2          memoise_2.0.1         
+[76] knitr_1.44             sass_0.4.5            
+> 
+> q(save = "no")
+> proc.time()
+   user  system elapsed 
+131.531  18.965 182.740 

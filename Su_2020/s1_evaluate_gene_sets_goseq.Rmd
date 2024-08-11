@@ -1,0 +1,233 @@
+---
+title: "Evaluate gene sets identified by SDAN"
+author: "Wei Sun"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    theme: journal
+    highlight: tango
+    toc: true
+    toc_depth: 3
+    toc_float:
+      collapsed: true
+      smooth_scroll: false
+    number_sections: false
+  df_print: paged
+params:
+  cell_type_name: "cd4"
+  graph_weight: "2.0" 
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(width = 80)
+```
+
+
+# Setup
+
+## Load R libraries
+```{r load_libraries, message=FALSE, warning=FALSE}
+library(data.table)
+library(ggplot2)
+library(ggpubr)
+library(tidyr)
+library(limma)
+library(biomaRt)
+library(fgsea)
+library(goseq)
+
+theme_set(theme_classic())
+
+cell_type_name = params$cell_type_name
+graph_weight = params$graph_weight
+
+cell_type_name
+graph_weight
+
+```
+
+# Check enrichment of gene sets
+
+## Read in gene info and gene set assignments
+
+```{r}
+file_tag = sprintf("%s_BL_%s", cell_type_name, graph_weight)
+
+assayed_genes = scan(sprintf("output/gene_list_%s.txt", file_tag), 
+                     what = character(), sep="\n")
+
+gene_sets = scan(sprintf("output/name_s_%s.txt", file_tag), 
+                 what = character(), sep="\n")
+
+gene_sets = sapply(gene_sets, strsplit, USE.NAMES=FALSE, split=",")
+n_genes   = sapply(gene_sets, length)
+names(n_genes) = NULL
+summary(n_genes)
+length(n_genes)
+sort(n_genes)
+```
+
+
+## Find gene symbols 
+
+### Find gene symbols from `bioMart`.
+
+All the gene symbols that can be found in `bioMart` are consistent with what we have. So no need to run it. 
+
+```{r eval=FALSE}
+ensembl = useMart("ensembl", dataset = "hsapiens_gene_ensembl")
+
+gene_BM = getBM(attributes = c("hgnc_symbol", "external_gene_name"), 
+                filters = "external_gene_name", 
+                values = assayed_genes, 
+                mart = ensembl)
+length(assayed_genes)
+dim(gene_BM)
+gene_BM[1:2,]
+
+table(assayed_genes %in% gene_BM$external_gene_name)
+
+t1 = table(gene_BM$external_gene_name)
+dup = names(t1)[t1 > 1]
+gene_BM[gene_BM$external_gene_name %in% dup,]
+
+table(gene_BM$hgnc_symbol == gene_BM$external_gene_name)
+w2kp = which(gene_BM$hgnc_symbol != gene_BM$external_gene_name)
+gene_BM[w2kp,]
+```
+
+
+
+### Find gene symbols using the `alias2Symbol` function from `limma`.
+
+```{r}
+a2s = rep(NA, length(assayed_genes))
+for(i in 1:length(assayed_genes)){
+  gi = assayed_genes[i]
+  ai = alias2Symbol(gi)
+  if(length(ai) > 1){
+    print(gi)
+    print(ai)
+  }
+  a2s[i] = ai[1]
+}
+
+table(is.na(a2s))
+
+table(a2s == assayed_genes, useNA = 'ifany')
+
+gene_info = data.table(sym_in_data = assayed_genes, sym_limma = a2s)
+
+gene_info[sym_in_data != sym_limma,]
+gene_info[, gene_symbol := sym_in_data]
+gene_info[which(sym_in_data != sym_limma), gene_symbol := sym_limma]
+
+dim(gene_info)
+gene_info[1:5,]
+t1 = table(gene_info$gene_symbol)
+table(t1)
+gene_info[gene_symbol %in% names(t1)[t1 == 2],]
+
+gene_info[sym_in_data == "HIST1H2BC", gene_symbol:="H2BC4"]
+gene_info[sym_in_data == "SEPT6", gene_symbol:="SEPTIN6"]
+gene_info[sym_in_data == "SEPT2", gene_symbol:="SEPTIN2"]
+```
+
+## Prepare gene set information
+
+Gene set annotations (by gene symbols) were downloaded from MSigDB website. 
+
+```{r}
+gmtfile = list()
+gmtfile[["reactome"]] = "../Annotation/c2.cp.reactome.v2023.2.Hs.symbols.gmt"
+gmtfile[["go_bp"]]    = "../Annotation/c5.go.bp.v2023.2.Hs.symbols.gmt"
+gmtfile[["immune"]]   = "../Annotation/c7.all.v2023.2.Hs.symbols.gmt"
+
+pathways = list()
+for(k1 in names(gmtfile)){
+  pathways[[k1]] = gmtPathways(gmtfile[[k1]])
+}
+
+names(pathways)
+sapply(pathways, length)
+```
+
+Filter gene sets for size between 10 and 500.
+
+```{r}
+lapply(pathways, function(v){
+  quantile(sapply(v, length), probs = seq(0, 1, 0.1), na.rm = TRUE)
+})
+
+for(k1 in names(pathways)){
+  p1 = pathways[[k1]]
+  pathways[[k1]] = p1[sapply(p1, length) %in% 10:500]
+}
+```
+
+
+## Conduct enrichment analysis
+
+```{r warning = FALSE, message = FALSE}
+dim(gene_info)
+
+max_n2kp = 10
+
+goseq_res = NULL
+
+for(k in 1:length(gene_sets)){
+  if(length(gene_sets[[k]]) < 10) { next }
+  
+  print(k)
+  set_k = paste0("set_", k)
+  print(gene_sets[[k]])
+  
+  genes = gene_info$sym_in_data %in% gene_sets[[k]]
+  names(genes) = gene_info$gene_symbol
+  table(genes)
+  
+  pwf = nullp(genes, "hg38", "geneSymbol")
+
+  for(k1 in names(pathways)){
+    p1 = pathways[[k1]]
+    res1 = goseq(pwf, "hg38", "geneSymbol", 
+                 gene2cat=goseq:::reversemapping(p1))
+    res1$FDR  = p.adjust(res1$over_represented_pvalue, method="BH")
+    
+    nD = sum(res1$FDR < 0.1)
+    
+    if(nD > 0){
+      res1 = res1[order(res1$FDR),][1:min(nD, max_n2kp),]
+      res1$category = gsub("REACTOME_|GOBP_", "", res1$category)
+      res1$category = gsub("_", " ", res1$category)
+      res1$category = tolower(res1$category)
+      res1$category = substr(res1$category, start=1, stop=81)
+      goseq_res[[set_k]][[k1]] = res1
+    }
+  }
+}
+
+
+
+for(n1 in names(goseq_res)){
+  k = as.numeric(gsub("set_", "", n1))
+  print(n1)
+  print(gene_sets[[k]])
+  print(goseq_res[[n1]])
+
+}
+
+saveRDS(goseq_res, sprintf("output/gene_set_enrichments_%s.RDS", 
+                           file_tag))
+```
+
+
+
+# Session information
+```{r}
+gc()
+
+sessionInfo()
+```
+

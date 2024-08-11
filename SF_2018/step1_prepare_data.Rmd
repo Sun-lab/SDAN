@@ -1,0 +1,277 @@
+---
+title: "Prepare scRNA-seq data from Sade-Feldman et al. 2018"
+author: "Wei Sun"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    theme: journal
+    highlight: tango
+    toc: true
+    toc_depth: 3
+    toc_float:
+      collapsed: true
+      smooth_scroll: false
+    number_sections: false
+  df_print: paged
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(width = 80)
+```
+
+Prepare the scRNA-seq data from Sade-Feldman et al.
+
+> Sade-Feldman, M., Yizhak, K., Bjorgaard, S. L., Ray, J. P., de Boer, C. G., Jenkins, R. W., ... & Hacohen, N. (2018). Defining T cell states associated with response to checkpoint immunotherapy in melanoma. Cell, 175(4), 998-1013.
+
+
+## Load R libraries
+```{r load_libraries, warning = FALSE, message = FALSE}
+library(data.table)
+library(readxl)
+library(stringr)
+library(dplyr)
+library(reshape2)
+
+dat_dir = "~/research/data/Immuotherapy/SF_2018"
+```
+
+# Read data
+
+The data files were downloaded from https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE120575.
+
+The original file has a 2nd header line for time points: "Pre_P1",  "Post_P1", "Post_P1_2", and that row
+
+```{r}
+fnm1 = "GSE120575_Sade_Feldman_melanoma_single_cells_TPM_GEO.txt.gz"
+sf_header = fread(file.path(dat_dir, fnm1), fill = TRUE, nrows=2)
+dim(sf_header)
+sf_header[,1:5]
+
+cell_names = as.character(unlist(sf_header[1,]))[-1]
+samples    = as.character(unlist(sf_header[2,]))[-1]
+
+length(cell_names)
+length(unique(cell_names))
+cell_names[1:10]
+
+length(samples)
+samples[1:10]
+
+t1 = sort(table(samples))
+length(t1)
+t1[c(1:5, (length(t1)-5):length(t1))]
+
+table(grepl("_enriched", names(t1)))
+names(t1)[grepl("_enriched", names(t1))]
+
+sf_tpm = fread(file.path(dat_dir, fnm1), skip = 2, header = FALSE)
+dim(sf_tpm)
+sf_tpm[1:2,1:5]
+sf_tpm[1:2,16290:16293]
+
+table(sf_tpm$V16293, useNA="ifany")
+sf_tpm$V16293 = NULL
+
+dim(sf_tpm) # 55737 x 16292
+names(sf_tpm) = c("gene", cell_names)
+sf_tpm[1:6,1:5]
+
+gene_names = sf_tpm$gene
+sf_tpm$gene = NULL
+```
+
+# Initial QC
+
+## Cell level summary
+
+These cell have been filtered by 
+
+(1) cells with a zero expression of both CD45 and CD3E; 
+(2) cells expressing less than 1000 genes; 
+(3) cells with an average expression of housekeeping genes log2(TPM+1) < 2.5.
+
+```{r}
+tpm_per_cell = colSums(sf_tpm)
+n_gene_per_cell = colSums(sf_tpm > 0)
+
+summary(tpm_per_cell)
+summary(n_gene_per_cell)
+```
+
+
+## Gene level summary  
+
+Keep the genes that are expressed in at least 10 cells.
+
+```{r}
+n_cell_per_gene = rowSums(sf_tpm > 0)
+summary(n_cell_per_gene)
+table(n_cell_per_gene == 0)
+table(n_cell_per_gene < 10)
+
+genes2kp = which(n_cell_per_gene >= 10)
+length(genes2kp)
+gene_names = gene_names[genes2kp]
+sf_tpm     = sf_tpm[genes2kp,]
+```
+
+
+# Read sample and cell annoation
+
+```{r}
+xnm = "data/1-s2.0-S0092867418313941-mmc1.xlsx"
+
+patient_info = read_xlsx(xnm, sheet = "Patient-scRNA data", 
+                         range = "B2:N34", 
+                         col_names = TRUE) %>% as.data.frame()
+dim(patient_info)
+patient_info[1:2,]
+
+sample_info = read_xlsx(xnm, sheet = "Lesion-scRNAseq data", 
+                         col_names = TRUE) %>% as.data.frame()
+dim(sample_info)
+sample_info[1:2,]
+
+cell_info = read_xlsx(xnm, sheet = "Cluster annotation-Fig1B-C", 
+                         col_names = TRUE) %>% as.data.frame()
+dim(cell_info)
+cell_info[1:2,]
+length(unique(cell_info$`Cell Name`))
+
+xnm = "data/1-s2.0-S0092867418313941-mmc2.xlsx"
+CD8_info = read_xlsx(xnm, sheet = "Cluster annotation-Fig2A-B", 
+                     col_names = TRUE) %>% as.data.frame()
+dim(CD8_info)
+CD8_info[1:2,]
+length(unique(CD8_info$`Cell Name`))
+```
+
+
+## Match cell names
+
+The cells are ordered the same in the data and cell_info, but the name are slightly different for some cellls. 
+
+```{r}
+table(CD8_info$`Cell Name` %in% cell_info$`Cell Name`)
+table(CD8_info$`Cell Name` %in% names(sf_tpm))
+
+table(CD8_info$Cluster)
+
+table(cell_info$`Cluster number`)
+clabel = c("B_cells", "Plasma_cells", "Monocytes_Macrophages", 
+           "Dendritic_cells", "Lymphocytes", "Exhausted_CD8T", 
+           "Tregs", "Cytotoxicity", "Exhausted_HS_CD8T", 
+           "memory_T", "Lymphocytes_cell_cycle")
+
+cell_info$cluster_label = clabel[cell_info$`Cluster number`]
+dim(cell_info)
+cell_info[1:2,]
+
+uniq_samples = unique(samples)
+
+table(uniq_samples %in% sample_info$`Sample name`)
+uniq_samples[! uniq_samples %in% sample_info$`Sample name`]
+
+samples2 =  gsub("_myeloid_enriched", "", samples)
+samples2 =  gsub("_T_enriched", "", samples2)
+
+cell_info$sample_detail = samples
+cell_info$sample = samples2
+
+table(names(sf_tpm) == cell_info$`Cell Name`)
+
+cell_nm_check = cbind(names(sf_tpm), cell_info$`Cell Name`)
+w2check = which(cell_nm_check[,1] != cell_nm_check[,2])
+cell_nm_check = cell_nm_check[w2check,]
+dim(cell_nm_check)
+
+cell_nm_check[c(1:2, 501:502, 990:991),]
+
+cell_nm_check[,1] = gsub("_myeloid_enriched", "", cell_nm_check[,1], 
+                         fixed=TRUE)
+
+cell_nm_check[,1] = gsub("_T_enriched", "", cell_nm_check[,1], 
+                         fixed=TRUE)
+
+cell_nm_check[,2] = gsub("_DN$", "",  cell_nm_check[,2], perl=TRUE)
+cell_nm_check[,2] = gsub("_DN1$", "", cell_nm_check[,2], perl=TRUE)
+cell_nm_check[,2] = gsub("_DP1$", "", cell_nm_check[,2], perl=TRUE)
+
+table(cell_nm_check[,1] == cell_nm_check[,2])
+
+cell_info$cell_id = names(sf_tpm)
+cell_info$CD8_cluster = NA
+mat1 = match(CD8_info$`Cell Name`, cell_info$`Cell Name`)
+cell_info$CD8_cluster[mat1] = CD8_info$Cluster
+
+dim(cell_info)
+cell_info[1:2,]
+
+table(cell_info$cluster_label, cell_info$CD8_cluster, useNA='ifany')
+```
+
+## Data for CD8+ T cells
+
+```{r}
+table(CD8_info$`Cell Name` %in% names(sf_tpm))
+CD8T = CD8_info$`Cell Name`
+sf_CD8T_tpm = sf_tpm[ , ..CD8T]
+
+dim(sf_CD8T_tpm)
+sf_CD8T_tpm[1:2,1:5]
+
+cell_info_CD8T = cell_info[match(names(sf_CD8T_tpm), cell_info$cell_id),]
+cell_info_CD8T$patient = str_extract(cell_info_CD8T$sample, "(?<=_)P\\d+")
+length(unique(cell_info_CD8T$patient))
+
+names(sample_info)[3] = "response"
+mat_sample = match(cell_info_CD8T$sample, sample_info$`Sample name`)
+stopifnot(all(! is.na(mat_sample)))
+
+cell_info_CD8T$response = sample_info$response[mat_sample]
+
+dim(cell_info_CD8T)
+cell_info_CD8T[1:5,]
+
+table(cell_info_CD8T$response)
+
+length(unique(cell_info_CD8T$patient))
+length(unique(cell_info_CD8T$sample))
+
+sort(table(cell_info_CD8T$patient))
+sort(table(cell_info_CD8T$sample))
+
+```
+
+## Write out results
+
+```{r}
+dim(sf_CD8T_tpm)
+sf_CD8T_tpm[1:2,1:3]
+
+fwrite(sf_CD8T_tpm, "data/CD8T_tpm.tsv", sep="\t")
+system("gzip -f data/CD8T_tpm.tsv")
+
+fwrite(cell_info_CD8T, "data/CD8T_cell_info.tsv", sep="\t")
+
+n_cell_per_gene = rowSums(sf_CD8T_tpm > 0)
+prct_zero       = rowMeans(sf_CD8T_tpm > 0)
+expression_mean = rowMeans(sf_CD8T_tpm)
+
+gene_info = data.frame(gene=gene_names, n_cell_per_gene=n_cell_per_gene, 
+                       prct_zero = prct_zero, expression_mean=expression_mean)
+
+fwrite(gene_info, "data/CD8T_gene_info.tsv", sep="\t")
+
+names(patient_info)
+fwrite(patient_info, file="data/patient_info.tsv", sep="\t")
+
+```
+
+
+```{r}
+gc()
+
+sessionInfo()
+```
+

@@ -1,0 +1,448 @@
+
+R version 4.2.3 (2023-03-15) -- "Shortstop Beagle"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+> library(data.table)
+> library(readxl)
+> library(Matrix)
+> library(tidyr)
+
+Attaching package: ‘tidyr’
+
+The following objects are masked from ‘package:Matrix’:
+
+    expand, pack, unpack
+
+> library(ggplot2)
+> library(viridis)
+Loading required package: viridisLite
+> library(ggpointdensity)
+> library(ggpubr)
+> 
+> theme_set(theme_classic())
+> 
+> # cell_type = "cd8"
+> 
+> args = commandArgs(trailingOnly=TRUE)
+> args
+[1] "cell_type='cd8'"
+> 
+> for(i in 1:length(args)){
++   eval(parse(text=args[[i]]))
++ }
+> 
+> cell_type
+[1] "cd8"
+> 
+> data_dir = "../../aTCR_large_files/Su_2020"
+> 
+> # ------------------------------------------------------------------------
+> # read in file information
+> # ------------------------------------------------------------------------
+> 
+> finfo = fread("ArrayExpress/file_info.csv")
+> dim(finfo)
+[1] 270  18
+> table(finfo$disease)
+
+COVID-19   normal 
+     254       16 
+> 
+> finfo = finfo[which(finfo$disease == "COVID-19"),]
+> dim(finfo)
+[1] 254  18
+> table(finfo$disease)
+
+COVID-19 
+     254 
+> 
+> finfo[1:2,]
+   Source_Name     organism developmental_stage organism_part individual
+1: INCOV001-AC Homo sapiens               adult         blood   INCOV001
+2: INCOV001-BL Homo sapiens               adult         blood   INCOV001
+    disease sampling_time_point Material_Type
+1: COVID-19                  AC          cell
+2: COVID-19                  BL          cell
+                                       gex_file
+1: heathlab_dc_9_17_pbmc_gex_library_1_2.txt.gz
+2: heathlab_dc_9_17_pbmc_gex_library_1_1.txt.gz
+                                       pro_file
+1: heathlab_dc_9_17_pbmc_pro_library_1_2.txt.gz
+2: heathlab_dc_9_17_pbmc_pro_library_1_1.txt.gz
+                                       cd4_tcr_file
+1: heathlab_dc_9_17_pbmc_cd4_tcr_library_1_2.txt.gz
+2: heathlab_dc_9_17_pbmc_cd4_tcr_library_1_1.txt.gz
+                                       cd8_tcr_file bcr_file
+1: heathlab_dc_9_17_pbmc_cd8_tcr_library_1_2.txt.gz         
+2: heathlab_dc_9_17_pbmc_cd8_tcr_library_1_1.txt.gz         
+                       gex_dir                     pro_dir
+1: E-MTAB-9357.processed.5.zip E-MTAB-9357.processed.2.zip
+2: E-MTAB-9357.processed.5.zip E-MTAB-9357.processed.2.zip
+                   cd4_tcr_dir                 cd8_tcr_dir bcr_dir
+1: E-MTAB-9357.processed.3.zip E-MTAB-9357.processed.4.zip        
+2: E-MTAB-9357.processed.3.zip E-MTAB-9357.processed.4.zip        
+> 
+> # ------------------------------------------------------------------------
+> # only keep the file at baseline
+> # ------------------------------------------------------------------------
+> 
+> table(finfo$sampling_time_point)
+
+ AC  BL 
+125 129 
+> 
+> finfo = finfo[which(finfo$sampling_time_point == "BL"),]
+> dim(finfo)
+[1] 129  18
+> table(finfo$gex_dir)
+
+E-MTAB-9357.processed.5.zip E-MTAB-9357.processed.6.zip 
+                         29                          78 
+E-MTAB-9357.processed.7.zip 
+                         22 
+> finfo$gex_file[1:5]
+[1] "heathlab_dc_9_17_pbmc_gex_library_1_1.txt.gz"
+[2] "heathlab_dc_9_17_pbmc_gex_library_2_1.txt.gz"
+[3] "heathlab_dc_9_17_pbmc_gex_library_3_1.txt.gz"
+[4] "heathlab_dc_9_17_pbmc_gex_library_4_1.txt.gz"
+[5] "heathlab_dc_9_17_pbmc_gex_library_5_1.txt.gz"
+> 
+> # ------------------------------------------------------------------------
+> # extract gene expression data
+> # ------------------------------------------------------------------------
+> 
+> gex_dat = gex_sub = NULL
+> cell_info = NULL
+> 
+> genes2check = c("CD3E", "CD3D", "CD3G", "CD8A", "GZMK", "CD4", 
++                 "CD19", "CD79A", "IGLV2-8", "IGHV1-2", "IGHV2-5")
+> 
+> for(i in 1:nrow(finfo)){
++   if(i %% 10 == 0){ cat(i, date(), "\n") }
++   
++   dir_ct  = paste0(cell_type, "_tcr_dir")
++   file_ct = paste0(cell_type, "_tcr_file")
++   
++   tcr_dir  = gsub(".zip", "", finfo[[dir_ct]][i], fixed = TRUE)
++   tcr_file = finfo[[file_ct]][i]
++   tcr_dat  = fread(file.path(data_dir, tcr_dir, tcr_file))
++   
++   dim(tcr_dat)
++   tcr_dat[1:2,]
++   
++   cell = tcr_dat$V1
++   
++   gex_dir  = gsub(".zip", "", finfo$gex_dir[i], fixed = TRUE)
++   gex_file = finfo$gex_file[i]
++   gex = fread(file.path(data_dir, gex_dir, gex_file))
++   dim(gex)
++   gex[1:3,1:2]
++   
++   stopifnot(all(cell %in% gex$V1))
++ 
++   tcr_dat[,':='(individual=finfo$individual[i], 
++                 time_point=finfo$sampling_time_point[i])]
++   
++   cell_info = rbind(cell_info, 
++                     tcr_dat[,.(V1, chain_pairing, clonotype, 
++                                clonotype_size, clonal_expansion,
++                                individual, time_point)])
++   
++   gex_idx = match(cell, gex$V1)
++   
++   if(i == 1){
++     gex_names = names(gex)
++   }else{
++     stopifnot(all(gex_names == names(gex)))
++   }
++   
++   
++   gex_i = gex[gex_idx,]
++   gex_i[,V1:=NULL]
++   
++   stopifnot(all(genes2check %in% names(gex_i)))
++   gex_sub = rbind(gex_sub, data.matrix(gex_i[,..genes2check]))
++   gex_i = as(data.matrix(gex_i), "sparseMatrix")
++   
++   dim(gex_i)
++   gex_i[1:3,1:2]
++   
++   gex_dat = rbind(gex_dat, gex_i)
++ }
+10 Thu Feb 22 13:47:49 2024 
+20 Thu Feb 22 13:48:06 2024 
+30 Thu Feb 22 13:48:22 2024 
+40 Thu Feb 22 13:48:35 2024 
+50 Thu Feb 22 13:48:47 2024 
+60 Thu Feb 22 13:49:01 2024 
+70 Thu Feb 22 13:49:12 2024 
+80 Thu Feb 22 13:49:24 2024 
+90 Thu Feb 22 13:49:33 2024 
+100 Thu Feb 22 13:49:42 2024 
+110 Thu Feb 22 13:49:54 2024 
+120 Thu Feb 22 13:50:05 2024 
+> 
+> gex_sub = data.frame(gex_sub)
+> dim(gex_sub)
+[1] 41992    11
+> gex_sub[1:2,]
+      CD3E    CD3D     CD3G     CD8A GZMK CD4 CD19 CD79A IGLV2.8 IGHV1.2
+1 7.632877 5.55682 6.248035 6.248035    0   0    0     0       0       0
+2 0.000000 0.00000 0.000000 7.710050    0   0    0     0       0       0
+  IGHV2.5
+1       0
+2       0
+> 
+> apply(gex_sub, 2, quantile, probs=c(0.5, 0.75, 0.95, 0.99, 0.999))
+          CD3E     CD3D     CD3G     CD8A     GZMK CD4     CD19    CD79A
+50%   7.184596 6.586328 6.042403 6.462444 0.000000   0 0.000000 0.000000
+75%   7.558748 7.116822 6.687677 7.124232 0.000000   0 0.000000 0.000000
+95%   8.002710 7.694570 7.358217 7.759153 7.647952   0 0.000000 0.000000
+99%   8.279675 8.068556 7.740600 8.100133 8.215541   0 0.000000 6.052102
+99.9% 8.604026 8.441127 8.165078 8.460792 8.679978   0 4.941201 6.949556
+       IGLV2.8  IGHV1.2  IGHV2.5
+50%   0.000000 0.000000 0.000000
+75%   0.000000 0.000000 0.000000
+95%   0.000000 0.000000 0.000000
+99%   0.000000 0.000000 0.000000
+99.9% 6.700713 6.439378 6.663292
+> 
+> dim(gex_dat)
+[1] 41992 24966
+> gex_dat[1:2,1:4]
+2 x 4 sparse Matrix of class "dgCMatrix"
+     A1BG A1BG-AS1 A2M A2M-AS1
+[1,]    .        .   .       .
+[2,]    .        .   .       .
+> 
+> prop0 = colSums(gex_dat > 0)/nrow(gex_dat)
+> length(prop0)
+[1] 24966
+> summary(prop0)
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+0.0000000 0.0000714 0.0019289 0.0425844 0.0352924 0.9997142 
+> table(prop0 > 0.02)
+
+FALSE  TRUE 
+17013  7953 
+> 
+> # ------------------------------------------------------------------------
+> # convert gene expression to count data
+> # ------------------------------------------------------------------------
+> 
+> min_y = apply(gex_dat, 1, function(xx){ min(xx[xx > 0])})
+Warning message:
+In asMethod(object) :
+  sparse->dense coercion: allocating vector of size 7.8 GiB
+> summary(min_y)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  4.623   5.650   5.998   6.058   6.400   7.769 
+> d = exp(min_y) - 1
+> summary(d)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  100.8   283.3   401.5   505.0   601.0  2364.1 
+> 
+> gex_count = (exp(gex_dat) - 1)/d
+> 
+> max_dev = apply(abs(gex_count - round(gex_count)), 1, max)
+> summary(max_dev)
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+1.352e-06 2.144e-05 3.390e-05 4.142e-05 5.286e-05 9.123e-04 
+> gex_count = round(gex_count)
+> 
+> summary(colSums(gex_count))
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+      0       3      83    4548    1551 3501101 
+> w2kp = which(colSums(gex_count) > 5000)
+> gex_dat[1:5,w2kp[1:10]]
+5 x 10 sparse Matrix of class "dgCMatrix"
+  [[ suppressing 10 column names ‘A1BG’, ‘AAK1’, ‘AAMP’ ... ]]
+                                                                         
+[1,] . .        .        . .        .        6.248035 .        . 5.556820
+[2,] . .        .        . .        .        .        .        . .       
+[3,] . 6.194889 .        . 5.503779 .        .        5.503779 . 5.503779
+[4,] . 5.419067 5.419067 . .        6.109997 .        .        . .       
+[5,] . .        .        . .        .        6.565575 .        . .       
+> gex_count[1:5,w2kp[1:10]]
+5 x 10 Matrix of class "dgeMatrix"
+     A1BG AAK1 AAMP AATF ABCF1 ABHD14B ABHD17A ABI1 ABI3 ABLIM1
+[1,]    0    0    0    0     0       0       2    0    0      1
+[2,]    0    0    0    0     0       0       0    0    0      0
+[3,]    0    2    0    0     1       0       0    1    0      1
+[4,]    0    1    1    0     0       2       0    0    0      0
+[5,]    0    0    0    0     0       0       1    0    0      0
+> 
+> rm(gex_dat)
+> 
+> # ------------------------------------------------------------------------
+> # check mito genes
+> # ------------------------------------------------------------------------
+> 
+> mito_genes = fread("../Annotation/mito_genes.tsv")
+> dim(mito_genes)
+[1] 37  2
+> mito_genes[1:2,]
+   ensembl_gene_id hgnc_symbol
+1: ENSG00000210049       MT-TF
+2: ENSG00000211459     MT-RNR1
+> 
+> table(mito_genes$hgnc_symbol %in% colnames(gex_count))
+
+FALSE  TRUE 
+   24    13 
+> 
+> gex_mito = gex_count[,colnames(gex_count) %in% mito_genes$hgnc_symbol]
+> dim(gex_mito)
+[1] 41992    13
+> gex_mito[1:2,]
+2 x 13 Matrix of class "dgeMatrix"
+     MT-ATP6 MT-ATP8 MT-CO1 MT-CO2 MT-CO3 MT-CYB MT-ND1 MT-ND2 MT-ND3 MT-ND4
+[1,]      23       4     47     35     36     25      6      0      5      3
+[2,]       6       0     25     10     18     12      5      3      1      5
+     MT-ND4L MT-ND5 MT-ND6
+[1,]       5     11      0
+[2,]       5      3      0
+> apply(gex_mito, 2, quantile, probs=c(0.5, 0.75, 0.95, 0.99, 0.999))
+      MT-ATP6 MT-ATP8  MT-CO1 MT-CO2 MT-CO3 MT-CYB MT-ND1 MT-ND2 MT-ND3 MT-ND4
+50%         5       0  15.000     13      9      7  2.000      2      2      2
+75%        10       1  25.000     20     16     12  4.000      3      4      4
+95%        21       3  46.000     36     30     24  8.000      7      9      8
+99%        33       4  71.000     56     48     36 13.000     11     14     12
+99.9%      51       7 114.018     90     77     55 21.009     18     21     19
+      MT-ND4L MT-ND5 MT-ND6
+50%         4  2.000      0
+75%         6  4.000      0
+95%        12  7.000      2
+99%        18 11.000      3
+99.9%      27 16.009      5
+> 
+> mito_total = rowSums(gex_mito)
+> summary(mito_total)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   0.00   41.00   69.00   81.25  106.00  644.00 
+> 
+> total = rowSums(gex_count)
+> summary(total)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+    423    1664    2490    2704    3530    9924 
+> 
+> q13 = quantile(mito_total, probs=c(0.25, 0.75))
+> total_cutoff = q13[2] + 1.5*(q13[2] - q13[1])
+> total_cutoff
+  75% 
+203.5 
+> 
+> prop_cutoff = 0.10
+> 
+> df = data.frame(mitochondria = mito_total, total=total)
+> df$prop_mito = df$mitochondria/df$total
+> 
+> g1 = ggplot(df, aes(x=total, y=mitochondria)) +
++   geom_pointdensity() + scale_color_viridis() + 
++   geom_hline(yintercept = total_cutoff) + 
++   geom_abline(intercept = 0, slope = prop_cutoff)
+> 
+> g2 = ggplot(df, aes(x=prop_mito)) +
++   geom_histogram(color="darkblue", fill="lightblue", bins=50) + 
++   geom_vline(xintercept = prop_cutoff)
+> 
+> p1 = ggarrange(g1, g2, ncol=1, heights=c(4,3))
+> ggsave(p1, file=sprintf("figures/check_mito_%s.png", cell_type), 
++        width=5, height=7)
+> 
+> table(mito_total > total_cutoff)
+
+FALSE  TRUE 
+40385  1607 
+> table(mito_total > total_cutoff, df$prop_mito > prop_cutoff)
+       
+        FALSE  TRUE
+  FALSE 40223   162
+  TRUE   1578    29
+> 
+> w2rm = which(mito_total > total_cutoff | df$prop_mito > prop_cutoff)
+> 
+> gex_count = gex_count[-w2rm,]
+> cell_info = cell_info[-w2rm,]
+> 
+> dim(gex_count)
+[1] 40223 24966
+> 
+> dim(cell_info)
+[1] 40223     7
+> cell_info[1:2,]
+                             V1 chain_pairing clonotype clonotype_size
+1: AAACGGGCATCCCACT-1-1:1_1:1-1    Extra beta      3133              1
+2: AAACGGGGTCGACTAT-1-1:1_1:1-1   Single pair      3135              1
+   clonal_expansion individual time_point
+1:                1   INCOV001         BL
+2:                1   INCOV001         BL
+> 
+> gex_count = as(gex_count, "sparseMatrix")
+> 
+> writeMM(gex_count, file=sprintf("gex_%s_BL.mtx", cell_type))
+NULL
+> system(sprintf("gzip -f gex_%s_BL.mtx", cell_type))
+> 
+> fwrite(data.frame(gene = colnames(gex_count)), col.names = FALSE,
++        file=sprintf("gex_%s_BL_genes.txt", cell_type))
+> 
+> fwrite(cell_info, file=sprintf("cell_info_%s_BL.csv", cell_type))
+> 
+> gc()
+            used  (Mb) gc trigger    (Mb) limit (Mb)   max used    (Mb)
+Ncells   2197958 117.4    3720652   198.8         NA    3720652   198.8
+Vcells 115370821 880.3 4513355226 34434.2      65536 5641682462 43042.7
+> 
+> sessionInfo()
+R version 4.2.3 (2023-03-15)
+Platform: aarch64-apple-darwin20 (64-bit)
+Running under: macOS Ventura 13.4.1
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] ggpubr_0.6.0         ggpointdensity_0.1.0 viridis_0.6.2       
+[4] viridisLite_0.4.1    ggplot2_3.4.2        tidyr_1.3.0         
+[7] Matrix_1.6-4         readxl_1.4.2         data.table_1.14.8   
+
+loaded via a namespace (and not attached):
+ [1] cellranger_1.1.0  pillar_1.9.0      compiler_4.2.3    tools_4.2.3      
+ [5] R.methodsS3_1.8.2 R.utils_2.12.2    lifecycle_1.0.3   tibble_3.2.1     
+ [9] gtable_0.3.3      lattice_0.20-45   pkgconfig_2.0.3   rlang_1.1.0      
+[13] cli_3.6.1         gridExtra_2.3     withr_2.5.0       dplyr_1.1.2      
+[17] systemfonts_1.0.4 generics_0.1.3    vctrs_0.6.2       cowplot_1.1.1    
+[21] grid_4.2.3        tidyselect_1.2.0  glue_1.6.2        R6_2.5.1         
+[25] textshaping_0.3.6 rstatix_0.7.2     fansi_1.0.4       carData_3.0-5    
+[29] farver_2.1.1      purrr_1.0.1       car_3.1-2         magrittr_2.0.3   
+[33] scales_1.2.1      backports_1.4.1   abind_1.4-5       colorspace_2.1-0 
+[37] ggsignif_0.6.4    ragg_1.2.5        labeling_0.4.2    utf8_1.2.3       
+[41] munsell_0.5.0     broom_1.0.4       R.oo_1.25.0      
+> q(save="no")
+> proc.time()
+   user  system elapsed 
+210.704  44.881 278.869 

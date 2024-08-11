@@ -1,0 +1,308 @@
+---
+title: "Prepare pseudo-bulk data and conduct DE analysis"
+author: "Wei Sun"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    theme: journal
+    highlight: tango
+    toc: true
+    toc_depth: 3
+    toc_float:
+      collapsed: true
+      smooth_scroll: false
+    number_sections: false
+  df_print: paged
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(width = 80)
+```
+
+# Setup
+
+## Load R libraries
+```{r load_libraries, warning = FALSE, message = FALSE}
+library(data.table)
+library(readxl)
+library(stringr)
+library(ggplot2)
+library(ggpubr)
+library(dplyr)
+library(reshape2)
+library(limma)
+library(viridis)
+library(ggpointdensity)
+library(tidyr)
+library(sva)
+
+theme_set(theme_classic())
+```
+
+## Parameters
+```{r}
+# keep the samples with at least min_n_cell_per_sample cells. 
+min_n_cell_per_sample = 30
+```
+
+# Summarize data
+
+## Read gene, cell, and expression information
+
+```{r load_data, fig.width=6, fig.height=3}
+gene_info = scan("data/CD8T_gene_info.tsv", what=character(0))
+length(gene_info)
+gene_info[1:2]
+
+cell_info = fread("data/CD8T_cell_info.tsv")
+dim(cell_info)
+cell_info[1:2,]
+
+tb1 = table(cell_info$sample)
+sort(tb1)[1:5]
+
+uniq_samples = names(tb1)[tb1 > min_n_cell_per_sample]
+length(uniq_samples)
+
+edat = fread("data/CD8T_tpm.tsv.gz")
+dim(edat)
+edat[1:2,1:5]
+
+bulk = matrix(nrow = nrow(edat), ncol=length(uniq_samples))
+rownames(bulk) = gene_info
+colnames(bulk) = uniq_samples
+
+for(i in 1:length(uniq_samples)){
+  sam1 = uniq_samples[i]
+  w_cell = which(cell_info$sample == sam1)
+  bulk[,i] = rowSums(edat[,..w_cell])
+}
+
+dim(bulk)
+bulk[1:2,1:5]
+
+q75 = apply(bulk, 1, quantile, probs=0.75)
+summary(q75)
+min(q75[q75>0])
+
+table(q75 > 0)
+table(q75 > 1)
+table(q75 > 5)
+table(q75 > 10)
+
+df1 = data.frame(q75 = q75)
+ggplot(subset(df1, q75 > 0), aes(x=log10(q75))) +
+  geom_histogram(color="darkblue", fill="lightblue", bins=50) + 
+  geom_vline(xintercept = log10(5), col="grey", linewidth=1.5)
+
+w2kp = which(q75 > 5)
+dat = bulk[w2kp,]
+dim(dat)
+dat[1:2,1:5]
+
+gene2kp = gene_info[w2kp]
+```
+
+###  PCA 
+```{r}
+depth = colSums(dat)
+summary(depth/1e6)
+log_dat = t(log10(t(dat + 1)/depth)) 
+
+log_dat = log_dat - rowMeans(log_dat,na.rm = TRUE)
+cov_dat = t(log_dat) %*% log_dat / nrow(log_dat)
+dim(cov_dat)
+pca_dat = eigen(cov_dat)
+names(pca_dat)
+pca_dat$values[1:10]
+pca_dat$values[1:10]/sum(pca_dat$values)
+
+colDat = data.frame(sample=colnames(dat))
+colDat$patient = str_extract(colDat$sample, "(?<=_)P\\d+")
+colDat$type = str_extract(colDat$sample, "\\S+(?=_P)")
+colDat$PC1 = pca_dat$vectors[,1]
+colDat$PC2 = pca_dat$vectors[,2]
+
+dim(colDat)
+colDat[1:2,]
+
+ggplot(colDat, aes(x=PC1, y=PC2, col=patient, shape=type)) +
+  geom_point() 
+
+```
+
+## Collect covariate information
+
+```{r}
+patient_info = fread("data/patient_info.tsv")
+dim(patient_info)
+names(patient_info)
+patient_info[1:2,]
+
+setequal(colDat$patient, patient_info$`Patient ID`)
+mat_pat = match(colDat$patient, patient_info$`Patient ID`)
+colDat$gender = patient_info$`Gender (F/M)`[mat_pat]
+colDat$age    = patient_info$Age[mat_pat]
+colDat$therapy = patient_info$Therapy[mat_pat]
+colDat$response_patient = 
+  patient_info$`Clinical response (RECIST; R=CR, PR; NR=SD, PD)`[mat_pat]
+
+table(colDat$therapy)
+colDat$therapy[which(colDat$therapy != "PD1")] = "CTLA4_PD1"
+
+table(colDat$response)
+colDat$response[which(colDat$response =="Resistance")] = "R"
+colDat$response[colDat$response =="NR (patient had mix response)"] = "NR"
+table(colDat$response, useNA = "ifany")
+
+table(colDat$gender)
+table(colDat$therapy)
+summary(colDat$age)
+
+cell_info_response = distinct(cell_info[,.(sample, response)])
+cell_info_response = as.data.frame(cell_info_response)
+
+table(colDat$sample %in% cell_info_response$sample)
+colDat = merge(colDat, cell_info_response, by = "sample", 
+               all.x = TRUE, all.y = FALSE, suffixes=c("", "_sample"))
+
+dim(colDat)
+colDat[1:2,]
+colDat[which(colDat$response_patient != colDat$response_sample),
+       c("sample", "response_patient", "response_sample")]
+```
+
+## DE testing
+
+```{r fig.width=6, fig.height=6}
+depth = colSums(dat)/1e6
+summary(depth)
+log10_tpm = t(log10(t(dat + 1)/depth)) 
+
+dim(log10_tpm)
+log10_tpm[1:2,1:5]
+
+design = model.matrix(~ age + gender + therapy + response_sample, 
+                      data=colDat)
+dim(design)
+design[1:2,]
+
+fit <- lmFit(log10_tpm, design)
+fit <- eBayes(fit, trend=TRUE, robust=TRUE)
+topTable(fit, coef=ncol(design)) 
+dim(fit$p.value)
+fit$p.value[1:5,]
+
+pvals1 = data.frame(fit$p.value[,-1])
+dim(pvals1)
+pvals1[1:2,]
+
+plist = list()
+nm1 = names(pvals1)
+
+for(k in 1:length(nm1)){
+  plist[[k]] = ggplot(pvals1, aes_string(x=nm1[k])) + 
+    geom_histogram(color="darkblue", fill="lightblue", 
+                 breaks=seq(0, 1, by=0.02)) + ggtitle(nm1[k])
+
+}
+
+ggarrange(plotlist=plist, nrow=2, ncol=2)
+
+```
+
+## re-run DE
+```{r fig.width=6, fig.height=3}
+
+design = model.matrix(~ therapy + response_sample, 
+                      data=colDat)
+dim(design)
+design[1:2,]
+
+fit <- lmFit(log10_tpm, design)
+fit <- eBayes(fit, trend=TRUE, robust=TRUE)
+topTable(fit, coef=ncol(design)) 
+dim(fit$p.value)
+fit$p.value[1:5,]
+
+pvals1 = data.frame(fit$p.value[,-1])
+dim(pvals1)
+pvals1[1:2,]
+
+plist = list()
+nm1 = names(pvals1)
+
+for(k in 1:length(nm1)){
+  plist[[k]] = ggplot(pvals1, aes_string(x=nm1[k])) + 
+    geom_histogram(color="darkblue", fill="lightblue", 
+                 breaks=seq(0, 1, by=0.02)) + ggtitle(nm1[k])
+
+}
+
+ggarrange(plotlist=plist, nrow=1, ncol=2)
+
+
+design = model.matrix(~ response_sample, 
+                      data=colDat)
+dim(design)
+design[1:2,]
+
+fit2 <- lmFit(log10_tpm, design)
+fit2 <- eBayes(fit2, trend=TRUE, robust=TRUE)
+dim(fit2$p.value)
+fit2$p.value[1:5,]
+
+pvals2 = data.frame(fit2$p.value[,-1, drop = FALSE])
+dim(pvals2)
+pvals2[1:2,,drop = FALSE]
+
+```
+
+## compare p-value
+
+```{r fig.width=4, fig.height=4}
+res = data.frame(gene = gene2kp)
+res$pval_given_therapy = pvals1$response_sampleR
+res$pval_response = pvals2$response_sampleR
+
+ggplot(res, aes(x=-log10(pval_given_therapy), 
+                y=-log10(pval_response))) + 
+  geom_point(alpha=0.5)
+```
+
+## re-run DE with permuted condition
+
+```{r fig.width=3, fig.height=3}
+set.seed(2345)
+colDat$response_permute = sample(colDat$response_sample, size=nrow(colDat))
+
+design = model.matrix(~ response_permute, 
+                      data=colDat)
+dim(design)
+design[1:2,]
+
+fit <- lmFit(log10_tpm, design)
+fit <- eBayes(fit, trend=TRUE, robust=TRUE)
+topTable(fit, coef=ncol(design)) 
+dim(fit$p.value)
+fit$p.value[1:5,]
+
+df1 = data.frame(fit$p.value)
+ggplot(df1, aes(x=response_permuteR)) + 
+    geom_histogram(color="darkblue", fill="lightblue", 
+                 breaks=seq(0, 1, by=0.02)) + 
+  ggtitle("response_permuteR")
+
+```
+
+## save results
+```{r}
+fwrite(res, file="result/pseudo_bulk_DE_CD8.tsv")
+```
+
+# Session information
+```{r}
+gc()
+
+sessionInfo()
+```
