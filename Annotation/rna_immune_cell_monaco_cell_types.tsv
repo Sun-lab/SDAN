@@ -1,0 +1,31 @@
+Cell_type	Lineage
+Basophil	Granulocytes
+Neutrophil	Granulocytes
+Classical monocyte	Monocytes
+Non-classical monocyte	Monocytes
+Intermediate monocyte	Monocytes
+T-reg	CD4 T-cells
+Naive CD4 T-cell	CD4 T-cells
+Memory CD4 T-cell Th1/Th17	CD4 T-cells
+Memory CD4 T-cell Th17	CD4 T-cells
+Memory CD4 T-cell Th2	CD4 T-cells
+Memory CD4 T-cell Th1	CD4 T-cells
+Memory CD4 T-cell TFH	CD4 T-cells
+Terminal effector memory CD4 T-cell	CD4 T-cells
+Naive CD8 T-cell	CD8 T-cells
+Central memory CD8 T-cell	CD8 T-cells
+Effector memory CD8 T-cell	CD8 T-cells
+Terminal effector memory CD8 T-cell	CD8 T-cells
+MAIT T-cell	Other T-cells
+Vd2 gdTCR	Other T-cells
+Non-Vd2 gdTCR	Other T-cells
+Naive B-cell	B-cells
+Non-switched memory B-cell	B-cells
+Plasmablast	B-cells
+Switched memory B-cell	B-cells
+Exhausted memory B-cell	B-cells
+Plasmacytoid DC	Dendritic cells
+Myeloid DC	Dendritic cells
+NK-cell	NK-cell
+Progenitor cell	Progenitors
+Total PBMC	Total PBMC

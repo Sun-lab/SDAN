@@ -68,9 +68,10 @@ def train_with_args(GNN_list, labels_list, in_channels, out_channels, args, d, c
         train_data_reduced = train_GNN.x.t() @ train_s
         train_score, _, train_auc = test(train_data_reduced, train_labels)
 
-        print(f'Epoch: {epoch:03d}, Train Loss: {train_loss:.4f}, Train AUC: {train_auc:.4f}, '
-              f'Val Loss: {val_loss:.4f}, Val AUC: {val_auc:.4f}, '
-              f'Test Loss: {test_loss:.4f}, Test AUC: {test_auc:.4f}')
+        if epoch % 1000 == 0:
+            print(f'Epoch: {epoch:03d}, Train Loss: {train_loss:.4f}, Train AUC: {train_auc:.4f}, '
+                  f'Val Loss: {val_loss:.4f}, Val AUC: {val_auc:.4f}, '
+                  f'Test Loss: {test_loss:.4f}, Test AUC: {test_auc:.4f}')
 
         train_loss_list.append(train_loss.detach().numpy())
         val_loss_list.append(val_loss.detach().numpy())

@@ -1,0 +1,64 @@
+
+---
+title: "Assess the relation between co-expression and PPI in scRNA-seq data"
+author: "Wei Sun"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document: null
+  theme: journal
+number_sections: yes
+highlight: tango
+smooth_scroll: no
+editor_options:
+  chunk_output_type: console
+toc: yes
+toc_depth: 3
+toc_float:
+  collapsed: yes
+---
+
+libraries and path
+
+```{r echo = TRUE, results = 'hide', warning = FALSE, message = FALSE}
+
+library(MASS)
+library(Matrix)
+library(data.table)
+library(dplyr)
+library(doParallel)
+library(svd)
+
+library(ggplot2)
+library(ggpubr)
+library(ggpointdensity)
+theme_set(theme_bw())
+
+```
+
+
+Read in gene-gene interaction information.
+
+```{r}
+ppi = fread("BIOGRID-ORGANISM-Homo_sapiens-4.4.204.tab3.txt.gz")
+dim(ppi)
+names(ppi)
+ppi[1:2,]
+
+table(ppi$`Experimental System`, ppi$`Experimental System Type`)
+
+genesA = ppi$`Official Symbol Interactor A`
+tA = table(table(genesA))
+
+genesB = ppi$`Official Symbol Interactor B`
+tB = table(table(genesB))
+
+length(unique(genesA))
+length(unique(genesB))
+length(union(genesA, genesB))
+```
+
+```{r}
+gc()
+sessionInfo()
+```

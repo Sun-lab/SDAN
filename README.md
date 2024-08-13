@@ -1,4 +1,4 @@
-# SDAN (Supervised Deep Learning with Gene Annotation)
+# SDAN (Supervised Deep Learning with Gene Annotation for Cell Classification)
 
 ## Overview
 
@@ -14,11 +14,12 @@ git clone https://github.com/Sun-lab/SDAN
 
 ## Usage
 
-To use the 
+To use the SDAN, you can follow the tutorial ``tutorial.ipynb``, where we apply SDAN on Zheng_2017 data for cell classification.
+
 
 ## Modules
 
-All the modules are saved in ``SDAN/SDAN`` folder.
+All the modules are saved in ``SDAN`` folder.
 - model.py: Pipeline.
 - preprocess.py: Data preprocessing.
 - train.py: Training and test.
@@ -50,8 +51,8 @@ To get the figures for different weight, we run
 ```
 python check_weight.py Su_2020 cd4_BL
 python check_weight.py Su_2020 cd8_BL
-python check_weight.py SEA_AD.py Astro
-python check_weight.py SEA_AD.py Micro-PVM
+python check_weight.py SEA_AD Astro
+python check_weight.py SEA_AD Micro-PVM
 python check_weight.py Yost_2019 CD8T
 ```
 
@@ -72,7 +73,7 @@ Figures for different weights are saved in ``figures`` folder for each dataset.
 Figures across weights are saved in ``check_weight`` folder for each dataset.
 
 - ``boxplot`` is the prediction scores on individual level.
-- ``JI`` is the Jaccard Index for the clus
+- 
 
 ### Outputs
 

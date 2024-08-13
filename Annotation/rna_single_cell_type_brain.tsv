@@ -1,0 +1,17 @@
+Cell_type	Cell_group
+Excitatory neurons	Neuronal
+Inhibitory neurons	Neuronal
+Cone photoreceptor cells	Neuronal
+Rod photoreceptor cells	Neuronal
+Bipolar cells	Neuronal
+Horizontal cells	Neuronal
+Astrocytes	Glial
+Oligodendrocyte precursor cells	Glial
+Oligodendrocytes	Glial
+Microglial cells	Glial
+Muller glia cells	Glial
+Schwann cells	Glial
+T-cells	Immune
+B-cells	Immune
+Plasma cells	Immune
+Nk-cells	Immune
