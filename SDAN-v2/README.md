@@ -8,7 +8,7 @@ Su_2020 corresponds to COVID-19 severity data from Su et al. (2020). SEA-AD corr
 
 ## Code Structure Overview
 
-Tips: To reproduce our results, please follow the Code Structure Overview below to set up the codebase.
+**Tip**: To reproduce our results, please follow the Code Structure Overview below to set up the codebase.
 
 <pre>
 SDAN/
