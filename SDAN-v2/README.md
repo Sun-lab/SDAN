@@ -83,7 +83,7 @@ python Su_2020_v2.py Spectra --cell_type cd4_BL --spectra_L 40
 python Su_2020_v2.py sciRED --cell_type cd4_BL --n_comp 40
 
 # Run GNN on CD4+ T cells
-python Su_2020_v2.py GNN --cell_type cd4_BL --n_comp 40
+python Su_2020_v2.py GNN --cell_type cd4_BL --n_comp 40 --graph_weight 2.0
 
 ```
 CD8
@@ -95,7 +95,7 @@ python Su_2020_v2.py Spectra --cell_type cd8_BL --spectra_L 40
 python Su_2020_v2.py sciRED --cell_type cd8_BL --n_comp 40
 
 # Run GNN on CD8+ T cells
-python Su_2020_v2.py GNN --cell_type cd8_BL --n_comp 40
+python Su_2020_v2.py GNN --cell_type cd8_BL --n_comp 40 --graph_weight 2.0
 ```
 ### SEA_AD Dataset
 Astro
@@ -107,7 +107,7 @@ python SEA_AD_v2.py Spectra --cell_type Astro --spectra_L 40
 python SEA_AD_v2.py sciRED --cell_type Astro --n_comp 40
 
 # Run GNN on Astrocytes
-python SEA_AD_v2.py GNN --cell_type Astro --n_comp 40
+python SEA_AD_v2.py GNN --cell_type Astro --n_comp 40 --graph_weight 2.0
 ```
 Micro-PVM
 ```
@@ -118,7 +118,7 @@ python SEA_AD_v2.py Spectra --cell_type Micro-PVM --spectra_L 40
 python SEA_AD_v2.py sciRED --cell_type Micro-PVM --n_comp 40
 
 # Run GNN on Microglia
-python SEA_AD_v2.py GNN --cell_type Micro-PVM --n_comp 40
+python SEA_AD_v2.py GNN --cell_type Micro-PVM --n_comp 40 --graph_weight 2.0
 ```
 ### SF_2018 and Yost_2019 Datasets
 CD8T
@@ -130,7 +130,7 @@ python Yost_2019_v2.py Spectra --cell_type CD8T  --spectra_L 40
 python Yost_2019_v2.py sciRED --cell_type CD8T  --n_comp 40
 
 # Run GNN on CD8+ T
-python Yost_2019_v2.py GNN --cell_type CD8T  --n_comp 40
+python Yost_2019_v2.py GNN --cell_type CD8T  --n_comp 40 --graph_weight 2.0
 ```
 
 ## Outputs
