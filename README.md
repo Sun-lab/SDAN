@@ -85,5 +85,7 @@ The outputs are saved in the ``output`` folder for each dataset.
 - ``score`` and ``score_ind`` are the prediction scores at the cell level and individual level, respectively, both saved as arrays. The first two columns represent the scores (which sum to 1), and the third column contains the true label (from the individual).
 - ``test_reduced`` is the test data after dimension reduction.
 - ``train_s`` is the trained assignment matrix, saved as an array.
-      
 
+### SDAN-v2
+
+We also release SDAN-v2, which contains the experimental pipelines used in this paper for fair and reproducible comparisons of SDAN with Spectra and sciRED across each scRNA-seq dataset.
