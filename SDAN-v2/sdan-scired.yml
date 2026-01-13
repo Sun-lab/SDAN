@@ -1,0 +1,25 @@
+name: sdan-scired
+channels: [conda-forge]
+dependencies:
+  - python=3.10
+  - pip
+  - numpy=1.26.4
+  - numba=0.59.1
+  - llvmlite=0.42.*
+  - scipy=1.11.4
+  - pandas=1.5.3
+  - scikit-learn=1.3.*
+  - statsmodels=0.14.*
+  - scanpy=1.9.8
+  - umap-learn=0.5.5
+  - matplotlib-base=3.10.*
+  - seaborn=0.13.*
+  - scikit-image=0.22.*
+  - h5py=3.10.*
+  - openpyxl
+  - joblib
+  - tqdm
+  - xgboost=1.7.*
+  - pip:
+      - diptest==0.2.0
+      - sciRED
