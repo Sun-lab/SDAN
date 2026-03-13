@@ -13,15 +13,17 @@ Su_2020 corresponds to COVID-19 severity data from Su et al. (2020). SEA-AD corr
 <pre>
 SDAN/
 │
-├── <a href="Su_2020_v2.py">Su_2020_v2.py</a>                  # Full workflow for Su 2020 dataset (GNN / Spectra / sciRED)
-├── <a href="SEA_AD_v2.py">SEA_AD_v2.py</a>                   # Full workflow for SEA-AD dataset (GNN / Spectra / sciRED)
-├── <a href="Yost_2019_v2.py">Yost_2019_v2.py</a>                # Full workflow for SF_2018 and Yost_2019 datasets (GNN / Spectra / sciRED)
-│
+├── <a href="Su_2020_v2.py">Su_2020_v2.py</a>                  # Full workflow for Su 2020 dataset (GNN / sciRED)
+├── <a href="SEA_AD_v2.py">SEA_AD_v2.py</a>                   # Full workflow for SEA-AD dataset (GNN / sciRED)
+├── <a href="Yost_2019_v2.py">Yost_2019_v2.py</a>                # Full workflow for SF_2018 and Yost_2019 datasets (GNN / sciRED)
+│ 
+│   # Spectra pipeline (Su 2020: CD4 + CD8 T cells)
 ├── <a href="combine_cd4_cd8.py">combine_cd4_cd8.py</a>             # Step 0: combine CD4 and CD8 datasets
 ├── <a href="Su_2020_spectra_preprocess.py">Su_2020_spectra_preprocess.py</a>  # Step 1: preprocess CD4 and CD8 data for Spectra model
 ├── <a href="Su_2020_spectra_training.py">Su_2020_spectra_training.py</a>    # Step 2: train Spectra model and save latent representations
 ├── <a href="Su_2020_spectra_evaluation.py">Su_2020_spectra_evaluation.py</a>  # Step 3: evaluate Spectra results using classifiers
 │
+│   # Spectra pipeline (SEA-AD: Astro + Micro-PVM)
 ├── <a href="combine_Astro_Micro-PVM.py">combine_Astro_Micro-PVM.py</a>     # Step 0: combine Astro and Micro-PVM datasets
 ├── <a href="SEA_AD_spectra_preprocess.py">SEA_AD_spectra_preprocess.py</a>   # Step 1: preprocess Astro and Micro-PVM data for Spectra model
 ├── <a href="SEA_AD_spectra_training.py">SEA_AD_spectra_training.py</a>     # Step 2: train Spectra model and save latent representations
