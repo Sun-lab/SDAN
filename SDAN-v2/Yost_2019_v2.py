@@ -210,7 +210,7 @@ def run_gnn():
             api=True,
         )
 
-    model = torch.load(f"{OUTROOT}output/model_{tag}.pth")
+    model = torch.load(f"{OUTROOT}output/model_{tag}.pth", weights_only=False)
 
     train_s = torch.tensor(
         np.load(f"{OUTROOT}output/train_s_{tag}.npy"),

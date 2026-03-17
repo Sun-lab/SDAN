@@ -30,10 +30,6 @@ def parse_args():
                      help="[GNN] Hidden size 2 (default=64).")
     gnn.add_argument("--graph_weight", type=float, default=1.0,
                      help="[GNN] Weight of graph-related losses (default=1.0).")
-    gnn.add_argument("--mc_weight", type=float, default=1.0,
-                     help="[GNN] Weight of minCUT loss (overridden in scripts).")
-    gnn.add_argument("--o_weight", type=float, default=1.0,
-                     help="[GNN] Weight of orthogonality loss (overridden in scripts).")
     gnn.add_argument("--start_patience", type=int, default=3000,
                      help="[GNN] Patience for early stopping (default=3000).")
     gnn.add_argument("--epochs_min", type=int, default=10000,

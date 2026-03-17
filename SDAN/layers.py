@@ -27,7 +27,9 @@ class PoolSuper(torch.nn.Module):
     def forward(self, data):
         x = data.x
         edge_index = data.edge_index
-        adj = to_dense_normalized_adj(edge_index=edge_index, max_num_nodes=data.num_nodes)
+        adj = getattr(data, "adj", None)
+        if adj is None:
+            adj = to_dense_normalized_adj(edge_index=edge_index, max_num_nodes=data.num_nodes)
         x_GCN = F.relu(self.conv1(x, adj))
         x_GCN = F.relu(self.conv2(x_GCN, adj))
         x_GCN = x_GCN.squeeze()

@@ -7,6 +7,7 @@ import torch_geometric
 from torch_geometric.data import Data
 from scipy.stats import mannwhitneyu
 from statsmodels.stats.multitest import multipletests
+from SDAN.utils import to_dense_normalized_adj, to_numpy_dense
 
 
 # quality control
@@ -15,7 +16,7 @@ def qc(data):
     sc.pp.calculate_qc_metrics(data, qc_vars=['mt'], percent_top=None, log1p=False, inplace=True)
     sc.pp.normalize_total(data, target_sum=1e4)
     sc.pp.log1p(data)
-    data.X = data.X.toarray()
+    data.X = to_numpy_dense(data.X)
     return data
 
 
@@ -23,8 +24,8 @@ def qc(data):
 def load_data(train_dir, test_dir):
     train_data = ad.read_h5ad(train_dir)
     test_data = ad.read_h5ad(test_dir)
-    train_data.X = train_data.X.toarray()
-    test_data.X = test_data.X.toarray()
+    train_data.X = to_numpy_dense(train_data.X)
+    test_data.X = to_numpy_dense(test_data.X)
     return train_data, test_data
 
 
@@ -58,16 +59,20 @@ def construct_gene_list(data, cell_type_list, n_top_genes, method="fdr_bh", alph
 
 # obtain undirected edge list without self loop
 def construct_gene_graph(gene_list):
-    mapping = {gene: i for i, gene in enumerate(gene_list)}
+    mapping = pd.Series(range(len(gene_list)), index=gene_list)
     edge_list = pd.read_csv("./Annotation/BIOGRID-ORGANISM-Homo_sapiens-4.4.204.tab3.txt.gz", 
         compression="gzip", sep="\t", low_memory=False)
     edge_list = edge_list[["Official Symbol Interactor A", "Official Symbol Interactor B"]]
     edge_list = edge_list[
         (edge_list["Official Symbol Interactor A"].isin(gene_list)) &
         (edge_list["Official Symbol Interactor B"].isin(gene_list))]
-    edge_list_index1 = [mapping[gene] for gene in edge_list.iloc[:, 0]]
-    edge_list_index2 = [mapping[gene] for gene in edge_list.iloc[:, 1]]
-    edge_list_index = torch.tensor([edge_list_index1, edge_list_index2], dtype=torch.long)
+    edge_list_index = torch.as_tensor(
+        np.vstack([
+            edge_list.iloc[:, 0].map(mapping).to_numpy(dtype=np.int64),
+            edge_list.iloc[:, 1].map(mapping).to_numpy(dtype=np.int64),
+        ]),
+        dtype=torch.long
+    )
     edge_list_index = torch.unique(edge_list_index, dim=1)
     edge_list_index = torch_geometric.utils.to_undirected(edge_list_index)
     edge_list_index, _ = torch_geometric.utils.remove_self_loops(edge_list_index)
@@ -80,21 +85,18 @@ def construct_GNN(data, gene_list, edge_list_index, remove_isolated=False):
     degree = torch_geometric.utils.degree(edge_list_index[0, :], num_nodes=len(gene_list))
     print(f"The proportion of non-isolated genes: {torch.count_nonzero(degree)/len(gene_list):.2f}")
     # Filter by gene list
-    data_X = data[:, gene_list]
-    data_X = data_X.X
+    data_X = to_numpy_dense(data[:, gene_list].X)
     # Remove isolated nodes
     if remove_isolated:
         edge_list_index,_,mask = torch_geometric.utils.remove_isolated_nodes(edge_list_index, num_nodes=gene_list.size)
         data_X = data_X[:,mask]
-    data_X = torch.from_numpy(data_X).t()
+    data_X = torch.as_tensor(data_X).t()
     data_GNN = Data(x=data_X, edge_index=edge_list_index)
+    data_GNN.adj = to_dense_normalized_adj(edge_index=edge_list_index, max_num_nodes=data_GNN.num_nodes)
     return data_GNN
 
 
 # labels for supervised learning
 def construct_labels(data, cell_type_list):
-    labels = data.obs.cell_type
-    mapping_cell = {cell: i for i, cell in enumerate(cell_type_list)}
-    labels = [mapping_cell[cell] for cell in labels]
-    labels = torch.tensor(labels)
-    return labels
+    labels = pd.Categorical(data.obs.cell_type, categories=cell_type_list).codes
+    return torch.as_tensor(labels, dtype=torch.long)

@@ -98,7 +98,7 @@ cell_type_str = args.cell_type + "_" + str(args.graph_weight)
     pipeline([train_data, val_data, test_data], args, d, cell_type_str)
 
 model_dir = f'{d}output/model_{cell_type_str}.pth'
-model = torch.load(model_dir)
+model = torch.load(model_dir, weights_only=False)
 train_s_dir = f'{d}output/train_s_{cell_type_str}.npy'
 train_s = torch.tensor(np.load(train_s_dir))
 

@@ -1,6 +1,7 @@
 import torch
 from sklearn.metrics import roc_auc_score
 from torch import nn
+import torch.nn.functional as F
 from SDAN.layers import PoolSuper
 
 
@@ -18,17 +19,23 @@ def train_with_args(GNN_list, labels_list, in_channels, out_channels, args, d, c
                       n_comp=args.n_comp,
                       out_channels=out_channels)
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=1e-4)
+    criterion = nn.CrossEntropyLoss()
 
     if args.cuda:
         model.cuda()
         train_GNN = train_GNN.cuda()
         train_labels = train_labels.cuda()
+        val_GNN = val_GNN.cuda()
+        val_labels = val_labels.cuda()
+        if not api:
+            test_GNN = test_GNN.cuda()
+            test_labels = test_labels.cuda()
 
     def train():
         model.train()
         optimizer.zero_grad()
         out_x, out, mc_loss, o_loss = model(train_GNN)
-        clf_loss = nn.CrossEntropyLoss()(out_x, train_labels)
+        clf_loss = criterion(out_x, train_labels)
         loss = clf_loss + args.mc_weight * mc_loss + args.o_weight * o_loss
         loss.backward()
         optimizer.step()
@@ -38,9 +45,12 @@ def train_with_args(GNN_list, labels_list, in_channels, out_channels, args, d, c
     def test(data_reduced, data_labels):
         model.eval()
         data_score = model.linear_relu_stack(data_reduced)
-        clf_loss = nn.CrossEntropyLoss()(data_score, data_labels)
-        data_score = torch.nn.Softmax(dim=1)(data_score)
-        data_auc = roc_auc_score(data_labels.detach().numpy(), data_score[:, 1].detach().numpy())
+        clf_loss = criterion(data_score, data_labels)
+        data_score = F.softmax(data_score, dim=1)
+        data_auc = roc_auc_score(
+            data_labels.detach().cpu().numpy(),
+            data_score[:, 1].detach().cpu().numpy()
+        )
         return data_score, clf_loss, data_auc
 
     best_val_loss = float('inf')
@@ -69,21 +79,26 @@ def train_with_args(GNN_list, labels_list, in_channels, out_channels, args, d, c
         train_score, _, train_auc = test(train_data_reduced, train_labels)
 
         if epoch % 1000 == 0:
-            print(f'Epoch: {epoch:03d}, Train Loss: {train_loss:.4f}, Train AUC: {train_auc:.4f}, '
-                  f'Val Loss: {val_loss:.4f}, Val AUC: {val_auc:.4f}, '
-                  f'Test Loss: {test_loss:.4f}, Test AUC: {test_auc:.4f}')
+            if api:
+                print(f'Epoch: {epoch:03d}, Train Loss: {train_loss:.4f}, Train AUC: {train_auc:.4f}, '
+                      f'Val Loss: {val_loss:.4f}, Val AUC: {val_auc:.4f}')
+            else:
+                print(f'Epoch: {epoch:03d}, Train Loss: {train_loss:.4f}, Train AUC: {train_auc:.4f}, '
+                      f'Val Loss: {val_loss:.4f}, Val AUC: {val_auc:.4f}, '
+                      f'Test Loss: {test_loss:.4f}, Test AUC: {test_auc:.4f}')
 
-        train_loss_list.append(train_loss.detach().numpy())
-        val_loss_list.append(val_loss.detach().numpy())
+        train_loss_list.append(train_loss.detach().cpu().item())
+        val_loss_list.append(val_loss.detach().cpu().item())
         train_auc_list.append(train_auc)
         val_auc_list.append(val_auc)
         if not api:
-            test_loss_list.append(test_loss.detach().numpy())
+            test_loss_list.append(test_loss.detach().cpu().item())
             test_auc_list.append(test_auc)
 
-        if val_loss < best_val_loss:
-            best_val_loss = val_loss
-            best_train_s = train_s
+        val_loss_value = val_loss.detach().cpu().item()
+        if val_loss_value < best_val_loss:
+            best_val_loss = val_loss_value
+            best_train_s = train_s.detach().clone()
             torch.save(model.state_dict(), f'{d}output/state_{cell_type_str}.pt')
             patience = args.start_patience
         else:
@@ -92,7 +107,7 @@ def train_with_args(GNN_list, labels_list, in_channels, out_channels, args, d, c
                 print('Early stopping!')
                 break
 
-    model.load_state_dict(torch.load(f'{d}output/state_{cell_type_str}.pt'))
+    model.load_state_dict(torch.load(f'{d}output/state_{cell_type_str}.pt', map_location=next(model.parameters()).device))
     train_s = best_train_s
 
     if api:
@@ -103,9 +118,12 @@ def train_with_args(GNN_list, labels_list, in_channels, out_channels, args, d, c
 
 def test_model(model, data_reduced, data_labels):
     model.eval()
+    criterion = nn.CrossEntropyLoss()
     data_score = model.linear_relu_stack(data_reduced)
-    clf_loss = nn.CrossEntropyLoss()(data_score, data_labels)
-    data_score = torch.nn.Softmax(dim=1)(data_score)
-    data_auc = roc_auc_score(data_labels.detach().numpy(), data_score[:, 1].detach().numpy())
+    clf_loss = criterion(data_score, data_labels)
+    data_score = F.softmax(data_score, dim=1)
+    data_auc = roc_auc_score(
+        data_labels.detach().cpu().numpy(),
+        data_score[:, 1].detach().cpu().numpy()
+    )
     return data_score, clf_loss, data_auc
-

@@ -55,7 +55,7 @@ def pipeline(input_data, args, d, cell_type_str="", api=False):
     gene_list_dir = f'{d}output/gene_list_{cell_type_str}.txt'
     model_dir = f'{d}output/model_{cell_type_str}.pth'
 
-    np.save(train_s_dir, train_s.detach().numpy())
+    np.save(train_s_dir, train_s.detach().cpu().numpy())
     pd.Series(gene_list).to_csv(gene_list_dir, header=False, index=False)
     torch.save(model, model_dir)
 
@@ -63,4 +63,3 @@ def pipeline(input_data, args, d, cell_type_str="", api=False):
         return [train_GNN, val_GNN], [train_labels, val_labels], cell_type_list, gene_list
     else:
         return [train_GNN, val_GNN, test_GNN], [train_labels, val_labels, test_labels], cell_type_list, gene_list
-

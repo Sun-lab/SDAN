@@ -1,6 +1,7 @@
 import numpy as np
 import scanpy as sc
 import anndata as ad
+from scipy import sparse
 
 import torch
 import torch_geometric
@@ -16,13 +17,21 @@ import seaborn as sns
 
 # edge index to normalized adjacency matrix
 def to_dense_normalized_adj(edge_index, batch=None, edge_attr=None, max_num_nodes=None):
-    edge_index, _ = torch_geometric.utils.add_self_loops(edge_index=edge_index, edge_attr=edge_attr, num_nodes=max_num_nodes)
+    edge_index, _ = torch_geometric.utils.add_self_loops(
+        edge_index=edge_index, edge_attr=edge_attr, num_nodes=max_num_nodes
+    )
     adj = to_dense_adj(edge_index, batch, edge_attr, max_num_nodes)
-    d = torch.sum(adj, 1)
-    d = 1 / np.sqrt(d)
-    D = torch.diagflat(d)
-    adj = D @ adj @ D
+    # Symmetric normalization without materializing large diagonal matrices.
+    d = torch.sum(adj, dim=-1)
+    d_inv_sqrt = torch.rsqrt(torch.clamp(d, min=1e-12))
+    adj = d_inv_sqrt.unsqueeze(-1) * adj * d_inv_sqrt.unsqueeze(-2)
     return adj
+
+
+def to_numpy_dense(matrix):
+    if sparse.issparse(matrix):
+        return matrix.toarray()
+    return np.asarray(matrix)
 
 
 # compute leiden
@@ -55,7 +64,7 @@ def plot_confusion(reduced, type_name, d):
 
 # plot assignment matrix
 def plot_s(s, type_name, d):
-    sns.clustermap(s.detach().numpy(), col_cluster=False, cmap="Blues")
+    sns.clustermap(s.detach().cpu().numpy(), col_cluster=False, cmap="Blues")
     plt.savefig(d + "figures/heatmap_s_" + type_name + ".pdf")
 
 
@@ -68,7 +77,7 @@ def s2name(s, gene_list, type_name, d, thr=0.8):
         if gene_index.shape[1] > 0:
             gene_name = np.vectorize(mapping_gene.get)(gene_index).flatten()
         return gene_name
-    s_name = list(map(s_index2name, s.detach().numpy().transpose()))
+    s_name = list(map(s_index2name, s.detach().cpu().numpy().transpose()))
     file = open(d + "output/name_s_" + type_name + ".txt", 'w+', newline='')
     write = csv.writer(file)
     write.writerows(s_name)
@@ -126,19 +135,16 @@ def plot_scores(scores, labels, cell_type_list, type_name, d):
     [val_score, test_score] = scores
     [val_labels, test_labels] = labels
 
-    plt.figure()
     plt.figure(figsize=(3, 3), dpi=80)
-    plt.hist([test_score[:, 1][test_labels == 1].detach().numpy(), test_score[:, 1][test_labels == 0].detach().numpy()],
+    plt.hist([test_score[:, 1][test_labels == 1].detach().cpu().numpy(), test_score[:, 1][test_labels == 0].detach().cpu().numpy()],
              bins=10, label=[cell_type_list[1], cell_type_list[0]])
     plt.legend(loc='upper right')
     plt.title('Prediction scores on test data')
     plt.savefig(f'{d}figures/score_test_{type_name}.pdf')
 
-    plt.figure()
     plt.figure(figsize=(3, 3), dpi=80)
-    plt.hist([val_score[:, 1][val_labels == 1].detach().numpy(), val_score[:, 1][val_labels == 0].detach().numpy()],
+    plt.hist([val_score[:, 1][val_labels == 1].detach().cpu().numpy(), val_score[:, 1][val_labels == 0].detach().cpu().numpy()],
              bins=10, label=[cell_type_list[1], cell_type_list[0]])
     plt.legend(loc='upper right')
     plt.title('Prediction scores on validation data')
     plt.savefig(f'{d}figures/score_val_{type_name}.pdf')
-

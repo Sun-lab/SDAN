@@ -22,14 +22,12 @@ def parse_args():
                         help='Number of second hidden units.')
     parser.add_argument('--graph_weight', type=float, default=1,
                         help='Weight of the graph loss.')
-    parser.add_argument('--mc_weight', type=float, default=1,
-                        help='Weight of the minCUT loss.')
-    parser.add_argument('--o_weight', type=float, default=1,
-                        help='Weight of the orthogonality loss')
     parser.add_argument('--start_patience', type=int, default=3000,
                         help='Number of patience for early stopping.')
     parser.add_argument('--epochs_min', type=int, default=10000,
                         help='Minimum number of epochs to train.')
     args = parser.parse_args()
     args.cuda = not args.no_cuda and torch.cuda.is_available()
+    args.mc_weight = args.graph_weight
+    args.o_weight = args.graph_weight
     return args
