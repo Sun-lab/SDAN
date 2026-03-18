@@ -32,6 +32,11 @@ def load_data(train_dir, test_dir):
 # construct p-values of differential expression (DE) genes
 def construct_DE_gene(data, cell_type, cell_type_list):
     def test_pval(x):
+        # Support sparse and dense vectors from data.X.transpose()
+        if hasattr(x, "toarray"):
+            x = x.toarray().ravel()
+        else:
+            x = np.asarray(x).ravel()
         _, pval = mannwhitneyu(x[data.obs.cell_type == cell_type],
                                x[(data.obs.cell_type != cell_type)&(data.obs.cell_type.isin(cell_type_list))],
                                alternative='greater', method='asymptotic')
