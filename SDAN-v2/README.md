@@ -15,7 +15,7 @@ SDAN/
 │
 ├── <a href="Su_2020_v2.py">Su_2020_v2.py</a>                  # Full workflow for Su 2020 dataset (GNN / sciRED)
 ├── <a href="SEA_AD_v2.py">SEA_AD_v2.py</a>                   # Full workflow for SEA-AD dataset (GNN / sciRED)
-├── <a href="Yost_2019_v2.py">Yost_2019_v2.py</a>                # Full workflow for SF_2018 and Yost_2019 datasets (GNN / sciRED)
+├── <a href="Yost_2019_v2.py">Yost_2019_v2.py</a>                # Full workflow for SF_2018 and Yost_2019 datasets (GNN / Spectra / sciRED)
 │ 
 │   # Spectra pipeline (Su 2020: CD4 + CD8 T cells)
 ├── <a href="combine_cd4_cd8.py">combine_cd4_cd8.py</a>             # Step 0: combine CD4 and CD8 datasets
