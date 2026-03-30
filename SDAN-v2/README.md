@@ -1,6 +1,6 @@
 # SDAN-v2 Workflow Guideline
 
-SDAN-v2 is an extension of SDAN that implements the experimental pipelines used in this paper to compare SDAN (GNN), Spectra, and sciRED across multiple scRNA-seq datasets with consistent preprocessing and evaluation. The code is used to generate fair and reproducible comparisons across Su_2020, SEA-AD, SF_2018, and Yost_2019.
+SDAN-v2 is an extension of SDAN that implements the experimental pipelines used in this paper to compare SDAN, Spectra, and sciRED across multiple scRNA-seq datasets with consistent preprocessing and evaluation. The code is used to generate fair and reproducible comparisons across Su_2020, SEA-AD, SF_2018, and Yost_2019.
 
 ## Datasets
 
@@ -13,9 +13,9 @@ Su_2020 corresponds to COVID-19 severity data from Su et al. (2020). SEA-AD corr
 <pre>
 SDAN/
 │
-├── <a href="Su_2020_v2.py">Su_2020_v2.py</a>                  # Full workflow for Su 2020 dataset (GNN / sciRED)
-├── <a href="SEA_AD_v2.py">SEA_AD_v2.py</a>                   # Full workflow for SEA-AD dataset (GNN / sciRED)
-├── <a href="Yost_2019_v2.py">Yost_2019_v2.py</a>                # Full workflow for SF_2018 and Yost_2019 datasets (GNN / Spectra / sciRED)
+├── <a href="Su_2020_v2.py">Su_2020_v2.py</a>                  # Full workflow for Su 2020 dataset (SDAN / sciRED)
+├── <a href="SEA_AD_v2.py">SEA_AD_v2.py</a>                   # Full workflow for SEA-AD dataset (SDAN / sciRED)
+├── <a href="Yost_2019_v2.py">Yost_2019_v2.py</a>                # Full workflow for SF_2018 and Yost_2019 datasets (SDAN / Spectra / sciRED)
 │ 
 │   # Spectra pipeline (Su 2020: CD4 + CD8 T cells)
 ├── <a href="combine_cd4_cd8.py">combine_cd4_cd8.py</a>             # Step 0: combine CD4 and CD8 datasets
@@ -44,7 +44,7 @@ SDAN/
 │
 ├── <a href="sdan-spectra.yml">sdan-spectra.yml</a>               # Environment for Spectra model
 ├── <a href="sdan-scired.yml">sdan-scired.yml</a>                # Environment for sciRED model
-└── <a href="sdan-gnn.yml">sdan-gnn.yml</a>                   # Environment for Graph Neural Network (GNN)
+└── <a href="sdan-SDAN.yml">sdan-SDAN.yml</a>                   # Environment for Graph Neural Network (SDAN)
 │
 └── <a href="README.md">README.md</a>                  
 </pre>
@@ -58,21 +58,21 @@ conda env create -f sdan-spectra.yml
 # 2. sciRED environment
 conda env create -f sdan-scired.yml
 
-# 3. GNN environment
-conda env create -f sdan-gnn.yml
+# 3. SDAN environment
+conda env create -f sdan-SDAN.yml
 ```
 Activate as needed:
 ```
 conda activate sdan-spectra   # for Spectra pipeline
 conda activate sdan-scired    # for sciRED pipeline
-conda activate sdan-gnn       # for GNN pipeline
+conda activate sdan-SDAN       # for SDAN pipeline
 ```
 
 (**Tip:** Make sure to activate the correct Conda environment for each model backend, and deactivate environments when running a different backend to avoid dependency conflicts.)
 
 ## How to Run the Pipelines
 
-Each dataset is controlled by a single driver script. The backend (GNN, Spectra, or sciRED) is specified as the first command-line argument.
+Each dataset is controlled by a single driver script. The backend (SDAN, Spectra, or sciRED) is specified as the first command-line argument.
 
 ### Su_2020 Dataset
 
@@ -84,8 +84,8 @@ python Su_2020_v2.py Spectra --cell_type cd4_BL --spectra_L 40
 # Run sciRED on CD4+ T cells
 python Su_2020_v2.py sciRED --cell_type cd4_BL --n_comp 40
 
-# Run GNN on CD4+ T cells
-python Su_2020_v2.py GNN --cell_type cd4_BL --n_comp 40 --graph_weight 2.0
+# Run SDAN on CD4+ T cells
+python Su_2020_v2.py SDAN --cell_type cd4_BL --n_comp 40 --graph_weight 2.0
 
 ```
 CD8
@@ -96,8 +96,8 @@ python Su_2020_v2.py Spectra --cell_type cd8_BL --spectra_L 40
 # Run sciRED on CD8+ T cells
 python Su_2020_v2.py sciRED --cell_type cd8_BL --n_comp 40
 
-# Run GNN on CD8+ T cells
-python Su_2020_v2.py GNN --cell_type cd8_BL --n_comp 40 --graph_weight 2.0
+# Run SDAN on CD8+ T cells
+python Su_2020_v2.py SDAN --cell_type cd8_BL --n_comp 40 --graph_weight 2.0
 ```
 ### SEA_AD Dataset
 Astro
@@ -108,8 +108,8 @@ python SEA_AD_v2.py Spectra --cell_type Astro --spectra_L 40
 # Run sciRED on Astrocytes
 python SEA_AD_v2.py sciRED --cell_type Astro --n_comp 40
 
-# Run GNN on Astrocytes
-python SEA_AD_v2.py GNN --cell_type Astro --n_comp 40 --graph_weight 2.0
+# Run SDAN on Astrocytes
+python SEA_AD_v2.py SDAN --cell_type Astro --n_comp 40 --graph_weight 2.0
 ```
 Micro-PVM
 ```
@@ -119,8 +119,8 @@ python SEA_AD_v2.py Spectra --cell_type Micro-PVM --spectra_L 40
 # Run sciRED on Microglia
 python SEA_AD_v2.py sciRED --cell_type Micro-PVM --n_comp 40
 
-# Run GNN on Microglia
-python SEA_AD_v2.py GNN --cell_type Micro-PVM --n_comp 40 --graph_weight 2.0
+# Run SDAN on Microglia
+python SEA_AD_v2.py SDAN --cell_type Micro-PVM --n_comp 40 --graph_weight 2.0
 ```
 ### SF_2018 and Yost_2019 Datasets
 CD8T
@@ -131,8 +131,8 @@ python Yost_2019_v2.py Spectra --cell_type CD8T  --spectra_L 40
 # Run sciRED on CD8+ T
 python Yost_2019_v2.py sciRED --cell_type CD8T  --n_comp 40
 
-# Run GNN on CD8+ T
-python Yost_2019_v2.py GNN --cell_type CD8T  --n_comp 40 --graph_weight 2.0
+# Run SDAN on CD8+ T
+python Yost_2019_v2.py SDAN --cell_type CD8T  --n_comp 40 --graph_weight 2.0
 ```
 
 ## Outputs
