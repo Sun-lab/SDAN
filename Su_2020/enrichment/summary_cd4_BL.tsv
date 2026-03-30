@@ -1,0 +1,7 @@
+cohort	su2020
+dataset	cd4_BL
+cell_auc_classical	0.7619208023813286
+donor_auc_classical	0.8898809523809524
+n_total_enriched_terms	2072
+n_selected_nonredundant_terms	40
+median_pairwise_jaccard_selected	0.03330692023243528

@@ -1,0 +1,7 @@
+cohort	su2020
+dataset	cd8_BL
+cell_auc_classical	0.7684569356379194
+donor_auc_classical	0.8988095238095238
+n_total_enriched_terms	2159
+n_selected_nonredundant_terms	40
+median_pairwise_jaccard_selected	0.030481369831194864

@@ -1,0 +1,7 @@
+cohort	sea_ad
+dataset	Astro
+cell_auc_classical	0.6232122639960751
+donor_auc_classical	0.7074829931972788
+n_total_enriched_terms	421
+n_selected_nonredundant_terms	40
+median_pairwise_jaccard_selected	0.03207999931473911

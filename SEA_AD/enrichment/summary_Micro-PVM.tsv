@@ -1,0 +1,7 @@
+cohort	sea_ad
+dataset	Micro-PVM
+cell_auc_classical	0.5186424232528599
+donor_auc_classical	0.5759637188208616
+n_total_enriched_terms	988
+n_selected_nonredundant_terms	40
+median_pairwise_jaccard_selected	0.019096124860212962

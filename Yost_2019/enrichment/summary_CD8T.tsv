@@ -1,0 +1,7 @@
+cohort	yost_2019
+dataset	CD8T
+cell_auc_classical	0.5907289510515172
+donor_auc_classical	0.6964285714285714
+n_total_enriched_terms	295
+n_selected_nonredundant_terms	40
+median_pairwise_jaccard_selected	0.013245033112582781
