@@ -173,8 +173,7 @@ def load_and_split_sea_ad(root: Path, dataset: str, seed: int):
     ind_c = meta_ind[meta_ind["Cognitive Status"] == "No dementia"]["Donor ID"]
 
     data.obs["cell_type"] = data.obs["Cognitive status"]
-    if "feature_name" in data.var.columns:
-        data.var_names = data.var["feature_name"].astype(str)
+    data.var_names = data.var.feature_name.astype(str)
 
     mito = pd.read_csv(anno_dir / "mito_genes.tsv", sep="\t")
     data = data[:, ~data.var_names.isin(mito["hgnc_symbol"])].copy()
@@ -391,8 +390,8 @@ def run(args: argparse.Namespace) -> None:
     for _, row in selected.iterrows():
         genes = sorted(list(row["genes"]))
         score_col = row["score_col"]
-        sc.tl.score_genes(train_adata, gene_list=genes, score_name=score_col, random_state=0)
-        sc.tl.score_genes(test_adata, gene_list=genes, score_name=score_col, random_state=0)
+        sc.tl.score_genes(train_adata, gene_list=genes, score_name=score_col, random_state=0, use_raw=False)
+        sc.tl.score_genes(test_adata, gene_list=genes, score_name=score_col, random_state=0, use_raw=False)
 
     feature_cols = selected["score_col"].tolist()
     X_train = train_adata.obs[feature_cols].to_numpy()
