@@ -45,7 +45,7 @@ SDAN/
 ├── <a href="sdan-spectra.yml">sdan-spectra.yml</a>               # Environment for Spectra model
 ├── <a href="sdan-scired.yml">sdan-scired.yml</a>                # Environment for sciRED model
 ├── <a href="sdan-scnet.yml">sdan-scnet.yml</a>                 # Environment for scNET model
-└── <a href="sdan-SDAN.yml">sdan-SDAN.yml</a>                  # Environment for Graph Neural Network (SDAN)
+└── <a href="sdan.yml">sdan.yml</a>                       # Environment for Graph Neural Network (SDAN)
 │
 └── <a href="README.md">README.md</a>                  
 </pre>
@@ -69,8 +69,8 @@ Activate as needed:
 ```
 conda activate sdan-spectra   # for Spectra pipeline
 conda activate sdan-scired    # for sciRED pipeline
-conda activate sdan       # for SDAN pipeline
-conda activate sdan-scnet    # for sciNET pipeline
+conda activate sdan           # for SDAN pipeline
+conda activate sdan-scnet     # for sciNET pipeline
 ```
 
 (**Tip:** Make sure to activate the correct Conda environment for each model backend, and deactivate environments when running a different backend to avoid dependency conflicts.)
