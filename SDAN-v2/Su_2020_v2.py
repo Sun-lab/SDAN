@@ -1,7 +1,7 @@
 """
 This file unified version for SDAN, sciRED, and scNET backends.
 Compatible with args.py and preprocess.py.
-ALL outputs saved into: ./Yost_2019/output_v2/
+ALL outputs saved into: ./Su_2020/output_v2/
 The backend output folders are:
     SDAN: output_v2/SDAN
     sciRED: output_v2/sciRED
