@@ -1,5 +1,6 @@
 # evaluation.py
 from typing import Sequence, Iterable
+from pathlib import Path
 import numpy as np
 import pandas as pd
 import scipy.sparse as sp
@@ -133,7 +134,12 @@ def eval_and_save(
             "label_bin": y_ind_known,
             "label_str": [POS_NAME if v == 1 else NEG_NAME for v in y_ind_known],
         })
-        ind_scores_path = out_csv.replace(".csv", f"_{feat_prefix}_{name}_ind_scores.csv")
+        out_path = Path(out_csv)
+        # Keep the per-individual score filename readable by avoiding a second
+        # redundant backend prefix (for example "..._scNET75_scNET_custom_...").
+        ind_scores_path = out_path.with_name(
+            f"{out_path.stem}_{name}_individual_scores.csv"
+        )
         ind_scores_df.to_csv(ind_scores_path, index=False)
 
         results.append({
