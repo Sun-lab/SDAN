@@ -58,7 +58,7 @@ SDAN/
 </pre>
 
 ## Conda Environment Setup
-Create and activate the three environments corresponding to each model backend:
+Create and activate the following environments corresponding to each model backend:
 ```
 # 1. Spectra environment
 conda env create -f sdan-spectra.yml
@@ -84,11 +84,17 @@ conda activate sdan-scnet     # for sciNET pipeline
 
 ## How to Run the Pipelines
 
-Each dataset is controlled by a single driver script. The backend (SDAN, Spectra, sciRED, or scNET) is specified as the first command-line argument.
+Before running any pipeline, make sure that:
+
+- You have activated the correct Conda environment for the selected backend.
+- The files have been placed in the expected reproduction layout shown in the Code Structure Overview above.
+- You are running the commands from the project root `SDAN/`.
+
+In all standard workflows, the backend (SDAN, Spectra, sciRED, or scNET) is given as the first positional argument to the dataset-specific driver script.
 
 ### Su_2020 Dataset
 
-CD4
+CD4+ T cells
 ```
 # Run sciRED on CD4+ T cells
 python Su_2020_comparison.py sciRED --cell_type cd4_BL --n_comp 40
@@ -98,20 +104,11 @@ python Su_2020_comparison.py SDAN --cell_type cd4_BL --n_comp 40 --graph_weight 
 
 # Run scNET on CD4+ T cells
 python Su_2020_comparison.py scNET --cell_type cd4_BL --scnet_epochs 250 --scnet_batches 40
-
-
-# Run Spectra on CD4+ T cells in 4 steps
-Step 1: python combine_cd4_cd8.py
-Step 2: python Su_2020_spectra_preprocess.py
-Step 3: python Su_2020_spectra_training.py
-Step 4: python Su_2020_spectra_evaluation.py 
 ```
-CD8
+CD8+ T cells
 ```
-# Run Spectra on CD8+ T cells
-python Su_2020_comparison.py Spectra --cell_type cd8_BL --spectra_L 40
-
 # Run sciRED on CD8+ T cells
+
 python Su_2020_comparison.py sciRED --cell_type cd8_BL --n_comp 40
 
 # Run SDAN on CD8+ T cells
@@ -120,12 +117,26 @@ python Su_2020_comparison.py SDAN --cell_type cd8_BL --n_comp 40 --graph_weight 
 # Run scNET on CD8+ T cells
 python Su_2020_comparison.py scNET --cell_type cd8_BL --scnet_epochs 250 --scnet_batches 40
 ```
-### SEA_AD Dataset
-Astro
-```
-# Run Spectra on Astrocytes
-python SEA_AD_comparison.py Spectra --cell_type Astro --spectra_L 40
 
+Spectra for Su_2020 CD4+ T cells and CD8+ T cells is a special multi-step workflow
+```
+# Step 1: combine CD4 and CD8
+
+# Step 2: preprocess each subset separately
+python Su_2020_spectra_preprocess.py --cell_type cd4_BL
+python Su_2020_spectra_preprocess.py --cell_type cd8_BL
+
+# Step 3: train Spectra on the combined CD4/CD8 union
+python Su_2020_spectra_training.py Spectra --cell_type cd4_cd8_BL --spectra_L 40
+
+# Step 4: evaluate on CD4 or CD8
+python Su_2020_spectra_evaluation.py Spectra --cell_type cd4_BL
+python Su_2020_spectra_evaluation.py Spectra --cell_type cd8_BL
+```
+
+### SEA_AD Dataset
+Astrocytes
+```
 # Run sciRED on Astrocytes
 python SEA_AD_comparison.py sciRED --cell_type Astro --n_comp 40
 
@@ -137,9 +148,6 @@ python SEA_AD_comparison.py scNET --cell_type Astro --scnet_epochs 250 --scnet_b
 ```
 Micro-PVM
 ```
-# Run Spectra on Microglia (Micro-PVM)
-python SEA_AD_comparison.py Spectra --cell_type Micro-PVM --spectra_L 40
-
 # Run sciRED on Microglia
 python SEA_AD_comparison.py sciRED --cell_type Micro-PVM --n_comp 40
 
@@ -149,8 +157,26 @@ python SEA_AD_comparison.py SDAN --cell_type Micro-PVM --n_comp 40 --graph_weigh
 # Run scNET on Microglia
 python SEA_AD_comparison.py scNET --cell_type Micro-PVM --scnet_epochs 250 --scnet_batches 40
 ```
+Spectra for SEA_AD Astrocytes and Micro-PVM is a special multi-step workflow
+```
+# Step 1: combine the Astro and Micro-PVM datasets
+python combine_Astro_Micro-PVM.py
+
+# Step 2: preprocess each subset separately
+python SEA_AD_spectra_preprocess.py --cell_type Astro
+python SEA_AD_spectra_preprocess.py --cell_type Micro-PVM
+
+# Step 3: train Spectra on the combined Astro/Micro-PVM union dataset
+python SEA_AD_spectra_training.py Spectra --cell_type Astro_Micro-PVM --spectra_L 40
+
+# Step 4: evaluate the trained model on Astro or Micro-PVM cells
+python SEA_AD_spectra_evaluation.py Spectra --cell_type Astro
+python SEA_AD_spectra_evaluation.py Spectra --cell_type Micro-PVM
+```
+
+
 ### SF_2018 and Yost_2019 Datasets
-CD8T
+CD8+ T
 ```
 # Run Spectra on CD8+ T
 python Yost_2019_comparison.py Spectra --cell_type CD8T  --spectra_L 40
