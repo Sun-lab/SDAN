@@ -14,9 +14,9 @@ The comparison scripts are stored in the `SDAN-Comparison/` subdirectory rather 
 <pre>
 SDAN/
 │
-├── <a href="Su_2020_comparsion.py">Su_2020_comparsion.py</a>                  # Full workflow for Su 2020 dataset (SDAN / sciRED / scNET)
-├── <a href="SEA_AD_comparison.py">SEA_AD_comparison.py</a>                   # Full workflow for SEA-AD dataset (SDAN / sciRED / scNET)
-├── <a href="Yost_2019_comparsion.py">Yost_2019_comparsion.py</a>                # Full workflow for SF_2018 and Yost_2019 datasets (SDAN / Spectra / sciRED / scNET)
+├── <a href="Su_2020_comparsion.py">Su_2020_comparsion.py</a>          # Full workflow for Su 2020 dataset (SDAN / sciRED / scNET)
+├── <a href="SEA_AD_comparison.py">SEA_AD_comparison.py</a>           # Full workflow for SEA-AD dataset (SDAN / sciRED / scNET)
+├── <a href="Yost_2019_comparsion.py">Yost_2019_comparsion.py</a>        # Full workflow for SF_2018 and Yost_2019 datasets (SDAN / Spectra / sciRED / scNET)
 │ 
 │   # Spectra pipeline (Su 2020: CD4 + CD8 T cells)
 ├── <a href="combine_cd4_cd8.py">combine_cd4_cd8.py</a>             # Step 0: combine CD4 and CD8 datasets
@@ -36,13 +36,13 @@ SDAN/
 │   └── <a href="plots.ipynb">plots.ipynb</a>                # Plots
 │
 ├── Su_2020/
-│   └── <a href="Su_2020/output_comparison/">output_comparison/</a>                 # All output files, figures, and results
+│   └── <a href="Su_2020/output_comparison/">output_comparison/</a>         # All output files, figures, and results
 │
 ├── SEA_AD/
-│   └── <a href="SEA_AD/output_comparison/">output_comparison/</a>                 # All output files, figures, and results
+│   └── <a href="SEA_AD/output_comparison/">output_comparison/</a>         # All output files, figures, and results
 │ 
 ├── Yost_2019/
-│   └── <a href="Yost_2019/output_comparison/">output_comparison/</a>                 # All output files, figures, and results
+│   └── <a href="Yost_2019/output_comparison/">output_comparison/</a>         # All output files, figures, and results
 │
 ├── <a href="sdan-spectra.yml">sdan-spectra.yml</a>               # Environment for Spectra model
 ├── <a href="sdan-scired.yml">sdan-scired.yml</a>                # Environment for sciRED model
