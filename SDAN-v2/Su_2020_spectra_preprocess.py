@@ -35,7 +35,7 @@ genes_dir = f"{d}gex_{cell_type_str}_genes.txt"
 meta_ind_dir = f"{d}Table_S1.xlsx"
 meta_cell_dir = f"{d}cell_info_{cell_type_str}.csv"
 
-OUT_DIR = os.path.join(d, "output_v2_4k/")
+OUT_DIR = os.path.join(d, "output_comparsion/Spectra/")
 os.makedirs(OUT_DIR, exist_ok=True)
 # os.makedirs(os.path.join(d, "figures/"), exist_ok=True)
 
@@ -108,7 +108,8 @@ print(f"[DEBUG] cell_type_list = {cell_type_list}")
 n_top = getattr(args, "n_top_genes", 2000)
 
 # ---- Call construct_gene_list ----
-gene_list = construct_gene_list(data, cell_type_list, n_top_genes=n_top, alpha=0.05)
+# gene_list = construct_gene_list(data, cell_type_list, n_top_genes=n_top, alpha=0.05)
+gene_list = construct_gene_list(data.copy(), cell_type_list, n_top_genes=args.n_top_genes, alpha=0.05)
 gene_list = pd.Index(gene_list.astype(str))
 
 # ---- Debugging info ----

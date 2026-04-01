@@ -35,7 +35,7 @@ except ImportError:
 # ---------- Args & Paths ----------
 args = parse_args()
 BASE = "./Su_2020/"
-OUT_DIR = os.path.join(BASE, "output_v2_4k/")
+OUT_DIR = os.path.join(BASE, "output_comparsion/Spectra/")
 os.makedirs(OUT_DIR, exist_ok=True)
 combined_path = os.path.join(OUT_DIR, "combined_cd4_cd8.h5ad")
 
@@ -156,4 +156,3 @@ if __name__ == "__main__":
         run_spectra()
     else:
         raise ValueError("Only Spectra backend is supported.")
-

@@ -36,7 +36,7 @@ except ImportError:
 # ---------- Args & Paths ----------
 args = parse_args()
 BASE = "./SEA_AD/"
-OUT_DIR = os.path.join(BASE, "output_v2_4k/")
+OUT_DIR = os.path.join(BASE, "output_comparsion/Spectra/")
 os.makedirs(OUT_DIR, exist_ok=True)
 
 cell_type_str = args.cell_type
