@@ -8,8 +8,13 @@ Su_2020 corresponds to COVID-19 severity data from Su et al. (2020). SEA-AD corr
 
 ## Code Structure Overview
 
-**Tip**: To reproduce our results, please follow the Code Structure Overview below to set up the codebase. 
-The comparison scripts are stored in the `SDAN-Comparison/` subdirectory rather than the main `SDAN/` directory. Before running the code, please ensure that all files are placed in the correct locations according to the expected directory structure.
+**Important**: In this repository, all comparison scripts used for the paper are kept inside the `SDAN_Comparsion/` folder so the main `SDAN/` codebase stays clean and unchanged.
+
+**For reproduction**, users should place these scripts and files into the locations shown below before running the workflows. In other words, `SDAN_Comparsion/` serves as a paper-specific workspace, but the code expects the reproduction layout shown in the following directory tree.
+
+**Recommended usage**
+- If you are developing or organizing the comparison experiments, keep everything inside `SDAN_Comparsion/`.
+- If you want to reproduce the results exactly as the scripts expect, copy or link the files from `SDAN_Comparsion/` into the corresponding paths shown below.
 
 <pre>
 SDAN/
