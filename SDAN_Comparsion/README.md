@@ -85,9 +85,6 @@ Each dataset is controlled by a single driver script. The backend (SDAN, Spectra
 
 CD4
 ```
-# Run Spectra on CD4+ T cells
-python Su_2020_comparison.py Spectra --cell_type cd4_BL --spectra_L 40
-
 # Run sciRED on CD4+ T cells
 python Su_2020_comparison.py sciRED --cell_type cd4_BL --n_comp 40
 
@@ -96,6 +93,13 @@ python Su_2020_comparison.py SDAN --cell_type cd4_BL --n_comp 40 --graph_weight 
 
 # Run scNET on CD4+ T cells
 python Su_2020_comparison.py scNET --cell_type cd4_BL --scnet_epochs 250 --scnet_batches 40
+
+
+# Run Spectra on CD4+ T cells in 4 steps
+Step 1: python combine_cd4_cd8.py
+Step 2: python Su_2020_spectra_preprocess.py
+Step 3: python Su_2020_spectra_training.py
+Step 4: python Su_2020_spectra_evaluation.py 
 ```
 CD8
 ```
