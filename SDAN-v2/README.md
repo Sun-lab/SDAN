@@ -10,11 +10,10 @@ Su_2020 corresponds to COVID-19 severity data from Su et al. (2020). SEA-AD corr
 
 **Tip**: To reproduce our results, please follow the Code Structure Overview below to set up the codebase.
 
-
 <pre>
 SDAN/
 │
-├── <a href="Su_2020_comparison.py">Su_2020_comparison.py</a>                  # Full workflow for Su 2020 dataset (SDAN / sciRED / scNET)
+├── <a href="Su_2020_comparsion.py">Su_2020_comparsion.py</a>                  # Full workflow for Su 2020 dataset (SDAN / sciRED / scNET)
 ├── <a href="SEA_AD_comparison.py">SEA_AD_comparison.py</a>                   # Full workflow for SEA-AD dataset (SDAN / sciRED / scNET)
 ├── <a href="Yost_2019_comparison.py">Yost_2019_comparison.py</a>                # Full workflow for SF_2018 and Yost_2019 datasets (SDAN / Spectra / sciRED / scNET)
 │ 
