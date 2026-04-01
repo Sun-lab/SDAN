@@ -39,7 +39,7 @@ SDAN/
 │   └── <a href="evaluation.py">evaluation.py</a>              # Shared evaluation utilities
 │   └── <a href="args.py">args.py</a>                    # Defines and parses command-line arguments 
 │   └── <a href="plots.ipynb">plots.ipynb</a>                # Plots
-│
+│ 
 ├── Su_2020/
 │   └── <a href="Su_2020/output_comparison/">output_comparison/</a>         # All output files, figures, and results
 │       └── <a href="Su_2020/output_comparison/SDAN">SDAN/</a>       
@@ -49,7 +49,7 @@ SDAN/
 │
 ├── SEA_AD/
 │   └── <a href="SEA_AD/output_comparison/">output_comparison/</a>         # All output files, figures, and results
-│       └── <a href="Su_2020/output_comparison/SDAN">SDAN/</a>       
+│       └── <a href="SEA_AD/output_comparsion/SDAN">SDAN/</a>       
 │       └── <a href="Su_2020/output_comparison/Spectra">Spectra/</a>      
 │       └── <a href="Su_2020/output_comparison/scNET">scNET/</a>
 │       └── <a href="Su_2020/output_comparison/sciRED">sciRED/</a>  
