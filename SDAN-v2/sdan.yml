@@ -1,4 +1,4 @@
-name: sdan-gnn
+name: sdan
 channels:
   - pyg
   - pytorch
@@ -140,4 +140,4 @@ dependencies:
   - zstd=1.5.7
   - pip:
       - diptest==0.10.0
-prefix: /Users/yuanyuangao/miniconda3/envs/sdan-gnn
+prefix: /Users/yuanyuangao/miniconda3/envs/sdan
