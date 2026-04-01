@@ -1,6 +1,6 @@
-# SDAN-Comparison Workflow Guideline
+# SDAN_Comparison Workflow Guideline
 
-SDAN-Comparison is an extension of SDAN that implements the experimental pipelines used in this paper to compare SDAN, Spectra, sciRED, and scNET across multiple scRNA-seq datasets with consistent preprocessing and evaluation. The code is used to generate fair and reproducible comparisons across Su_2020, SEA-AD, SF_2018, and Yost_2019.
+SDAN_Comparison is an extension of SDAN that implements the experimental pipelines used in this paper to compare SDAN, Spectra, sciRED, and scNET across multiple scRNA-seq datasets with consistent preprocessing and evaluation. The code is used to generate fair and reproducible comparisons across Su_2020, SEA-AD, SF_2018, and Yost_2019.
 
 ## Datasets
 
