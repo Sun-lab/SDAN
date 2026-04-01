@@ -8,9 +8,9 @@ Su_2020 corresponds to COVID-19 severity data from Su et al. (2020). SEA-AD corr
 
 ## Code Structure Overview
 
-**Important**: In this repository, all comparison scripts associated with the paper are organized under the `SDAN_Comparison/` directory. This design choice ensures that the original `SDAN/` codebase remains clean and unmodified.
+**Important**: In this repository, all comparison scripts associated with the paper are organized under the `SDAN_Comparsion/` directory. This design choice ensures that the original `SDAN/` codebase remains clean and unmodified.
 
-**Reproducibility**: To reproduce the reported results, users should place the scripts and related files into the appropriate locations as specified in the directory structure below prior to execution. The `SDAN_Comparison/` directory functions as a self-contained workspace for organizing experimental code; however, the provided scripts assume the directory layout illustrated below.
+**Reproducibility**: To reproduce the reported results, users should place the scripts and related files into the appropriate locations as specified in the directory structure below prior to execution. The `SDAN_Comparsion/` directory functions as a self-contained workspace for organizing experimental code; however, the provided scripts assume the directory layout illustrated below.
 
 **Recommended usage**
 - If you are developing or organizing the comparison experiments, keep everything inside `SDAN_Comparsion/`.
@@ -90,11 +90,11 @@ Before running any pipeline, make sure that:
 - The files have been placed in the expected reproduction layout shown in the Code Structure Overview above.
 - You are running the commands from the project root `SDAN/`.
 
-In all standard workflows, the backend (SDAN, Spectra, sciRED, or scNET) is given as the first positional argument to the dataset-specific driver script.
+For the standard workflows, each dataset is controlled by a single driver script, and the backend (SDAN, Spectra, sciRED, or scNET) is specified as the first command-line argument.
 
 ### Su_2020 Dataset
 
-CD4+ T cells
+#### CD4+ T cells
 ```
 # Run sciRED on CD4+ T cells
 python Su_2020_comparison.py sciRED --cell_type cd4_BL --n_comp 40
@@ -105,10 +105,10 @@ python Su_2020_comparison.py SDAN --cell_type cd4_BL --n_comp 40 --graph_weight 
 # Run scNET on CD4+ T cells
 python Su_2020_comparison.py scNET --cell_type cd4_BL --scnet_epochs 250 --scnet_batches 40
 ```
-CD8+ T cells
+
+#### CD8+ T cells
 ```
 # Run sciRED on CD8+ T cells
-
 python Su_2020_comparison.py sciRED --cell_type cd8_BL --n_comp 40
 
 # Run SDAN on CD8+ T cells
@@ -118,9 +118,15 @@ python Su_2020_comparison.py SDAN --cell_type cd8_BL --n_comp 40 --graph_weight 
 python Su_2020_comparison.py scNET --cell_type cd8_BL --scnet_epochs 250 --scnet_batches 40
 ```
 
-Spectra for Su_2020 CD4+ T cells and CD8+ T cells is a special multi-step workflow
+#### Spectra workflow for CD4+ and CD8+ T cells
+
+`Spectra` analysis for `Su_2020` CD4+ and CD8+ T cells is implemented as a separate multi-step workflow rather than a single driver command. Run the following steps in order:
+
 ```
+conda activate sdan-spectra
+
 # Step 1: combine CD4 and CD8
+python combine_cd4_cd8.py
 
 # Step 2: preprocess each subset separately
 python Su_2020_spectra_preprocess.py --cell_type cd4_BL
@@ -135,7 +141,8 @@ python Su_2020_spectra_evaluation.py Spectra --cell_type cd8_BL
 ```
 
 ### SEA_AD Dataset
-Astrocytes
+
+#### Astrocytes
 ```
 # Run sciRED on Astrocytes
 python SEA_AD_comparison.py sciRED --cell_type Astro --n_comp 40
@@ -146,7 +153,8 @@ python SEA_AD_comparison.py SDAN --cell_type Astro --n_comp 40 --graph_weight 2.
 # Run scNET on Astrocytes
 python SEA_AD_comparison.py scNET --cell_type Astro --scnet_epochs 250 --scnet_batches 40
 ```
-Micro-PVM
+
+#### Micro-PVM
 ```
 # Run sciRED on Microglia
 python SEA_AD_comparison.py sciRED --cell_type Micro-PVM --n_comp 40
@@ -157,8 +165,14 @@ python SEA_AD_comparison.py SDAN --cell_type Micro-PVM --n_comp 40 --graph_weigh
 # Run scNET on Microglia
 python SEA_AD_comparison.py scNET --cell_type Micro-PVM --scnet_epochs 250 --scnet_batches 40
 ```
-Spectra for SEA_AD Astrocytes and Micro-PVM is a special multi-step workflow
+
+#### Spectra workflow for Astrocytes and Micro-PVM
+
+`Spectra` analysis for the `SEA_AD` dataset is implemented as a separate multi-step workflow for `Astro` and `Micro-PVM` cells. Run the following steps in order:
+
 ```
+conda activate sdan-spectra
+
 # Step 1: combine the Astro and Micro-PVM datasets
 python combine_Astro_Micro-PVM.py
 
@@ -176,7 +190,7 @@ python SEA_AD_spectra_evaluation.py Spectra --cell_type Micro-PVM
 
 
 ### SF_2018 and Yost_2019 Datasets
-CD8+ T
+#### CD8+ T cells
 ```
 # Run Spectra on CD8+ T
 python Yost_2019_comparison.py Spectra --cell_type CD8T  --spectra_L 40
