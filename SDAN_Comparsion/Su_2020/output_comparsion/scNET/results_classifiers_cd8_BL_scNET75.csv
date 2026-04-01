@@ -1,0 +1,2 @@
+backend,model,auc_cell,auc_ind
+scNET,logreg,0.833289569363341,0.9196428571428572

@@ -1,0 +1,8 @@
+cell_type,weight,tag,auc_cell,auc_ind,train_reduced,test_reduced
+cd8_BL,0.0,cd8_BL_SDAN_0.0,0.8981714850086451,0.9672619047619048,train_reduced_cd8_BL_SDAN_0.0.h5ad,test_reduced_cd8_BL_SDAN_0.0.h5ad
+cd8_BL,0.25,cd8_BL_SDAN_0.25,0.8890010237686922,0.9791666666666667,train_reduced_cd8_BL_SDAN_0.25.h5ad,test_reduced_cd8_BL_SDAN_0.25.h5ad
+cd8_BL,0.5,cd8_BL_SDAN_0.5,0.8860437508207794,0.9791666666666667,train_reduced_cd8_BL_SDAN_0.5.h5ad,test_reduced_cd8_BL_SDAN_0.5.h5ad
+cd8_BL,1.0,cd8_BL_SDAN_1.0,0.8861620964745974,0.9672619047619048,train_reduced_cd8_BL_SDAN_1.0.h5ad,test_reduced_cd8_BL_SDAN_1.0.h5ad
+cd8_BL,2.0,cd8_BL_SDAN_2.0,0.8833088217396405,0.9821428571428572,train_reduced_cd8_BL_SDAN_2.0.h5ad,test_reduced_cd8_BL_SDAN_2.0.h5ad
+cd8_BL,5.0,cd8_BL_SDAN_5.0,0.865319494494045,0.9880952380952381,train_reduced_cd8_BL_SDAN_5.0.h5ad,test_reduced_cd8_BL_SDAN_5.0.h5ad
+cd8_BL,10.0,cd8_BL_SDAN_10.0,0.8654161531202014,0.9851190476190477,train_reduced_cd8_BL_SDAN_10.0.h5ad,test_reduced_cd8_BL_SDAN_10.0.h5ad

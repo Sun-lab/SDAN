@@ -1,0 +1,8 @@
+cell_type,weight,tag,auc_cell,auc_ind,train_reduced,test_reduced
+Astro,0.0,Astro_SDAN_0.0,0.7351615991006012,0.7528344671201814,train_reduced_Astro_SDAN_0.0.h5ad,test_reduced_Astro_SDAN_0.0.h5ad
+Astro,0.25,Astro_SDAN_0.25,0.7259745530200781,0.7505668934240363,train_reduced_Astro_SDAN_0.25.h5ad,test_reduced_Astro_SDAN_0.25.h5ad
+Astro,0.5,Astro_SDAN_0.5,0.7204994264970366,0.7482993197278911,train_reduced_Astro_SDAN_0.5.h5ad,test_reduced_Astro_SDAN_0.5.h5ad
+Astro,1.0,Astro_SDAN_1.0,0.729081106268535,0.727891156462585,train_reduced_Astro_SDAN_1.0.h5ad,test_reduced_Astro_SDAN_1.0.h5ad
+Astro,2.0,Astro_SDAN_2.0,0.7341004140699892,0.7392290249433107,train_reduced_Astro_SDAN_2.0.h5ad,test_reduced_Astro_SDAN_2.0.h5ad
+Astro,5.0,Astro_SDAN_5.0,0.7063952611067791,0.7755102040816326,train_reduced_Astro_SDAN_5.0.h5ad,test_reduced_Astro_SDAN_5.0.h5ad
+Astro,10.0,Astro_SDAN_10.0,0.6844813345549503,0.7573696145124716,train_reduced_Astro_SDAN_10.0.h5ad,test_reduced_Astro_SDAN_10.0.h5ad

@@ -1,0 +1,8 @@
+cell_type,weight,tag,auc_cell,auc_ind,train_reduced,test_reduced
+Micro-PVM,0.0,Micro-PVM_SDAN_0.0,0.6412896012270798,0.7097505668934241,train_reduced_Micro-PVM_SDAN_0.0.h5ad,test_reduced_Micro-PVM_SDAN_0.0.h5ad
+Micro-PVM,0.25,Micro-PVM_SDAN_0.25,0.638448738429803,0.6961451247165532,train_reduced_Micro-PVM_SDAN_0.25.h5ad,test_reduced_Micro-PVM_SDAN_0.25.h5ad
+Micro-PVM,0.5,Micro-PVM_SDAN_0.5,0.641090730632184,0.7210884353741496,train_reduced_Micro-PVM_SDAN_0.5.h5ad,test_reduced_Micro-PVM_SDAN_0.5.h5ad
+Micro-PVM,1.0,Micro-PVM_SDAN_1.0,0.6545770405260003,0.7346938775510203,train_reduced_Micro-PVM_SDAN_1.0.h5ad,test_reduced_Micro-PVM_SDAN_1.0.h5ad
+Micro-PVM,2.0,Micro-PVM_SDAN_2.0,0.6461268540577262,0.7256235827664399,train_reduced_Micro-PVM_SDAN_2.0.h5ad,test_reduced_Micro-PVM_SDAN_2.0.h5ad
+Micro-PVM,5.0,Micro-PVM_SDAN_5.0,0.6436263509993796,0.7324263038548753,train_reduced_Micro-PVM_SDAN_5.0.h5ad,test_reduced_Micro-PVM_SDAN_5.0.h5ad
+Micro-PVM,10.0,Micro-PVM_SDAN_10.0,0.621746552285767,0.7369614512471655,train_reduced_Micro-PVM_SDAN_10.0.h5ad,test_reduced_Micro-PVM_SDAN_10.0.h5ad
