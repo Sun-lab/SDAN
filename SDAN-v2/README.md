@@ -8,7 +8,8 @@ Su_2020 corresponds to COVID-19 severity data from Su et al. (2020). SEA-AD corr
 
 ## Code Structure Overview
 
-**Tip**: To reproduce our results, please follow the Code Structure Overview below to set up the codebase.
+**Tip**: To reproduce our results, please follow the Code Structure Overview below to set up the codebase. 
+The comparison scripts are stored in the `SDAN-Comparison/` subdirectory rather than the main `SDAN/` directory. Before running the code, please ensure that all files are placed in the correct locations according to the expected directory structure.
 
 <pre>
 SDAN/
