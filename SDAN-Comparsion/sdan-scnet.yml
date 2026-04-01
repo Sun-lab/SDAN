@@ -1,0 +1,24 @@
+name: sdan-scnet
+channels:
+  - pyg
+  - pytorch
+  - conda-forge
+  - defaults
+
+dependencies:
+  - python=3.10
+  - pytorch
+  - cpuonly   # remove if you want GPU
+  - pyg
+  - numpy
+  - pandas
+  - scipy
+  - scikit-learn
+  - matplotlib
+  - seaborn
+  - anndata
+  - scanpy
+  - pip
+
+  - pip:
+      - scNET

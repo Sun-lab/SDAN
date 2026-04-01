@@ -1,0 +1,26 @@
+name: sdan-spectra
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - anndata=0.9.*
+  - scanpy=1.9.*
+  - numpy=1.26.*
+  - scipy=1.11.*
+  - pandas=1.5.*          # Spectra plays nicely with 1.5.x
+  - numba=0.61.*          # matches llvmlite below
+  - llvmlite=0.44.*
+  - h5py=3.14.*
+  - umap-learn=0.5.*
+  - matplotlib-base=3.10.*
+  - seaborn=0.13.*
+  - tqdm
+  - joblib
+  - networkx
+  - statsmodels
+  - pip:
+      - scspectra==0.2.0   # import as `import Spectra`
+      - scikit-learn==1.4.*  # (1.7.2 is fine too, but 1.4–1.5 is safest with other pins)
+
+prefix: /Users/yuanyuangao/miniconda3/envs/sdan-spectra
