@@ -12,6 +12,28 @@ To download and install SDAN, clone the repository using the following command:
 git clone https://github.com/Sun-lab/SDAN
 ```
 
+## Environment Setup
+
+This project uses a local Python virtual environment and the dependencies listed in `requirements.txt`.
+
+Create the environment in this repository:
+
+```bash
+cd SDAN
+python3.10 -m venv venv
+source venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+On a new machine, install Python 3.10 first, then clone the repository and run the same commands above.
+
+To activate the environment later:
+
+```bash
+source venv/bin/activate
+```
+
 ## Usage
 
 To use SDAN, follow the tutorial provided in ``tutorial.ipynb``, where we demonstrate the application of SDAN on the ``Zheng_2017`` dataset for cell classification.
