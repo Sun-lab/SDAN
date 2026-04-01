@@ -1,6 +1,6 @@
-# SDAN-v2 Workflow Guideline
+# SDAN-Comparison Workflow Guideline
 
-SDAN-v2 is an extension of SDAN that implements the experimental pipelines used in this paper to compare SDAN, Spectra, sciRED, and scNET across multiple scRNA-seq datasets with consistent preprocessing and evaluation. The code is used to generate fair and reproducible comparisons across Su_2020, SEA-AD, SF_2018, and Yost_2019.
+SDAN-Comparison is an extension of SDAN that implements the experimental pipelines used in this paper to compare SDAN, Spectra, sciRED, and scNET across multiple scRNA-seq datasets with consistent preprocessing and evaluation. The code is used to generate fair and reproducible comparisons across Su_2020, SEA-AD, SF_2018, and Yost_2019.
 
 ## Datasets
 
@@ -13,9 +13,9 @@ Su_2020 corresponds to COVID-19 severity data from Su et al. (2020). SEA-AD corr
 <pre>
 SDAN/
 │
-├── <a href="Su_2020_v2.py">Su_2020_v2.py</a>                  # Full workflow for Su 2020 dataset (SDAN / sciRED / scNET)
-├── <a href="SEA_AD_v2.py">SEA_AD_v2.py</a>                   # Full workflow for SEA-AD dataset (SDAN / sciRED / scNET)
-├── <a href="Yost_2019_v2.py">Yost_2019_v2.py</a>                # Full workflow for SF_2018 and Yost_2019 datasets (SDAN / Spectra / sciRED / scNET)
+├── <a href="Su_2020_Comparison.py">Su_2020_Comparison.py</a>                  # Full workflow for Su 2020 dataset (SDAN / sciRED / scNET)
+├── <a href="SEA_AD_Comparison.py">SEA_AD_Comparison.py</a>                   # Full workflow for SEA-AD dataset (SDAN / sciRED / scNET)
+├── <a href="Yost_2019_Comparison.py">Yost_2019_Comparison.py</a>                # Full workflow for SF_2018 and Yost_2019 datasets (SDAN / Spectra / sciRED / scNET)
 │ 
 │   # Spectra pipeline (Su 2020: CD4 + CD8 T cells)
 ├── <a href="combine_cd4_cd8.py">combine_cd4_cd8.py</a>             # Step 0: combine CD4 and CD8 datasets
@@ -35,12 +35,12 @@ SDAN/
 │   └── <a href="plots.ipynb">plots.ipynb</a>                # Plots
 │
 ├── Su_2020/
-│   └── <a href="Su_2020/output_v2/">output_v2/</a>                 # All output files, figures, and results
-│   └── <a href="Su_2020/output_v2_4k/">output_v2_4k/</a>              # All output files, figures, and results
+│   └── <a href="Su_2020/output_comparison/">output_comparison/</a>                 # All output files, figures, and results
+│   └── <a href="Su_2020/output_Comparison/">output_comparison_4k/</a>              # All output files, figures, and results
 │
 ├── SEA_AD/
-│   └── <a href="SEA_AD/output_v2/">output_v2/</a>                 # All output files, figures, and results
-│   └── <a href="SEA_AD/output_v2_4k/">output_v2_4k/</a>              # All output files, figures, and results
+│   └── <a href="SEA_AD/output_comparison/">output_comparison/</a>                 # All output files, figures, and results
+│   └── <a href="SEA_AD/output_comparison/">output_comparison_4k/</a>              # All output files, figures, and results
 │
 ├── <a href="sdan-spectra.yml">sdan-spectra.yml</a>               # Environment for Spectra model
 ├── <a href="sdan-scired.yml">sdan-scired.yml</a>                # Environment for sciRED model
@@ -84,82 +84,80 @@ Each dataset is controlled by a single driver script. The backend (SDAN, Spectra
 CD4
 ```
 # Run Spectra on CD4+ T cells
-python Su_2020_v2.py Spectra --cell_type cd4_BL --spectra_L 40
+python Su_2020_Comparison.py Spectra --cell_type cd4_BL --spectra_L 40
 
 # Run sciRED on CD4+ T cells
-python Su_2020_v2.py sciRED --cell_type cd4_BL --n_comp 40
+python Su_2020_Comparison.py sciRED --cell_type cd4_BL --n_comp 40
 
 # Run SDAN on CD4+ T cells
-python Su_2020_v2.py SDAN --cell_type cd4_BL --n_comp 40 --graph_weight 2.0
+python Su_2020_Comparison.py SDAN --cell_type cd4_BL --n_comp 40 --graph_weight 2.0
 
 # Run scNET on CD4+ T cells
-python Su_2020_v2.py scNET --cell_type cd4_BL --scnet_epochs 250 --scnet_batches 40
+python Su_2020_Comparison.py scNET --cell_type cd4_BL --scnet_epochs 250 --scnet_batches 40
 ```
 CD8
 ```
 # Run Spectra on CD8+ T cells
-python Su_2020_v2.py Spectra --cell_type cd8_BL --spectra_L 40
+python Su_2020_Comparison.py Spectra --cell_type cd8_BL --spectra_L 40
 
 # Run sciRED on CD8+ T cells
-python Su_2020_v2.py sciRED --cell_type cd8_BL --n_comp 40
+python Su_2020_Comparison.py sciRED --cell_type cd8_BL --n_comp 40
 
 # Run SDAN on CD8+ T cells
-python Su_2020_v2.py SDAN --cell_type cd8_BL --n_comp 40 --graph_weight 2.0
+python Su_2020_Comparison.py SDAN --cell_type cd8_BL --n_comp 40 --graph_weight 2.0
 
 # Run scNET on CD8+ T cells
-python Su_2020_v2.py scNET --cell_type cd8_BL --scnet_epochs 250 --scnet_batches 40
+python Su_2020_Comparison.py scNET --cell_type cd8_BL --scnet_epochs 250 --scnet_batches 40
 ```
 ### SEA_AD Dataset
 Astro
 ```
 # Run Spectra on Astrocytes
-python SEA_AD_v2.py Spectra --cell_type Astro --spectra_L 40
+python SEA_AD_Comparison.py Spectra --cell_type Astro --spectra_L 40
 
 # Run sciRED on Astrocytes
-python SEA_AD_v2.py sciRED --cell_type Astro --n_comp 40
+python SEA_AD_Comparison.py sciRED --cell_type Astro --n_comp 40
 
 # Run SDAN on Astrocytes
-python SEA_AD_v2.py SDAN --cell_type Astro --n_comp 40 --graph_weight 2.0
+python SEA_AD_Comparison.py SDAN --cell_type Astro --n_comp 40 --graph_weight 2.0
 
 # Run scNET on Astrocytes
-python SEA_AD_v2.py scNET --cell_type Astro --scnet_epochs 250 --scnet_batches 40
+python SEA_AD_Comparison.py scNET --cell_type Astro --scnet_epochs 250 --scnet_batches 40
 ```
 Micro-PVM
 ```
 # Run Spectra on Microglia (Micro-PVM)
-python SEA_AD_v2.py Spectra --cell_type Micro-PVM --spectra_L 40
+python SEA_AD_Comparison.py Spectra --cell_type Micro-PVM --spectra_L 40
 
 # Run sciRED on Microglia
-python SEA_AD_v2.py sciRED --cell_type Micro-PVM --n_comp 40
+python SEA_AD_Comparison.py sciRED --cell_type Micro-PVM --n_comp 40
 
 # Run SDAN on Microglia
-python SEA_AD_v2.py SDAN --cell_type Micro-PVM --n_comp 40 --graph_weight 2.0
+python SEA_AD_Comparison.py SDAN --cell_type Micro-PVM --n_comp 40 --graph_weight 2.0
 
 # Run scNET on Microglia
-python SEA_AD_v2.py scNET --cell_type Micro-PVM --scnet_epochs 250 --scnet_batches 40
+python SEA_AD_Comparison.py scNET --cell_type Micro-PVM --scnet_epochs 250 --scnet_batches 40
 ```
 ### SF_2018 and Yost_2019 Datasets
 CD8T
 ```
 # Run Spectra on CD8+ T
-python Yost_2019_v2.py Spectra --cell_type CD8T  --spectra_L 40
+python Yost_2019_Comparison.py Spectra --cell_type CD8T  --spectra_L 40
 
 # Run sciRED on CD8+ T
-python Yost_2019_v2.py sciRED --cell_type CD8T  --n_comp 40
+python Yost_2019_Comparison.py sciRED --cell_type CD8T  --n_comp 40
 
 # Run SDAN on CD8+ T
-python Yost_2019_v2.py SDAN --cell_type CD8T  --n_comp 40 --graph_weight 2.0
+python Yost_2019_Comparison.py SDAN --cell_type CD8T  --n_comp 40 --graph_weight 2.0
 
 # Run scNET on CD8+ T
-python Yost_2019_v2.py scNET --cell_type CD8T --scnet_epochs 250 --scnet_batches 40
+python Yost_2019_Comparison.py scNET --cell_type CD8T --scnet_epochs 250 --scnet_batches 40
 ```
 
 ## Outputs
 Each run automatically generates results in the corresponding output folder:
 ```
-Su_2020/output_v2/
-Su_2020/output_v2_4k/
-SEA_AD/output_v2/
-SEA_AD/output_v2_4k/
-Yost_2019/output_v2/
+Su_2020/output_comparison/
+SEA_AD/output_comparison/
+Yost_2019/output_comparison/
 ```
