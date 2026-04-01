@@ -36,11 +36,11 @@ SDAN/
 │
 ├── Su_2020/
 │   └── <a href="Su_2020/output_comparison/">output_comparison/</a>                 # All output files, figures, and results
-│   └── <a href="Su_2020/output_Comparison/">output_comparison_4k/</a>              # All output files, figures, and results
+│   └── <a href="Su_2020/output_Comparison/">output_comparison/</a>              # All output files, figures, and results
 │
 ├── SEA_AD/
 │   └── <a href="SEA_AD/output_comparison/">output_comparison/</a>                 # All output files, figures, and results
-│   └── <a href="SEA_AD/output_comparison/">output_comparison_4k/</a>              # All output files, figures, and results
+│   └── <a href="SEA_AD/output_comparison/">output_comparison/</a>              # All output files, figures, and results
 │
 ├── <a href="sdan-spectra.yml">sdan-spectra.yml</a>               # Environment for Spectra model
 ├── <a href="sdan-scired.yml">sdan-scired.yml</a>                # Environment for sciRED model
