@@ -8,7 +8,6 @@ Su_2020 corresponds to COVID-19 severity data from Su et al. (2020). SEA-AD corr
 
 ## Code Structure Overview
 
-<<<<<<< Updated upstream:SDAN_Comparsion/README.md
 **Important**: In this repository, all comparison scripts associated with the paper are organized under the `SDAN_comparison/` directory. This design choice ensures that the original `SDAN/` codebase remains clean and unmodified.
 
 **Reproducibility**: To reproduce the reported results, users should place the scripts and related files into the appropriate locations as specified in the directory structure below prior to execution. The `SDAN_comparison/` directory functions as a self-contained workspace for organizing experimental code; however, the provided scripts assume the directory layout illustrated below.
@@ -16,25 +15,6 @@ Su_2020 corresponds to COVID-19 severity data from Su et al. (2020). SEA-AD corr
 **Recommended usage**
 - If you are developing or organizing the comparison experiments, keep everything inside `SDAN_comparison/`.
 - If you want to reproduce the results exactly as the scripts expect, copy or link the files from `SDAN_comparison/` into the corresponding paths shown below.
-=======
-<<<<<<< HEAD:SDAN_Comparison/README.md
-**Important**: In this repository, all comparison scripts associated with the paper are organized under the `SDAN_Comparison/` directory. This design choice ensures that the original `SDAN/` codebase remains clean and unmodified.
-
-**Reproducibility**: To reproduce the reported results, users should place the scripts and related files into the appropriate locations as specified in the directory structure below prior to execution. The `SDAN_Comparison/` directory functions as a self-contained workspace for organizing experimental code; however, the provided scripts assume the directory layout illustrated below.
-
-**Recommended usage**
-- If you are developing or organizing the comparison experiments, keep everything inside `SDAN_Comparison/`.
-- If you want to reproduce the results exactly as the scripts expect, copy or link the files from `SDAN_Comparison/` into the corresponding paths shown below.
-=======
-**Important**: In this repository, all comparison scripts associated with the paper are organized under the `SDAN_comparison/` directory. This design choice ensures that the original `SDAN/` codebase remains clean and unmodified.
-
-**Reproducibility**: To reproduce the reported results, users should place the scripts and related files into the appropriate locations as specified in the directory structure below prior to execution. The `SDAN_comparison/` directory functions as a self-contained workspace for organizing experimental code; however, the provided scripts assume the directory layout illustrated below.
-
-**Recommended usage**
-- If you are developing or organizing the comparison experiments, keep everything inside `SDAN_comparison/`.
-- If you want to reproduce the results exactly as the scripts expect, copy or link the files from `SDAN_comparison/` into the corresponding paths shown below.
->>>>>>> 4acf8f3c6a6c1ac76a4b8bf301612129b21f59da:SDAN_Comparsion/README.md
->>>>>>> Stashed changes:SDAN_Comparison/README.md
 
 <pre>
 SDAN/
@@ -43,13 +23,13 @@ SDAN/
 ├── <a href="SEA_AD_comparison.py">SEA_AD_comparison.py</a>           # Full workflow for SEA-AD dataset (SDAN / sciRED / scNET)
 ├── <a href="Yost_2019_comparison.py">Yost_2019_comparison.py</a>        # Full workflow for SF_2018 and Yost_2019 datasets (SDAN / Spectra / sciRED / scNET)
 │ 
-│   # Spectra pipeline (Su 2020: CD4 + CD8 T cells)
+│   # Spectra pipeline (Su 2020: CD4+ T cells and CD8+ T cells)
 ├── <a href="combine_cd4_cd8.py">combine_cd4_cd8.py</a>             # Step 0: combine CD4 and CD8 datasets
 ├── <a href="Su_2020_spectra_preprocess.py">Su_2020_spectra_preprocess.py</a>  # Step 1: preprocess CD4 and CD8 data for Spectra model
 ├── <a href="Su_2020_spectra_training.py">Su_2020_spectra_training.py</a>    # Step 2: train Spectra model and save latent representations
 ├── <a href="Su_2020_spectra_evaluation.py">Su_2020_spectra_evaluation.py</a>  # Step 3: evaluate Spectra results using classifiers
 │
-│   # Spectra pipeline (SEA-AD: Astro + Micro-PVM)
+│   # Spectra pipeline (SEA-AD: Astro and Micro-PVM)
 ├── <a href="combine_Astro_Micro-PVM.py">combine_Astro_Micro-PVM.py</a>     # Step 0: combine Astro and Micro-PVM datasets
 ├── <a href="SEA_AD_spectra_preprocess.py">SEA_AD_spectra_preprocess.py</a>   # Step 1: preprocess Astro and Micro-PVM data for Spectra model
 ├── <a href="SEA_AD_spectra_training.py">SEA_AD_spectra_training.py</a>     # Step 2: train Spectra model and save latent representations
@@ -219,7 +199,6 @@ python SEA_AD_spectra_training.py Spectra --cell_type Astro_Micro-PVM --spectra_
 python SEA_AD_spectra_evaluation.py Spectra --cell_type Astro
 python SEA_AD_spectra_evaluation.py Spectra --cell_type Micro-PVM
 ```
-
 
 ### SF_2018 and Yost_2019 Datasets
 #### CD8+ T cells
