@@ -50,16 +50,16 @@ SDAN/
 ├── SEA_AD/
 │   └── <a href="SEA_AD/output_comparison/">output_comparison/</a>         # All output files, figures, and results
 │       └── <a href="SEA_AD/output_comparsion/SDAN">SDAN/</a>       
-│       └── <a href="SEA_AD/output_comparison/Spectra">Spectra/</a>      
-│       └── <a href="SEA_AD/output_comparison/scNET">scNET/</a>
-│       └── <a href="SEA_AD/output_comparison/sciRED">sciRED/</a>  
+│       └── <a href="SEA_AD/output_comparsion/Spectra">Spectra/</a>      
+│       └── <a href="SEA_AD/output_comparsion/scNET">scNET/</a>
+│       └── <a href="SEA_AD/output_comparsion/sciRED">sciRED/</a>  
 │ 
 ├── Yost_2019/
 │   └── <a href="Yost_2019/output_comparison/">output_comparison/</a>         # All output files, figures, and results
-│       └── <a href="Yost_2019/output_comparison/SDAN">SDAN/</a>       
-│       └── <a href="Yost_2019/output_comparison/Spectra">Spectra/</a>      
-│       └── <a href="Yost_2019/output_comparison/scNET">scNET/</a>
-│       └── <a href="Yost_2019/output_comparison/sciRED">sciRED/</a>  
+│       └── <a href="Yost_2019/output_comparsion/SDAN">SDAN/</a>       
+│       └── <a href="Yost_2019/output_comparsion/Spectra">Spectra/</a>      
+│       └── <a href="Yost_2019/output_comparsion/scNET">scNET/</a>
+│       └── <a href="Yost_2019/output_comparsion/sciRED">sciRED/</a>  
 │
 ├── <a href="sdan-spectra.yml">sdan-spectra.yml</a>               # Environment for Spectra model
 ├── <a href="sdan-scired.yml">sdan-scired.yml</a>                # Environment for sciRED model
