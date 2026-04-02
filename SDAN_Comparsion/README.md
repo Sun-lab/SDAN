@@ -41,21 +41,21 @@ SDAN/
 │   └── <a href="plots.ipynb">plots.ipynb</a>                # Plots
 │ 
 ├── Su_2020/
-│   └── <a href="Su_2020/output_comparison/">output_comparison/</a>         # All output files, figures, and results
+│   └── <a href="Su_2020/output_comparsion">output_comparison/</a>         # All output files, figures, and results
 │       └── <a href="Su_2020/output_comparsion/SDAN">SDAN/</a>       
 │       └── <a href="Su_2020/output_comparsion/Spectra">Spectra/</a>      
 │       └── <a href="Su_2020/output_comparsion/scNET">scNET/</a>
 │       └── <a href="Su_2020/output_comparsion/sciRED">sciRED/</a>  
 │
 ├── SEA_AD/
-│   └── <a href="SEA_AD/output_comparison/">output_comparison/</a>         # All output files, figures, and results
+│   └── <a href="SEA_AD/output_comparsion">output_comparison/</a>         # All output files, figures, and results
 │       └── <a href="SEA_AD/output_comparsion/SDAN">SDAN/</a>       
 │       └── <a href="SEA_AD/output_comparsion/Spectra">Spectra/</a>      
 │       └── <a href="SEA_AD/output_comparsion/scNET">scNET/</a>
 │       └── <a href="SEA_AD/output_comparsion/sciRED">sciRED/</a>  
 │ 
 ├── Yost_2019/
-│   └── <a href="Yost_2019/output_comparison/">output_comparison/</a>         # All output files, figures, and results
+│   └── <a href="Yost_2019/output_comparsion">output_comparison/</a>         # All output files, figures, and results
 │       └── <a href="Yost_2019/output_comparsion/SDAN">SDAN/</a>       
 │       └── <a href="Yost_2019/output_comparsion/Spectra">Spectra/</a>      
 │       └── <a href="Yost_2019/output_comparsion/scNET">scNET/</a>
