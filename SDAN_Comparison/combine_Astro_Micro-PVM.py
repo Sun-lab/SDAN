@@ -14,7 +14,7 @@ from pathlib import Path
 # ---------------- 1. Paths ----------------
 BASE = Path("./SEA_AD")
 DATA_DIR = BASE / "data"
-OUT_DIR = BASE / "output_comparsion" / "Spectra"
+OUT_DIR = BASE / "output_comparison" / "Spectra"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 ASTRO_PATH = DATA_DIR / "Astro.h5ad"

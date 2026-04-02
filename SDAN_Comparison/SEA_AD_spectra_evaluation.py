@@ -60,7 +60,7 @@ args = parse_args()
 print(f"[INFO] args={args}", flush=True)
 
 BASE = "./SEA_AD/"
-OUT_DIR = os.path.join(BASE, "output_comparsion/Spectra/")
+OUT_DIR = os.path.join(BASE, "output_comparison/Spectra/")
 PRETRAIN_DIR = OUT_DIR
 os.makedirs(OUT_DIR, exist_ok=True)
 

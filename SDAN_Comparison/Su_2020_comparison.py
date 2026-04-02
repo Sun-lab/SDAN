@@ -1,11 +1,11 @@
 """
 This file unified version for SDAN, sciRED, and scNET backends.
 Compatible with args.py and preprocess.py.
-ALL outputs saved into: ./Su_2020/output_comparsion/
+ALL outputs saved into: ./Su_2020/output_comparison/
 The backend output folders are:
-    SDAN: output_comparsion/SDAN
-    sciRED: output_comparsion/sciRED
-    scNET: output_comparsion/scNET
+    SDAN: output_comparison/SDAN
+    sciRED: output_comparison/sciRED
+    scNET: output_comparison/scNET
 """
 
 # ------------------------- Imports & setup -------------------------
@@ -56,7 +56,7 @@ data_dir = f"{d}gex_{cell_type_str}.mtx.gz"
 genes_dir = f"{d}gex_{cell_type_str}_genes.txt"
 meta_ind_dir = f"{d}Table_S1.xlsx"
 meta_cell_dir = f"{d}cell_info_{cell_type_str}.csv"
-os.makedirs(f"{d}output_comparsion/", exist_ok=True)
+os.makedirs(f"{d}output_comparison/", exist_ok=True)
 
 
 # ------------------------- Load and label -------------------------
@@ -123,7 +123,7 @@ def split_by_individual(data, meta_cell, mild_ind, severe_ind):
 # ------------------------- DE-gene selection -------------------------
 def get_de_gene_list(train_data, cell_type_list, tag, out_dir=None):
     if out_dir is None:
-        out_dir = f"{d}output_comparsion/"
+        out_dir = f"{d}output_comparison/"
     os.makedirs(out_dir, exist_ok=True)
     out_path = os.path.join(out_dir, f"gene_list_{tag}.npy")
     print("[INFO] Constructing DE gene list...")
@@ -158,7 +158,7 @@ def run_sdan():
     data, meta_cell, mild_ind, severe_ind = load_and_label_data()
     qc(data)
     train_data, val_data, test_data = split_by_individual(data, meta_cell, mild_ind, severe_ind)
-    out_dir = os.path.join(d, "output_comparsion", "SDAN")
+    out_dir = os.path.join(d, "output_comparison", "SDAN")
     os.makedirs(out_dir, exist_ok=True)
     gene_list = get_de_gene_list(train_data, ["mild", "severe"], args.cell_type, out_dir=out_dir)
     print(f"[INFO] The number of DE genes: {len(gene_list)}")
@@ -232,7 +232,7 @@ def run_scired():
 
     data, meta_cell, mild_ind, severe_ind = load_and_label_data()
     train_data, _, test_data = split_by_individual(data, meta_cell, mild_ind, severe_ind)
-    out_dir = os.path.join(d, "output_comparsion", "sciRED")
+    out_dir = os.path.join(d, "output_comparison", "sciRED")
     os.makedirs(out_dir, exist_ok=True)
     gene_list = get_de_gene_list(train_data, ["mild", "severe"], args.cell_type, out_dir=out_dir)
 
@@ -352,7 +352,7 @@ def run_scnet():
     )
 
     tag = f"{args.cell_type}_scNET75"
-    out_dir = os.path.join(d, "output_comparsion", "scNET")
+    out_dir = os.path.join(d, "output_comparison", "scNET")
     os.makedirs(out_dir, exist_ok=True)
 
     # DE genes (train only)

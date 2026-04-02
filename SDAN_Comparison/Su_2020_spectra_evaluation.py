@@ -45,8 +45,8 @@ print(f"[DEBUG] args={args}", flush=True)
 
 # ---------------- Paths ----------------
 BASE = "./Su_2020/"
-OUT_DIR = os.path.join(BASE, "output_comparsion/Spectra/")
-PRETRAIN_DIR = os.path.join(BASE, "output_comparsion/Spectra/")
+OUT_DIR = os.path.join(BASE, "output_comparison/Spectra/")
+PRETRAIN_DIR = os.path.join(BASE, "output_comparison/Spectra/")
 os.makedirs(OUT_DIR, exist_ok=True)
 
 cell_type_str = args.cell_type

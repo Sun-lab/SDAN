@@ -18,7 +18,7 @@ BASE = Path(__file__).resolve().parent
 if BASE.name != "Su_2020":
     BASE = BASE / "Su_2020"
 
-OUT_DIR = BASE / "output_comparsion" / "Spectra"
+OUT_DIR = BASE / "output_comparison" / "Spectra"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 OUT_PATH = OUT_DIR / "combined_cd4_cd8.h5ad"
 

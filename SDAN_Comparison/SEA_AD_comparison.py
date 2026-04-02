@@ -1,11 +1,11 @@
 """
 This file unified pipeline for SDAN, sciRED, and scNET backends.
 Compatible with args.py and preprocess.py.
-ALL outputs saved into: ./SEA_AD/output_comparsion/
+ALL outputs saved into: ./SEA_AD/output_comparison/
 The backend output folders are:
-    SDAN: output_comparsion/SDAN
-    sciRED: output_comparsion/sciRED
-    scNET: output_comparsion/scNET
+    SDAN: output_comparison/SDAN
+    sciRED: output_comparison/sciRED
+    scNET: output_comparison/scNET
 """
 
 # ------------------------- Imports & setup -------------------------
@@ -46,7 +46,7 @@ args = parse_args()
 d = "./SEA_AD/"
 adata_path = f"{d}data/{args.cell_type}.h5ad"
 donor_xlsx = f"{d}data/sea-ad_cohort_donor_metadata_020624.xlsx"
-os.makedirs(f"{d}output_comparsion/", exist_ok=True)
+os.makedirs(f"{d}output_comparison/", exist_ok=True)
 # os.makedirs(f"{d}figures/", exist_ok=True)
 
 # ------------------------- Helpers -------------------------
@@ -124,7 +124,7 @@ def split_by_donor(data, T, C):
 # ------------------------- DE-gene selection -------------------------
 def get_de_gene_list(train_data, cell_type_list, tag, out_dir=None):
     if out_dir is None:
-        out_dir = f"{d}output_comparsion/"
+        out_dir = f"{d}output_comparison/"
     os.makedirs(out_dir, exist_ok=True)
     out_path = os.path.join(out_dir, f"gene_list_{tag}.npy")
     print("[INFO] Constructing DE gene list...")
@@ -160,7 +160,7 @@ def run_sdan():
     data, T, C = load_and_label_data()
     qc(data)
     train_data, val_data, test_data = split_by_donor(data, T, C)
-    out_dir = os.path.join(d, "output_comparsion", "SDAN")
+    out_dir = os.path.join(d, "output_comparison", "SDAN")
     os.makedirs(out_dir, exist_ok=True)
     gene_list = get_de_gene_list(
         train_data,
@@ -238,7 +238,7 @@ def run_scired():
 
     data, T, C = load_and_label_data()
     train_data, _, test_data = split_by_donor(data, T, C)
-    out_dir = os.path.join(d, "output_comparsion", "sciRED")
+    out_dir = os.path.join(d, "output_comparison", "sciRED")
     os.makedirs(out_dir, exist_ok=True)
     gene_list = get_de_gene_list(
         train_data,
@@ -356,7 +356,7 @@ def run_scnet():
 
     train_data, val_data, test_data = split_by_donor(data, T, C)
     tag = f"{args.cell_type}_scNET75"
-    out_dir = os.path.join(d, "output_comparsion", "scNET")
+    out_dir = os.path.join(d, "output_comparison", "scNET")
     os.makedirs(out_dir, exist_ok=True)
 
     # DE genes

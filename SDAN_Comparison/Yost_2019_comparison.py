@@ -1,12 +1,12 @@
 """
 This file unified pipeline for SDAN, Spectra, sciRED, and scNET backends.
 Compatible with args.py and preprocess.py.
-ALL outputs saved into: ./Yost_2019/output_comparsion/
+ALL outputs saved into: ./Yost_2019/output_comparison/
 The backend output folders are:
-    SDAN: output_comparsion/SDAN
-    Spectra: output_comparsion/Spectra
-    sciRED: output_comparsion/sciRED
-    scNET: output_comparsion/scNET
+    SDAN: output_comparison/SDAN
+    Spectra: output_comparison/Spectra
+    sciRED: output_comparison/sciRED
+    scNET: output_comparison/scNET
 """
 
 import os
@@ -36,7 +36,7 @@ sc.settings.set_figure_params(figsize=(8, 6), dpi=80)
 
 TRAIN_ROOT = "./SF_2018/"
 TEST_ROOT  = "./Yost_2019/"
-OUTROOT    = "./Yost_2019/output_comparsion/"
+OUTROOT    = "./Yost_2019/output_comparison/"
 SDAN_OUT   = f"{OUTROOT}output/"   
 os.makedirs(OUTROOT, exist_ok=True)
 
@@ -318,7 +318,7 @@ def run_spectra():
     from SDAN.evaluation import set_eval_labels, eval_and_save as _eval_and_save
 
     # ------------------ Paths ------------------
-    OUTROOT    = "./Yost_2019/output_comparsion/"
+    OUTROOT    = "./Yost_2019/output_comparison/"
     os.makedirs(OUTROOT, exist_ok=True)
     out_dir = os.path.join(OUTROOT, "Spectra")
     os.makedirs(out_dir, exist_ok=True)
@@ -530,7 +530,7 @@ def run_scired():
     # ---------------- Paths / tags ----------------
     TRAIN_ROOT = "./SF_2018/"
     TEST_ROOT  = "./Yost_2019/"
-    OUTROOT    = "./Yost_2019/output_comparsion/"
+    OUTROOT    = "./Yost_2019/output_comparison/"
     os.makedirs(OUTROOT, exist_ok=True)
     out_dir = os.path.join(OUTROOT, "sciRED")
     os.makedirs(out_dir, exist_ok=True)

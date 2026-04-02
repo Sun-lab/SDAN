@@ -28,7 +28,7 @@ args = parse_args()
 d = "./SEA_AD/"
 adata_path = f"{d}data/{args.cell_type}.h5ad"
 donor_xlsx = f"{d}data/sea-ad_cohort_donor_metadata_020624.xlsx"
-os.makedirs(f"{d}output_comparsion/Spectra/", exist_ok=True)
+os.makedirs(f"{d}output_comparison/Spectra/", exist_ok=True)
 
 
 # ---------------------------------------------------------------------
@@ -101,12 +101,12 @@ gene_list = construct_gene_list(train_data_qc,
                                 alpha=0.05)
 
 gene_list = pd.Index(gene_list.astype(str))
-# np.save(f"{d}output_comparsion/Spectra/gene_list_{args.cell_type}.npy", np.array(gene_list))
+# np.save(f"{d}output_comparison/Spectra/gene_list_{args.cell_type}.npy", np.array(gene_list))
 # print(f"[SAVED] gene_list_{args.cell_type}.npy ({len(gene_list)} genes)")
 
 # Save both .npy and .txt versions for compatibility
-np.save(f"{d}output_comparsion/Spectra/gene_list_{args.cell_type}.npy", np.array(gene_list))
-pd.Series(gene_list).to_csv(f"{d}output_comparsion/Spectra/gene_list_{args.cell_type}.txt",
+np.save(f"{d}output_comparison/Spectra/gene_list_{args.cell_type}.npy", np.array(gene_list))
+pd.Series(gene_list).to_csv(f"{d}output_comparison/Spectra/gene_list_{args.cell_type}.txt",
                             index=False, header=False)
 print(f"[SAVED] gene_list_{args.cell_type}.npy and .txt ({len(gene_list)} genes)")
 
@@ -115,7 +115,7 @@ print(f"[SAVED] gene_list_{args.cell_type}.npy and .txt ({len(gene_list)} genes)
 # ---------------------------------------------------------------------
 for name, ad in zip(["train", "val", "test"], [train_data, val_data, test_data]):
     subset = ad[:, [g for g in gene_list if g in ad.var_names]].copy()
-    subset.write(f"{d}output_comparsion/Spectra/{name}_{args.cell_type}_filtered.h5ad")
+    subset.write(f"{d}output_comparison/Spectra/{name}_{args.cell_type}_filtered.h5ad")
     print(f"[SAVED] {name}_{args.cell_type}_filtered.h5ad")
 
 print("[INFO][Spectra Preprocess] Done.")

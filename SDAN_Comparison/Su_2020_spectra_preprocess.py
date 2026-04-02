@@ -35,7 +35,7 @@ genes_dir = f"{d}gex_{cell_type_str}_genes.txt"
 meta_ind_dir = f"{d}Table_S1.xlsx"
 meta_cell_dir = f"{d}cell_info_{cell_type_str}.csv"
 
-OUT_DIR = os.path.join(d, "output_comparsion/Spectra/")
+OUT_DIR = os.path.join(d, "output_comparison/Spectra/")
 os.makedirs(OUT_DIR, exist_ok=True)
 # os.makedirs(os.path.join(d, "figures/"), exist_ok=True)
 

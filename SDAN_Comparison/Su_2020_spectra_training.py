@@ -35,7 +35,7 @@ except ImportError:
 # ---------- Args & Paths ----------
 args = parse_args()
 BASE = "./Su_2020/"
-OUT_DIR = os.path.join(BASE, "output_comparsion/Spectra/")
+OUT_DIR = os.path.join(BASE, "output_comparison/Spectra/")
 os.makedirs(OUT_DIR, exist_ok=True)
 combined_path = os.path.join(OUT_DIR, "combined_cd4_cd8.h5ad")
 
