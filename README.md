@@ -108,6 +108,6 @@ The outputs are saved in the ``output`` folder for each dataset.
 - ``test_reduced`` is the test data after dimension reduction.
 - ``train_s`` is the trained assignment matrix, saved as an array.
 
-### SDAN-v2
+### SDAN-Comparison
 
-We also release SDAN-v2, which contains the experimental pipelines used in this paper for fair and reproducible comparisons of SDAN with Spectra and sciRED across each scRNA-seq dataset.
+We also release SDAN-Comparison, which contains the experimental pipelines used in this paper for fair and reproducible comparisons of SDAN with Spectra and sciRED across each scRNA-seq dataset.
