@@ -14,7 +14,7 @@ from SDAN.evaluation import eval_and_save, set_eval_labels
 TRAIN_ROOT = Path("./SF_2018")
 TEST_ROOT = Path("./Yost_2019")
 INPUT = TEST_ROOT / "output"
-OUTDIR = TEST_ROOT / "output_v2" / "SDAN"
+OUTDIR = TEST_ROOT / "output_comparison" / "SDAN"
 
 
 def dense_float32(X):
