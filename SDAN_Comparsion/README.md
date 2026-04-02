@@ -8,20 +8,20 @@ Su_2020 corresponds to COVID-19 severity data from Su et al. (2020). SEA-AD corr
 
 ## Code Structure Overview
 
-**Important**: In this repository, all comparison scripts associated with the paper are organized under the `SDAN_Comparsion/` directory. This design choice ensures that the original `SDAN/` codebase remains clean and unmodified.
+**Important**: In this repository, all comparison scripts associated with the paper are organized under the `SDAN_comparison/` directory. This design choice ensures that the original `SDAN/` codebase remains clean and unmodified.
 
-**Reproducibility**: To reproduce the reported results, users should place the scripts and related files into the appropriate locations as specified in the directory structure below prior to execution. The `SDAN_Comparsion/` directory functions as a self-contained workspace for organizing experimental code; however, the provided scripts assume the directory layout illustrated below.
+**Reproducibility**: To reproduce the reported results, users should place the scripts and related files into the appropriate locations as specified in the directory structure below prior to execution. The `SDAN_comparison/` directory functions as a self-contained workspace for organizing experimental code; however, the provided scripts assume the directory layout illustrated below.
 
 **Recommended usage**
-- If you are developing or organizing the comparison experiments, keep everything inside `SDAN_Comparsion/`.
-- If you want to reproduce the results exactly as the scripts expect, copy or link the files from `SDAN_Comparsion/` into the corresponding paths shown below.
+- If you are developing or organizing the comparison experiments, keep everything inside `SDAN_comparison/`.
+- If you want to reproduce the results exactly as the scripts expect, copy or link the files from `SDAN_comparison/` into the corresponding paths shown below.
 
 <pre>
 SDAN/
 │
-├── <a href="Su_2020_comparsion.py">Su_2020_comparsion.py</a>          # Full workflow for Su 2020 dataset (SDAN / sciRED / scNET)
+├── <a href="Su_2020_comparison.py">Su_2020_comparison.py</a>          # Full workflow for Su 2020 dataset (SDAN / sciRED / scNET)
 ├── <a href="SEA_AD_comparison.py">SEA_AD_comparison.py</a>           # Full workflow for SEA-AD dataset (SDAN / sciRED / scNET)
-├── <a href="Yost_2019_comparsion.py">Yost_2019_comparsion.py</a>        # Full workflow for SF_2018 and Yost_2019 datasets (SDAN / Spectra / sciRED / scNET)
+├── <a href="Yost_2019_comparison.py">Yost_2019_comparison.py</a>        # Full workflow for SF_2018 and Yost_2019 datasets (SDAN / Spectra / sciRED / scNET)
 │ 
 │   # Spectra pipeline (Su 2020: CD4 + CD8 T cells)
 ├── <a href="combine_cd4_cd8.py">combine_cd4_cd8.py</a>             # Step 0: combine CD4 and CD8 datasets
@@ -41,25 +41,25 @@ SDAN/
 │   └── <a href="plots.ipynb">plots.ipynb</a>                # Plots
 │ 
 ├── Su_2020/
-│   └── <a href="Su_2020/output_comparsion">output_comparison/</a>         # All output files, figures, and results
-│       └── <a href="Su_2020/output_comparsion/SDAN">SDAN/</a>       
-│       └── <a href="Su_2020/output_comparsion/Spectra">Spectra/</a>      
-│       └── <a href="Su_2020/output_comparsion/scNET">scNET/</a>
-│       └── <a href="Su_2020/output_comparsion/sciRED">sciRED/</a>  
+│   └── <a href="Su_2020/output_comparison">output_comparison/</a>         # All output files, figures, and results
+│       └── <a href="Su_2020/output_comparison/SDAN">SDAN/</a>       
+│       └── <a href="Su_2020/output_comparison/Spectra">Spectra/</a>      
+│       └── <a href="Su_2020/output_comparison/scNET">scNET/</a>
+│       └── <a href="Su_2020/output_comparison/sciRED">sciRED/</a>  
 │
 ├── SEA_AD/
-│   └── <a href="SEA_AD/output_comparsion">output_comparison/</a>         # All output files, figures, and results
-│       └── <a href="SEA_AD/output_comparsion/SDAN">SDAN/</a>       
-│       └── <a href="SEA_AD/output_comparsion/Spectra">Spectra/</a>      
-│       └── <a href="SEA_AD/output_comparsion/scNET">scNET/</a>
-│       └── <a href="SEA_AD/output_comparsion/sciRED">sciRED/</a>  
+│   └── <a href="SEA_AD/output_comparison">output_comparison/</a>         # All output files, figures, and results
+│       └── <a href="SEA_AD/output_comparison/SDAN">SDAN/</a>       
+│       └── <a href="SEA_AD/output_comparison/Spectra">Spectra/</a>      
+│       └── <a href="SEA_AD/output_comparison/scNET">scNET/</a>
+│       └── <a href="SEA_AD/output_comparison/sciRED">sciRED/</a>  
 │ 
 ├── Yost_2019/
-│   └── <a href="Yost_2019/output_comparsion">output_comparison/</a>         # All output files, figures, and results
-│       └── <a href="Yost_2019/output_comparsion/SDAN">SDAN/</a>       
-│       └── <a href="Yost_2019/output_comparsion/Spectra">Spectra/</a>      
-│       └── <a href="Yost_2019/output_comparsion/scNET">scNET/</a>
-│       └── <a href="Yost_2019/output_comparsion/sciRED">sciRED/</a>  
+│   └── <a href="Yost_2019/output_comparison">output_comparison/</a>         # All output files, figures, and results
+│       └── <a href="Yost_2019/output_comparison/SDAN">SDAN/</a>       
+│       └── <a href="Yost_2019/output_comparison/Spectra">Spectra/</a>      
+│       └── <a href="Yost_2019/output_comparison/scNET">scNET/</a>
+│       └── <a href="Yost_2019/output_comparison/sciRED">sciRED/</a>  
 │
 ├── <a href="sdan-spectra.yml">sdan-spectra.yml</a>               # Environment for Spectra model
 ├── <a href="sdan-scired.yml">sdan-scired.yml</a>                # Environment for sciRED model
