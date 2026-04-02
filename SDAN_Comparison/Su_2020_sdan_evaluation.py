@@ -16,7 +16,7 @@ from SDAN.preprocess import qc
 
 ROOT = Path("./Su_2020")
 INPUT = ROOT / "output"
-OUTDIR = ROOT / "output_v2" / "SDAN"
+OUTDIR = ROOT / "output_comparison" / "SDAN"
 
 np.random.seed(888)
 
