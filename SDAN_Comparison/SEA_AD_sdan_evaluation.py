@@ -15,7 +15,7 @@ from SDAN.preprocess import qc
 
 ROOT = Path("./SEA_AD")
 INPUT = ROOT / "output"
-OUTDIR = ROOT / "output_v2" / "SDAN"
+OUTDIR = ROOT / "output_comparison" / "SDAN"
 
 np.random.seed(888)
 
