@@ -29,7 +29,7 @@ SDAN/
 ├── <a href="Su_2020_spectra_training.py">Su_2020_spectra_training.py</a>    # Step 2: train Spectra model and save latent representations
 ├── <a href="Su_2020_spectra_evaluation.py">Su_2020_spectra_evaluation.py</a>  # Step 3: evaluate Spectra results using classifiers
 │
-│   # Spectra pipeline (SEA-AD: Astro and Micro-PVM)
+│   # Spectra pipeline (SEA AD: Astro and Micro-PVM)
 ├── <a href="combine_Astro_Micro-PVM.py">combine_Astro_Micro-PVM.py</a>     # Step 0: combine Astro and Micro-PVM datasets
 ├── <a href="SEA_AD_spectra_preprocess.py">SEA_AD_spectra_preprocess.py</a>   # Step 1: preprocess Astro and Micro-PVM data for Spectra model
 ├── <a href="SEA_AD_spectra_training.py">SEA_AD_spectra_training.py</a>     # Step 2: train Spectra model and save latent representations
@@ -89,7 +89,7 @@ Activate as needed:
 conda activate sdan-spectra   # for Spectra pipeline
 conda activate sdan-scired    # for sciRED pipeline
 conda activate sdan           # for SDAN pipeline
-conda activate sdan-scnet     # for sciNET pipeline
+conda activate sdan-scnet     # for scNET pipeline
 ```
 
 (**Tip:** Make sure to activate the correct Conda environment for each model backend, and deactivate environments when running a different backend to avoid dependency conflicts.)
