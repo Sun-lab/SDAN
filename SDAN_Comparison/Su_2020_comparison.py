@@ -160,13 +160,17 @@ def run_sdan():
     train_data, val_data, test_data = split_by_individual(data, meta_cell, mild_ind, severe_ind)
     out_dir = os.path.join(d, "output_comparison", "SDAN")
     os.makedirs(out_dir, exist_ok=True)
-    gene_list = get_de_gene_list(train_data, ["mild", "severe"], args.cell_type, out_dir=out_dir)
-    print(f"[INFO] The number of DE genes: {len(gene_list)}")
-
+    # Keep SDAN feature selection inside `pipeline()` so the comparison run
+    # uses the same DE/HVG logic as the standalone SDAN path.
+    # gene_list = get_de_gene_list(train_data, ["mild", "severe"], args.cell_type, out_dir=out_dir)
+    # print(f"[INFO] The number of DE genes: {len(gene_list)}")
+    #
+    # for ad in [train_data, val_data, test_data]:
+    #     ad._inplace_subset_var([g for g in gene_list if g in ad.var_names])
+    #     ad.obs["cell_type"] = ad.obs["cell_type"].astype("category")
     for ad in [train_data, val_data, test_data]:
-        ad._inplace_subset_var([g for g in gene_list if g in ad.var_names])
         ad.obs["cell_type"] = ad.obs["cell_type"].astype("category")
-
+        
     args.mc_weight = args.graph_weight
     args.o_weight = args.graph_weight
     # tag = f"{args.cell_type}_{args.graph_weight:.1f}"
