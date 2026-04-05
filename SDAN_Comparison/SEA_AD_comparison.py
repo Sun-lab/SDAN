@@ -94,33 +94,25 @@ def load_and_label_data():
 
     return data, T, C
 
-
-# ------------------------- Split by donor -------------------------
+# ------------------------- Split -------------------------
 def split_by_donor(data, T, C):
     print("[INFO] Splitting by donor...")
-    Te = pd.Index(pd.concat([
+    test_ind = pd.concat([
         pd.Series(T).sample(n=math.floor(0.5 * len(T))),
         pd.Series(C).sample(n=math.floor(0.5 * len(C)))
-    ]).unique())
-    All = T.union(C)
-    TrPool = All.difference(Te)
+    ])
+    train_ind = pd.concat([pd.Series(T), pd.Series(C)]).drop(test_ind.index)
 
-    VaT_n = min(len(T), math.floor(0.1 * len(T)))
-    VaC_n = min(len(C), math.floor(0.1 * len(C)))
-    Va = pd.Index(pd.concat([
-        pd.Series(list(T)).sample(n=VaT_n),
-        pd.Series(list(C)).sample(n=VaC_n)
-    ]).unique())
-    Tr = TrPool.difference(Va)
-
-    donors = data.obs["donor_id"].astype(str)
-    train_data = data[donors.isin(Tr)].copy()
-    val_data = data[donors.isin(Va)].copy()
-    test_data = data[donors.isin(Te)].copy()
+    train_data = data[data.obs["donor_id"].isin(train_ind)].copy()
+    test_data = data[data.obs["donor_id"].isin(test_ind)].copy()
+    val_data_obs = train_data.obs.sample(n=math.floor(0.1 * len(train_data)))
+    val_data = train_data[val_data_obs.index].copy()
+    train_data_obs = train_data.obs.drop(val_data_obs.index)
+    train_data = train_data[train_data_obs.index].copy()
 
     print(f"[INFO] Split complete: train={train_data.shape}, val={val_data.shape}, test={test_data.shape}")
     return train_data, val_data, test_data
-
+    
 # ------------------------- DE-gene selection -------------------------
 def get_de_gene_list(train_data, cell_type_list, tag, out_dir=None):
     if out_dir is None:
