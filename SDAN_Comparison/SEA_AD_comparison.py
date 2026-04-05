@@ -94,8 +94,9 @@ def load_and_label_data():
 
     return data, T, C
 
-# ------------------------- Split -------------------------
-def split_by_donor(data, T, C):
+
+# ------------------------- Data split -------------------------
+def split_data(data, T, C):
     print("[INFO] Splitting by donor...")
     test_ind = pd.concat([
         pd.Series(T).sample(n=math.floor(0.5 * len(T))),
@@ -112,7 +113,7 @@ def split_by_donor(data, T, C):
 
     print(f"[INFO] Split complete: train={train_data.shape}, val={val_data.shape}, test={test_data.shape}")
     return train_data, val_data, test_data
-    
+
 # ------------------------- DE-gene selection -------------------------
 def get_de_gene_list(train_data, cell_type_list, tag, out_dir=None):
     if out_dir is None:
@@ -151,7 +152,7 @@ def run_sdan():
     print("[INFO] Running SDAN backend ...")
     data, T, C = load_and_label_data()
     qc(data)
-    train_data, val_data, test_data = split_by_donor(data, T, C)
+    train_data, val_data, test_data = split_data(data, T, C)
     out_dir = os.path.join(d, "output_comparison", "SDAN")
     os.makedirs(out_dir, exist_ok=True)
     # Keep SDAN feature selection inside `pipeline()` so the comparison run
@@ -169,7 +170,7 @@ def run_sdan():
     #     ad.obs["cell_type"] = ad.obs["cell_type"].astype("category")
     for ad in [train_data, val_data, test_data]:
         ad.obs["cell_type"] = ad.obs["cell_type"].astype("category")
-        
+
     args.mc_weight = args.graph_weight
     args.o_weight = args.graph_weight
     # tag = f"{args.cell_type}_{args.graph_weight:.1f}"
@@ -233,7 +234,7 @@ def run_scired():
     from sciRED import rotations as rot
 
     data, T, C = load_and_label_data()
-    train_data, _, test_data = split_by_donor(data, T, C)
+    train_data, _, test_data = split_data(data, T, C)
     out_dir = os.path.join(d, "output_comparison", "sciRED")
     os.makedirs(out_dir, exist_ok=True)
     gene_list = get_de_gene_list(
@@ -350,7 +351,7 @@ def run_scnet():
     data, T, C = load_and_label_data()
     qc(data)
 
-    train_data, val_data, test_data = split_by_donor(data, T, C)
+    train_data, val_data, test_data = split_data(data, T, C)
     tag = f"{args.cell_type}_scNET75"
     out_dir = os.path.join(d, "output_comparison", "scNET")
     os.makedirs(out_dir, exist_ok=True)
