@@ -1,0 +1,2 @@
+setting,n_genes,n_undirected_edges,graph_weight,val_auc,test_auc,val_loss,test_loss,perturb_fraction
+annotation_perturb0p8,1181,9240,1.0,0.8759199323836814,0.872204249649842,0.44292503595352173,0.4467605948448181,0.8
