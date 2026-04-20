@@ -110,4 +110,4 @@ The outputs are saved in the ``output`` folder for each dataset.
 
 ### SDAN-Comparison
 
-We also release SDAN-Comparison, which contains the experimental pipelines used in this paper for fair and reproducible comparisons of SDAN with Spectra and sciRED across each scRNA-seq dataset.
+We also release SDAN-Comparison, which contains the experimental pipelines used in this paper for fair and reproducible comparisons of SDAN with Spectra, sciRED and scNET  across each scRNA-seq dataset.
