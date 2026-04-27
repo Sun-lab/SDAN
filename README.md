@@ -2,112 +2,190 @@
 
 ## Overview
 
-This repository contains pipelines for analyzing various datasets using SDAN, a deep learning approach designed for cell classification with gene annotation.
+SDAN is a supervised deep learning framework for cell classification that incorporates gene-annotation structure into representation learning. This repository contains the core SDAN implementation, dataset-specific training pipelines, result-generation scripts, and companion workflows for method comparison and diagnostic analysis.
+
+The repository supports:
+
+- Main SDAN training and evaluation on multiple scRNA-seq datasets.
+- Reproduction of the paper’s dataset-specific results and figures.
+- Fair comparison pipelines against `Spectra`, `sciRED`, and `scNET`.
+- Diagnostic and robustness analyses for gene selection, graph structure, and learned programs.
 
 ## Installation
 
-To download and install SDAN, clone the repository using the following command:
+Clone the repository:
 
-```
+```bash
 git clone https://github.com/Sun-lab/SDAN
+cd SDAN
 ```
 
 ## Environment Setup
 
-This project uses a local Python virtual environment and the dependencies listed in `requirements.txt`.
+This project uses a local Python virtual environment together with the dependencies in `requirements.txt`.
 
-Create the environment in this repository:
+Create and activate the environment:
 
 ```bash
-cd SDAN
 python3.10 -m venv venv
 source venv/bin/activate
 pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-On a new machine, install Python 3.10 first, then clone the repository and run the same commands above.
-
-To activate the environment later:
+To activate the environment in later sessions:
 
 ```bash
 source venv/bin/activate
 ```
 
-## Usage
+On a new machine, install Python 3.10 first, then run the same steps above.
 
-To use SDAN, follow the tutorial provided in ``tutorial.ipynb``, where we demonstrate the application of SDAN on the ``Zheng_2017`` dataset for cell classification.
+## Getting Started
 
+The quickest way to understand the workflow is the tutorial notebook:
 
-## Modules
-
-All modules are located in the ``SDAN`` folder:
-- ``model.py``: Main SDAN pipeline.
-- ``preprocess.py``: Data preprocessing.
-- ``train.py``: Neural network training and model evaluation.
-- ``layers.py``: Custom neural network layers.
-- ``utils.py``: Some useful functions.
-- ``args.py``: Hyperparameter settings.
-
-## Results
-
-### Reproduction
-
-To reproduce the results, execute the following Python scripts from the main folder:
+```text
+tutorial.ipynb
 ```
+
+It demonstrates SDAN on the `Zheng_2017` PBMC benchmark for cell classification.
+
+## Repository Structure
+
+<pre>
+SDAN/
+│
+├── SDAN/                    # Core SDAN package
+│   ├── model.py             # Main SDAN model
+│   ├── preprocess.py        # Data preprocessing and gene / graph construction
+│   ├── train.py             # Training and evaluation routines
+│   ├── layers.py            # Custom neural network layers
+│   ├── utils.py             # Utility functions for plotting and analysis
+│   └── args.py              # Hyperparameter definitions
+│
+├── Su_2020.py               # SDAN workflow for Su et al. 2020
+├── SEA_AD.py                # SDAN workflow for SEA-AD
+├── Yost_2019.py             # SDAN workflow for SF_2018 / Yost_2019 transfer setting
+│
+├── Su_2020_plot.py          # Plotting utilities for Su_2020 outputs
+├── SEA_AD_plot.py           # Plotting utilities for SEA_AD outputs
+├── Yost_2019_plot.py        # Plotting utilities for Yost_2019 outputs
+│
+├── SDAN_Comparison/         # Comparison workflows for SDAN vs. Spectra / sciRED / scNET
+├── check/                   # Diagnostic, robustness, and post hoc evaluation utilities
+│
+├── Annotation/              # Gene annotation, PPI, and enrichment resources
+├── Zheng_2017/              # PBMC benchmark data used in tutorial and checks
+├── Su_2020/                 # COVID-19 dataset files and outputs
+├── SEA_AD/                  # SEA-AD dataset files and outputs
+├── SF_2018/                 # Training cohort used for Yost_2019 workflow
+└── Yost_2019/               # Melanoma response dataset files and outputs
+</pre>
+
+## Main SDAN Workflows
+
+To reproduce the main SDAN results, run the dataset-specific scripts from the project root:
+
+```bash
 python Su_2020.py --cell_type cd4_BL
 python Su_2020.py --cell_type cd8_BL
 python SEA_AD.py --cell_type Astro
 python SEA_AD.py --cell_type Micro-PVM
 python Yost_2019.py --cell_type CD8T
 ```
-These scripts will generate the necessary outputs. To create the corresponding figures, run:
-```
+
+These runs generate the SDAN outputs needed for downstream plotting and analysis.
+
+To create the corresponding figures, run:
+
+```bash
 python Su_2020_plot.py
 python SEA_AD_plot.py
 python Yost_2019_plot.py
 ```
-To generate figures comparing different weights, execute:
+
+## Outputs and Figures
+
+Each dataset stores its SDAN outputs inside its own `output/` folder.
+
+Common output files include:
+
+- `gene_list`: genes selected for model training.
+- `model`: trained SDAN model checkpoints.
+- `name_s`: gene membership for each learned component or program.
+- `score` and `score_ind`: prediction scores at the cell and individual levels.
+- `test_reduced`: reduced-dimensional test data.
+- `train_s`: learned assignment matrix.
+
+Figures for each dataset are stored in the corresponding `figures/` folder.
+
+Typical figure types include:
+
+- `auc` and `loss`: training curves.
+- `boxplot_score`: individual-level prediction-score distributions.
+- `confusion`, `contingency`, and `tsne`: clustering and prediction diagnostics.
+- `heatmap_s`: heatmap of the learned assignment matrix.
+- `score_cross`: cross-cell-type consistency plots.
+- `score_test`: cell-level score histograms.
+
+## Weight Comparison Example
+
+To compare saved SDAN runs across graph weights, use the diagnostic script in `check/`:
+
+```bash
+python check/check_weight.py Su_2020 cd4_BL
+python check/check_weight.py Su_2020 cd8_BL
+python check/check_weight.py SEA_AD Astro
+python check/check_weight.py SEA_AD Micro-PVM
+python check/check_weight.py Yost_2019 CD8T
 ```
-python check_weight.py Su_2020 cd4_BL
-python check_weight.py Su_2020 cd8_BL
-python check_weight.py SEA_AD Astro
-python check_weight.py SEA_AD Micro-PVM
-python check_weight.py Yost_2019 CD8T
-```
 
-Figures and outputs for each dataset are saved in their respective folders.
+These summaries are saved to the dataset-specific `check_weight/` folder and include:
 
-### Figures
+- prediction-score boxplots
+- component, edge, and gene summaries
+- connectivity diagnostics
+- Jaccard index and adjusted Rand index heatmaps
 
-Figures for different weights are stored in the ``figures`` folder for each dataset.
+## SDAN_Comparison
 
-- The corresponding weight is appended to the end of the file name.
-- ``auc`` and ``loss`` represent the AUC curve and loss curve during training, respectively.
-- ``boxplot_score`` is a boxplot of prediction scores at the individual level.
-- ``confusion``, ``contingency`` and ``tsne`` show the confusion matrix, contingency matrix, and t-SNE visualization based on unsupervised clustering at the cell level.
-- ``heatmap_s`` is a heatmap of the trained assignment matrix.
-- ``score_cross`` includes scatter plots to check consistency between two different cell types (e.g., CD4 and CD8, Astro and Micro-PVM). 
-- ``score_test`` is a histogram of prediction scores at the cell level.
+`SDAN_Comparison/` is an extension workspace for the paper’s comparison experiments. It contains the pipelines used to compare SDAN against `Spectra`, `sciRED`, and `scNET` across multiple scRNA-seq datasets with consistent preprocessing and evaluation.
 
-Figures comparing weights are saved in the ``check_weight`` folder.
+Use this folder when you want to:
 
-- ``boxplot`` displays prediction scores at the individual level.
-- ``num_comp``, ``num_degree``, ``num_edge``, and ``num_gene`` represent the number of components, average degree of each component, total number of edges, and total number of genes in all components, respectively.
-- ``quantile_edge`` shows the quantile of the number of edges relative to its null distribution for each component.
-- ``JI`` and ``RI`` represent the Jaccard index and adjusted Rand index for the components.
+- reproduce the cross-method comparison experiments
+- run the `Spectra`-specific preprocessing and training workflows
+- regenerate comparison figures and benchmarking outputs
 
-### Outputs
+See [SDAN_Comparison/README.md](/Users/zxlin/Documents/GitHub/SDAN/SDAN_Comparison/README.md) for the full workflow guide.
 
-The outputs are saved in the ``output`` folder for each dataset.
+## check
 
-- ``gene_list`` contains the list of genes selected for training based on differential expression tests.
-- ``model`` is the trained model.
-- ``name_s`` lists the names of genes in each component, with each row representing a component.
-- ``score`` and ``score_ind`` are the prediction scores at the cell level and individual level, respectively, both saved as arrays. The first two columns represent the scores (which sum to 1), and the third column contains the true label (from the individual).
-- ``test_reduced`` is the test data after dimension reduction.
-- ``train_s`` is the trained assignment matrix, saved as an array.
+`check/` contains lightweight analysis utilities that complement the main SDAN pipelines. These scripts are mainly used for robustness checks, interpretability summaries, and post hoc comparisons of SDAN programs with external factor models and classical baselines.
 
-### SDAN-Comparison
+Typical use cases include:
 
-We also release SDAN-Comparison, which contains the experimental pipelines used in this paper for fair and reproducible comparisons of SDAN with Spectra, sciRED and scNET  across each scRNA-seq dataset.
+- testing sensitivity to DE-based gene pre-selection
+- perturbing the annotation graph to study robustness
+- comparing SDAN programs with `sciRED` and `Spectra` loadings
+- summarizing per-program predictive performance
+- running a classical DE plus enrichment baseline
+
+See [check/README.md](/Users/zxlin/Documents/GitHub/SDAN/check/README.md) for command examples and expected outputs.
+
+## Dataset Folders
+
+The repository includes dataset-specific folders that contain raw or processed inputs, helper scripts, result files, and figure outputs:
+
+- `Zheng_2017/`: PBMC benchmark used in the tutorial and several diagnostic checks.
+- `Su_2020/`: COVID-19 severity dataset and SDAN outputs.
+- `SEA_AD/`: Seattle Alzheimer’s Disease Cell Atlas subset and SDAN outputs.
+- `SF_2018/`: training cohort used in the `Yost_2019` transfer setting.
+- `Yost_2019/`: independent melanoma response evaluation dataset and SDAN outputs.
+
+## Notes
+
+- Run commands from the repository root unless a script explicitly says otherwise.
+- Some downstream scripts assume that SDAN outputs already exist in the expected dataset folders.
+- Comparison and diagnostic workflows rely on annotation resources under `Annotation/`, especially BIOGRID and enrichment gene-set files.
